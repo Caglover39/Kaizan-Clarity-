@@ -324,6 +324,7 @@ body.light .fb-submit{background:#6B5EE0}
 body.light .theme-toggle{border-color:#E2E6EF;color:#6B7280}
 body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
 </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body style="background:#090C17">
 
@@ -351,13 +352,13 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
     </div>
     <div class="lp-pill"><span class="lp-pill-dot"></span>For Lovable Builders</div>
     <h1 class="lp-h1">Stop staring at<em>a blank prompt.</em></h1>
-    <p class="lp-hero-sub">Answer 10 focused questions about your app idea. Kaizan Clarity generates a Prompt Build Sequence with viability score, Tech/API Integration Guide, and a complete PRD — in about 10 minutes.</p>
+    <p class="lp-hero-sub">Answer 10 focused questions about your app idea. Kaizan Clarity generates a Prompt Build Sequence with viability score, Tech/API Integration Guide, and a complete PRD — in about 15-20 minutes.</p>
     <button class="lp-cta-btn" onclick="openWizard()">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       Start My Brief — It's Free
     </button>
     <div class="lp-meta">
-      <span>10 min session</span><span>3 documents</span><span>Free for beta testers</span><span>Feedback appreciated</span>
+      <span>15-20 min session</span><span>3 documents</span><span>Free for beta testers</span><span>Feedback appreciated</span>
     </div>
   </section>
 
@@ -393,7 +394,7 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
     <div class="outputs-grid">
       <div class="output-card"><div class="output-card-icon">📄</div><div class="output-card-title">Product Requirements Document</div><div class="output-card-desc">A complete PRD covering everything from user personas to technical requirements — more detailed than a project brief.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Problem statement and target user</div><div class="output-card-item"><span class="output-card-dot">→</span>User stories and functional requirements</div><div class="output-card-item"><span class="output-card-dot">→</span>Technical requirements and user flows</div><div class="output-card-item"><span class="output-card-dot">→</span>Launch timeline and open questions</div></div></div>
       <div class="output-card"><div class="output-card-icon">📋</div><div class="output-card-title">Build Sequence</div><div class="output-card-desc">Numbered prompts in the exact order to paste into Lovable — one at a time, each building on the last.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Prompt 1: Foundation and design shell</div><div class="output-card-item"><span class="output-card-dot">→</span>One prompt per feature</div><div class="output-card-item"><span class="output-card-dot">→</span>Auth, payments, email prompts</div><div class="output-card-item"><span class="output-card-dot">→</span>Final polish prompt</div></div></div>
-      <div class="output-card"><div class="output-card-icon">🔌</div><div class="output-card-title">Integration Guide</div><div class="output-card-desc">Personalized step-by-step setup for only the APIs your app needs — in the right order, with no jargon.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Only your confirmed APIs</div><div class="output-card-item"><span class="output-card-dot">→</span>Exact steps, plain English</div><div class="output-card-item"><span class="output-card-dot">→</span>Environment variables listed</div><div class="output-card-item"><span class="output-card-dot">→</span>Common mistakes flagged</div></div></div>
+      <div class="output-card"><div class="output-card-icon">🔌</div><div class="output-card-title">Tech/API Integration Guide</div><div class="output-card-desc">Personalized step-by-step setup for only the APIs your app needs — in the right order, with no jargon.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Only your confirmed APIs</div><div class="output-card-item"><span class="output-card-dot">→</span>Exact steps, plain English</div><div class="output-card-item"><span class="output-card-dot">→</span>Environment variables listed</div><div class="output-card-item"><span class="output-card-dot">→</span>Common mistakes flagged</div></div></div>
     </div>
   </section>
 
@@ -508,7 +509,7 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
     <div id="out-actions">
       <button class="action-btn muted" onclick="selectAll()">Select All</button>
       <button class="action-btn" id="copy-btn" onclick="copyOutput()">⎘ Copy</button>
-      <button class="action-btn" id="download-btn" onclick="downloadOutput()">↓ Download .txt</button>
+      <button class="action-btn" id="download-btn" onclick="downloadOutput()">⬇ Download</button>
     </div>
     <pre id="out-pre"></pre>
     <!-- Feedback Panel -->
@@ -743,7 +744,7 @@ After the founder confirms: finalize which are Required MVP and which are Phase 
 
 AFTER THE FOUNDER CONFIRMS Q10 — respond with ONLY this exact text:
 
-"Perfect — I have everything I need. Your 3 documents are generating now. This takes about 30 seconds... [DOCUMENTS_READY]"
+"Perfect — I have everything I need. Your 3 documents are generating now. This takes about 60 seconds... [DOCUMENTS_READY]"
 
 The [DOCUMENTS_READY] marker MUST appear at the end. Do not generate any documents. Do not add any other text.`;
 
@@ -752,11 +753,12 @@ const OPENER = `Welcome to Kaizan Clarity 👋
 
 I'm going to ask you 10 focused questions about your app idea. Your answers will be used to generate three documents:
 
-  • A numbered Build Sequence — step-by-step prompts to paste into Lovable in order
-  • A personalized Integration Guide — setup instructions for only your confirmed APIs
+  • Prompt Build Sequence — step-by-step prompts to paste into Lovable in order
+    (opens with a Viability Assessment scoring your idea on 4 dimensions)
+  • Tech/API Integration Guide — personalized setup instructions for your tech stack
   • A complete Product Requirements Document (PRD) — everything you need to plan and build
 
-This takes about 10 minutes. The more specific you are, the better your outputs.
+This takes about 15-20 minutes. The more specific you are, the better your outputs.
 
 Let's start with Question 1 of 10:
 
@@ -1256,7 +1258,7 @@ async function generateOutputs() {
   const results = { prd: '', integration: '', sequence: '' };
 
   try {
-    showTypingMessage('Generating your PRD... (1 of 3)');
+    showTypingMessage('Generating your PRD... this takes about 60 seconds (1 of 3)');
     results.prd = await apiCall(OUTPUT_PRD_PROMPT, 2500);
   } catch(e) {
     results.prd = `PRD generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
@@ -1388,6 +1390,8 @@ function switchTab(tabId) {
     pre.textContent = outputs ? (outputs[tabId] || 'This output was not generated in your session.') : '';
     document.getElementById('copy-btn').textContent = '⎘ Copy';
     document.getElementById('copy-btn').className = 'action-btn';
+    const dlBtn = document.getElementById('download-btn');
+    if (dlBtn) dlBtn.textContent = tabId === 'prd' ? '⬇ Download PDF' : '⬇ Download TXT';
   }
 }
 
@@ -1420,19 +1424,44 @@ function downloadOutput() {
   if (!outputs) return;
   const text = outputs[activeTab];
   if (!text) return;
-  // Extract app name from PRD or sequence marker
-  const prdMatch  = (outputs.prd||'').match(/KAIZAN CLARITY PRD[^—\n]*—\s*([^\n]+)/i);
-  const seqMatch  = (outputs.sequence||'').match(/LOVABLE BUILD SEQUENCE[^—\n]*—\s*([^\n]+)/i);
-  const rawName   = (prdMatch||seqMatch)?.[1]?.trim() || 'my-app';
-  const name      = rawName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
-  const labels    = { prd:'prd', sequence:'build-sequence', integration:'integration-guide' };
-  const blob = new Blob([text],{type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = name + '-' + (labels[activeTab]||activeTab) + '.txt';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  // Extract app name for filename
+  const prdMatch = (outputs.prd||'').match(/KAIZAN CLARITY PRD[^—\n]*—\s*([^\n]+)/i);
+  const seqMatch = (outputs.sequence||'').match(/LOVABLE PROMPT BUILD SEQUENCE[^—\n]*—\s*([^\n]+)/i);
+  const rawName  = (prdMatch||seqMatch)?.[1]?.trim() || 'my-app';
+  const name     = rawName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+
+  if (activeTab === 'prd') {
+    // PRD downloads as plain-text PDF
+    const { jsPDF } = window.jspdf;
+    const doc        = new jsPDF({ unit:'pt', format:'letter' });
+    const pageWidth  = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin     = 50;
+    const maxWidth   = pageWidth - margin * 2;
+    const lineHeight = 14;
+    doc.setFont('Courier','normal');
+    doc.setFontSize(11);
+    let y = margin;
+    for (const rawLine of text.split('\n')) {
+      const wrapped = doc.splitTextToSize(rawLine || ' ', maxWidth);
+      for (const wl of wrapped) {
+        if (y + lineHeight > pageHeight - margin) { doc.addPage(); y = margin; }
+        doc.text(wl, margin, y);
+        y += lineHeight;
+      }
+    }
+    doc.save(name + '-prd.pdf');
+  } else {
+    // Build Sequence and Integration Guide stay as TXT for easy copy-paste into Lovable
+    const labels = { sequence:'prompt-build-sequence', integration:'tech-api-integration-guide' };
+    const blob = new Blob([text],{type:'text/plain'});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = name + '-' + (labels[activeTab]||activeTab) + '.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 }
 function selectAll() {
   const pre = document.getElementById('out-pre');
