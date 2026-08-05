@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Kaizan Clarity — Beta</title>
+<meta name="description" content="Beta test — Kaizan Clarity AI Intake Wizard by Kaizan AI Studios."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#1E2D4A;border-radius:3px}
+@keyframes kc-dot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes kc-fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes kc-pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,110,245,.4)}70%{box-shadow:0 0 0 10px rgba(124,110,245,0)}}
+.msg-enter{animation:kc-fade 0.22s ease forwards}
+
+/* ── LANDING ── */
+#landing{min-height:100vh;background:#090C17;color:#DDE5FF;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-y:auto}
+.lp-nav{position:sticky;top:0;z-index:20;background:rgba(9,12,23,.95);backdrop-filter:blur(12px);border-bottom:1px solid #1E2D4A;padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.lp-brand{display:flex;align-items:center;gap:10px}
+.lp-mark{color:#7C6EF5;font-size:22px;line-height:1}
+.lp-name{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:15px;letter-spacing:-.3px}
+.lp-sub{font-size:11px;color:#6E7CA0;margin-top:1px}
+.beta-badge{background:rgba(124,110,245,.15);border:1px solid rgba(124,110,245,.35);color:#A88CFF;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.lp-nav-btn{background:#7C6EF5;color:#fff;border:none;padding:10px 22px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Inter',system-ui;transition:background .15s}
+.lp-nav-btn:hover{background:#6B5EE0}
+.lp-hero{max-width:720px;margin:0 auto;padding:80px 28px 72px;text-align:center}
+.beta-hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(124,110,245,.12);border:1px solid rgba(124,110,245,.3);color:#A88CFF;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;margin-bottom:24px}
+.invite-bar{background:rgba(124,110,245,.08);border:1px solid rgba(124,110,245,.2);border-radius:12px;padding:14px 20px;margin-bottom:36px;font-size:14px;color:#8892B0;line-height:1.6}
+.invite-bar strong{color:#DDE5FF;display:block;margin-bottom:4px;font-family:'Space Grotesk',system-ui;font-weight:600;font-size:15px}
+.lp-pill{display:inline-flex;align-items:center;gap:8px;background:#0F1628;border:1px solid #1E2D4A;color:#6E7CA0;font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;margin-bottom:32px}
+.lp-pill-dot{width:7px;height:7px;border-radius:50%;background:#7C6EF5;flex-shrink:0;animation:kc-pulse 2s infinite}
+.lp-h1{font-family:'Space Grotesk',system-ui;font-size:clamp(40px,7.5vw,68px);font-weight:700;line-height:1.06;letter-spacing:-.035em;color:#E8EEFF;margin-bottom:24px}
+.lp-h1 em{color:#7C6EF5;font-style:normal;display:block}
+.lp-hero-sub{font-size:17px;color:#6E7CA0;line-height:1.7;max-width:540px;margin:0 auto 36px}
+.lp-cta-btn{display:inline-flex;align-items:center;gap:10px;background:#7C6EF5;color:#fff;font-size:15px;font-weight:700;padding:16px 34px;border-radius:12px;border:none;cursor:pointer;font-family:'Inter',system-ui;transition:all .15s;box-shadow:0 0 40px rgba(124,110,245,.35)}
+.lp-cta-btn:hover{background:#6B5EE0}
+.lp-meta{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-top:18px}
+.lp-meta span{font-size:12px;color:#2E3A55;padding:0 12px}
+.lp-meta span+span{border-left:1px solid #1E2D4A}
+.lp-problem{background:#0F1628;border-top:1px solid #1E2D4A;border-bottom:1px solid #1E2D4A;padding:64px 28px}
+.lp-problem-inner{max-width:800px;margin:0 auto;text-align:center}
+.lp-problem-title{font-family:'Space Grotesk',system-ui;font-size:clamp(20px,3.5vw,28px);font-weight:700;color:#E8EEFF;letter-spacing:-.02em;margin-bottom:10px}
+.lp-problem-sub{font-size:15px;color:#6E7CA0;margin-bottom:40px;line-height:1.65}
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;text-align:left}
+.pain-card{background:#090C17;border:1px solid #1E2D4A;border-radius:14px;padding:22px 20px}
+.pain-emoji{font-size:24px;margin-bottom:12px;display:block}
+.pain-text{font-size:14px;color:#8892B0;line-height:1.65}
+.pain-text strong{color:#DDE5FF;display:block;margin-bottom:6px;font-size:14px;font-family:'Space Grotesk',system-ui;font-weight:600}
+.lp-section{max-width:800px;margin:0 auto;padding:64px 28px}
+.lp-eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7C6EF5;margin-bottom:10px}
+.lp-section-title{font-family:'Space Grotesk',system-ui;font-size:clamp(22px,4vw,32px);font-weight:700;letter-spacing:-.02em;color:#E8EEFF;margin-bottom:12px}
+.lp-section-sub{font-size:15px;color:#6E7CA0;line-height:1.65;margin-bottom:36px}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.step-card{background:#0F1628;border:1px solid #1E2D4A;border-radius:14px;padding:24px 20px}
+.step-num{font-family:'Space Grotesk',system-ui;font-size:11px;font-weight:700;letter-spacing:.06em;color:#7C6EF5;background:rgba(124,110,245,.1);border:1px solid rgba(124,110,245,.2);border-radius:6px;padding:3px 9px;display:inline-block;margin-bottom:14px}
+.step-title{font-family:'Space Grotesk',system-ui;font-size:15px;font-weight:700;color:#E8EEFF;margin-bottom:6px}
+.step-desc{font-size:13px;color:#6E7CA0;line-height:1.6}
+.lp-divider{border:none;border-top:1px solid #1E2D4A;margin:0}
+.outputs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.output-card{background:#0F1628;border:1px solid #1E2D4A;border-radius:14px;padding:24px}
+.output-card-icon{font-size:24px;margin-bottom:12px}
+.output-card-title{font-family:'Space Grotesk',system-ui;font-size:16px;font-weight:700;color:#E8EEFF;margin-bottom:6px}
+.output-card-desc{font-size:13px;color:#6E7CA0;line-height:1.65;margin-bottom:16px}
+.output-card-list{display:flex;flex-direction:column;gap:7px}
+.output-card-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#8892B0}
+.output-card-dot{color:#7C6EF5;font-weight:700;flex-shrink:0;margin-top:1px}
+.lp-beta-cta{background:#0F1628;border-top:1px solid #1E2D4A;border-bottom:1px solid #1E2D4A;padding:64px 28px;text-align:center}
+.lp-beta-cta-inner{max-width:500px;margin:0 auto}
+.lp-footer{padding:32px 28px;text-align:center;border-top:1px solid #1E2D4A}
+.lp-footer p{font-size:13px;color:#2E3A55}
+
+/* ── CODE GATE ── */
+#code-gate{display:none;position:fixed;inset:0;background:#090C17;align-items:center;justify-content:center;padding:24px;z-index:100;font-family:'Inter',system-ui}
+.cg-card{background:#0F1628;border:1px solid #1E2D4A;border-radius:16px;padding:40px 36px;width:100%;max-width:420px}
+.cg-back{display:flex;align-items:center;gap:6px;background:none;border:none;color:#6E7CA0;font-size:13px;font-family:'Inter',system-ui;cursor:pointer;margin-bottom:28px;padding:0}
+.cg-back:hover{color:#DDE5FF}
+.cg-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.cg-mark{color:#7C6EF5;font-size:22px}
+.cg-name{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:17px;letter-spacing:-.3px}
+.cg-title{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:20px;color:#E8EEFF;margin-bottom:8px;letter-spacing:-.02em}
+.cg-desc{font-size:14px;color:#6E7CA0;line-height:1.65;margin-bottom:28px}
+.cg-label{font-size:12px;font-weight:600;color:#6E7CA0;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:block}
+.cg-input{width:100%;background:#090C17;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:13px 15px;font-size:16px;font-family:'Space Grotesk',system-ui;font-weight:600;letter-spacing:.06em;text-transform:uppercase;outline:none;transition:border-color .15s;margin-bottom:6px;-webkit-appearance:none}
+.cg-input:focus{border-color:rgba(124,110,245,.5)}
+.cg-input::placeholder{text-transform:none;letter-spacing:0;font-weight:400;font-family:'Inter',system-ui}
+.cg-note{font-size:12px;color:#2E3A55;margin-bottom:24px;line-height:1.5}
+.cg-btn{width:100%;background:#7C6EF5;color:#fff;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;font-family:'Inter',system-ui;cursor:pointer;transition:background .15s}
+.cg-btn:hover{background:#6B5EE0}
+.cg-btn:disabled{opacity:.5;cursor:not-allowed}
+.cg-error{font-size:13px;color:#E05A6A;margin-top:12px;display:none;line-height:1.5}
+.cg-closed{text-align:center;padding:8px 0}
+.cg-closed-icon{font-size:36px;margin-bottom:12px}
+.cg-closed-title{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:18px;color:#E8EEFF;margin-bottom:8px}
+.cg-closed-sub{font-size:14px;color:#6E7CA0;line-height:1.65}
+
+/* ── EMAIL GATE ── */
+#email-gate{display:none;position:fixed;inset:0;background:#090C17;align-items:center;justify-content:center;padding:24px;z-index:100;font-family:'Inter',system-ui}
+.eg-card{background:#0F1628;border:1px solid #1E2D4A;border-radius:16px;padding:40px 36px;width:100%;max-width:440px}
+.eg-back{display:flex;align-items:center;gap:6px;background:none;border:none;color:#6E7CA0;font-size:13px;font-family:'Inter',system-ui;cursor:pointer;margin-bottom:28px;padding:0}
+.eg-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.eg-mark{color:#7C6EF5;font-size:22px}
+.eg-name{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:17px;letter-spacing:-.3px}
+.eg-title{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:20px;color:#E8EEFF;margin-bottom:8px;letter-spacing:-.02em}
+.eg-desc{font-size:14px;color:#6E7CA0;line-height:1.65;margin-bottom:28px}
+.eg-label{font-size:12px;font-weight:600;color:#6E7CA0;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:block}
+.eg-input{width:100%;background:#090C17;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:13px 15px;font-size:15px;font-family:'Inter',system-ui;outline:none;transition:border-color .15s;margin-bottom:6px;-webkit-appearance:none}
+.eg-input:focus{border-color:rgba(124,110,245,.5)}
+.eg-note{font-size:12px;color:#2E3A55;margin-bottom:24px}
+.eg-btn{width:100%;background:#7C6EF5;color:#fff;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;font-family:'Inter',system-ui;cursor:pointer}
+.eg-btn:hover{background:#6B5EE0}
+.eg-error{font-size:13px;color:#E05A6A;margin-top:10px;display:none}
+
+/* ── APP ── */
+#app{display:none;position:fixed;inset:0;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;background:#090C17;font-family:'Inter',system-ui;-webkit-font-smoothing:antialiased}
+#header{border-bottom:1px solid #1E2D4A;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#090C17}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-mark{color:#7C6EF5;font-size:20px;line-height:1}
+.logo-text{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:14px;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:#6E7CA0;margin-top:1px}
+.progress-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.progress-label{font-size:11px;color:#6E7CA0;letter-spacing:.3px}
+.progress-bar-bg{width:90px;height:3px;background:#2E3A55;border-radius:3px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,#7C6EF5,#A88CFF);border-radius:3px;transition:width 0.5s ease;width:0%}
+#view-outputs-btn{display:none;background:rgba(124,110,245,.10);border:1px solid rgba(124,110,245,.22);color:#7C6EF5;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Inter',system-ui}
+#messages{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 20px 8px;display:flex;flex-direction:column;gap:14px}
+.msg-row{display:flex;gap:10px}
+.msg-row.user{justify-content:flex-end}
+.msg-row.assistant{justify-content:flex-start}
+.avatar{width:28px;height:28px;border-radius:50%;background:rgba(124,110,245,.10);border:1px solid rgba(124,110,245,.22);display:flex;align-items:center;justify-content:center;color:#7C6EF5;font-size:13px;flex-shrink:0;margin-top:2px}
+.bubble{max-width:82%;padding:11px 15px;font-size:14px;line-height:1.68;white-space:pre-wrap;word-break:break-word;font-family:'Inter',system-ui}
+.bubble.user{background:rgba(124,110,245,.10);border:1px solid rgba(124,110,245,.22);border-radius:14px 14px 4px 14px;color:#B8CEFF}
+.bubble.assistant{background:#0F1628;border:1px solid #1E2D4A;border-radius:4px 14px 14px 14px;color:#DDE5FF}
+.output-ready-title{color:#3AC97A;font-weight:600;font-size:13px;margin-bottom:6px}
+.output-ready-sub{color:#6E7CA0;font-size:13px;margin-bottom:12px;line-height:1.6}
+.view-btn{background:#7C6EF5;color:#fff;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Inter',system-ui}
+.typing-row{display:flex;gap:10px;align-items:flex-start}
+.typing-bubble{background:#0F1628;border:1px solid #1E2D4A;border-radius:4px 14px 14px 14px;padding:14px 18px;display:flex;gap:5px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:#7C6EF5}
+.dot:nth-child(1){animation:kc-dot 1.2s ease-in-out 0s infinite}
+.dot:nth-child(2){animation:kc-dot 1.2s ease-in-out .2s infinite}
+.dot:nth-child(3){animation:kc-dot 1.2s ease-in-out .4s infinite}
+#input-area{border-top:1px solid #1E2D4A;padding:12px 20px;padding-bottom:max(12px,env(safe-area-inset-bottom));background:#0F1628;flex-shrink:0}
+#input-row{display:flex;gap:10px;align-items:flex-end}
+#user-input{flex:1;background:#090C17;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:11px 15px;font-size:16px;font-family:'Inter',system-ui;resize:none;outline:none;line-height:1.5;height:44px;min-height:44px;max-height:120px;overflow-y:auto;transition:border-color .15s;-webkit-appearance:none}
+#user-input:focus{border-color:rgba(124,110,245,.4)}
+#user-input:disabled{opacity:.5}
+#send-btn{background:#2E3A55;color:#6E7CA0;border:none;border-radius:10px;width:44px;height:44px;min-width:44px;cursor:not-allowed;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;transition:all .15s}
+#send-btn.active{background:#7C6EF5;color:#fff;cursor:pointer}
+#input-hint{font-size:11px;color:#2E3A55;margin-top:7px;text-align:center}
+
+/* ── OUTPUT VIEW ── */
+#output-view{display:none;position:fixed;inset:0;flex-direction:column;height:100vh;height:100dvh;background:#090C17;overflow:hidden;font-family:'Inter',system-ui}
+#out-header{border-bottom:1px solid #1E2D4A;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#090C17}
+#back-btn{background:transparent;border:1px solid #1E2D4A;color:#6E7CA0;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Inter',system-ui}
+#success-bar{background:rgba(58,201,122,.10);border-bottom:1px solid rgba(58,201,122,.15);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+#tab-bar{border-bottom:1px solid #1E2D4A;padding:0 20px;display:flex;flex-shrink:0;overflow-x:auto}
+.tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:#6E7CA0;padding:12px 14px;cursor:pointer;font-size:13px;font-weight:400;font-family:'Space Grotesk',system-ui;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.tab-btn.active{border-bottom:2px solid #7C6EF5;color:#DDE5FF;font-weight:600}
+.tab-btn.feedback-tab{color:#A88CFF}
+.tab-btn.feedback-tab.active{border-color:#A88CFF}
+#out-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px}
+#out-actions{display:flex;gap:8px;justify-content:flex-end;margin-bottom:12px;flex-wrap:wrap}
+.action-btn{padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Inter',system-ui;transition:all .15s;border:1px solid rgba(124,110,245,.22);background:rgba(124,110,245,.10);color:#7C6EF5}
+.action-btn.success{background:rgba(58,201,122,.10);border-color:rgba(58,201,122,.3);color:#3AC97A}
+.action-btn.muted{background:transparent;border-color:#1E2D4A;color:#6E7CA0}
+#out-pre{background:#0F1628;border:1px solid #1E2D4A;border-radius:12px;padding:20px;font-size:13px;line-height:1.78;color:#DDE5FF;white-space:pre-wrap;word-break:break-word;font-family:'Inter',system-ui,monospace;margin:0;user-select:text;-webkit-user-select:text;cursor:text}
+
+/* ── FEEDBACK FORM ── */
+#feedback-panel{display:none;max-width:680px}
+.fb-header{margin-bottom:28px}
+.fb-title{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:22px;color:#E8EEFF;letter-spacing:-.02em;margin-bottom:8px}
+.fb-sub{font-size:14px;color:#6E7CA0;line-height:1.65}
+.fb-q{background:#0F1628;border:1px solid #1E2D4A;border-radius:12px;padding:20px 22px;margin-bottom:14px}
+.fb-q-title{font-family:'Space Grotesk',system-ui;font-weight:600;font-size:14px;color:#E8EEFF;margin-bottom:4px}
+.fb-q-sub{font-size:12px;color:#6E7CA0;margin-bottom:14px;line-height:1.5}
+.fb-radio-group{display:flex;flex-direction:column;gap:9px}
+.fb-radio{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#8892B0}
+.fb-radio input[type=radio]{accent-color:#7C6EF5;width:16px;height:16px;flex-shrink:0}
+.fb-radio:hover{color:#DDE5FF}
+.fb-scale{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.fb-scale-btn{width:40px;height:40px;border-radius:8px;border:1px solid #1E2D4A;background:transparent;color:#6E7CA0;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',system-ui}
+.fb-scale-btn:hover{border-color:#7C6EF5;color:#7C6EF5}
+.fb-scale-btn.selected{background:#7C6EF5;border-color:#7C6EF5;color:#fff}
+.fb-scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#2E3A55;margin-top:4px;padding:0 2px}
+.fb-textarea{width:100%;background:#090C17;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:11px 14px;font-size:14px;font-family:'Inter',system-ui;outline:none;resize:vertical;min-height:80px;transition:border-color .15s;margin-top:10px;line-height:1.55}
+.fb-textarea:focus{border-color:rgba(124,110,245,.4)}
+.fb-textarea::placeholder{color:#2E3A55}
+.fb-input{width:100%;background:#090C17;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:11px 14px;font-size:14px;font-family:'Inter',system-ui;outline:none;transition:border-color .15s;margin-top:10px;-webkit-appearance:none}
+.fb-input:focus{border-color:rgba(124,110,245,.4)}
+.fb-input::placeholder{color:#2E3A55}
+.fb-rating-grid{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;font-size:13px}
+.fb-rating-label{color:#8892B0;padding-right:8px}
+.fb-rating-opt{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#6E7CA0}
+.fb-rating-opt input[type=radio]{accent-color:#7C6EF5;width:16px;height:16px}
+.fb-rating-header{font-size:11px;color:#6E7CA0;text-align:center;font-weight:600}
+.fb-write-in{display:flex;align-items:center;gap:8px;margin-top:8px}
+.fb-write-in-label{font-size:13px;color:#6E7CA0;white-space:nowrap}
+.fb-write-in-input{background:#090C17;border:1px solid #1E2D4A;border-radius:8px;color:#DDE5FF;padding:8px 12px;font-size:14px;font-family:'Inter',system-ui;outline:none;width:120px;transition:border-color .15s}
+.fb-write-in-input:focus{border-color:rgba(124,110,245,.4)}
+.fb-name-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.fb-field-wrap{display:flex;flex-direction:column;gap:6px}
+.fb-field-label{font-size:12px;font-weight:600;color:#6E7CA0;letter-spacing:.04em;text-transform:uppercase}
+.fb-submit{width:100%;background:#7C6EF5;color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',system-ui;cursor:pointer;transition:background .15s;margin-top:8px}
+.fb-submit:hover{background:#6B5EE0}
+.fb-submit:disabled{opacity:.5;cursor:not-allowed}
+.fb-success{background:rgba(58,201,122,.08);border:1px solid rgba(58,201,122,.2);border-radius:12px;padding:28px 24px;text-align:center;display:none}
+.fb-success-icon{font-size:36px;margin-bottom:12px}
+.fb-success-title{font-family:'Space Grotesk',system-ui;font-weight:700;font-size:18px;color:#3AC97A;margin-bottom:8px}
+.fb-success-sub{font-size:14px;color:#6E7CA0;line-height:1.65}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{background:none;border:1px solid #1E2D4A;color:#6E7CA0;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.theme-toggle:hover{border-color:#7C6EF5;color:#7C6EF5}
+
+/* ── LIGHT MODE ── */
+body.light{background:#F8F9FC}
+body.light #landing{background:#F8F9FC;color:#1A1D2E}
+body.light .lp-nav{background:rgba(248,249,252,.96);border-color:#E2E6EF}
+body.light .lp-name,.body.light .eg-name{color:#1A1D2E}
+body.light .lp-sub{color:#9CA3AF}
+body.light .beta-badge{background:rgba(107,94,224,.1);border-color:rgba(107,94,224,.25);color:#6B5EE0}
+body.light .beta-hero-pill{background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.2);color:#6B5EE0}
+body.light .invite-bar{background:rgba(107,94,224,.06);border-color:rgba(107,94,224,.15)}
+body.light .invite-bar strong{color:#1A1D2E}
+body.light .lp-pill{background:#F1F3F8;border-color:#E2E6EF;color:#6B7280}
+body.light .lp-pill-dot{background:#6B5EE0}
+body.light .lp-h1{color:#111827}
+body.light .lp-h1 em{color:#6B5EE0}
+body.light .lp-hero-sub{color:#6B7280}
+body.light .lp-meta span{color:#9CA3AF}
+body.light .lp-meta span+span{border-color:#E2E6EF}
+body.light .lp-cta-btn{background:#6B5EE0;box-shadow:0 0 40px rgba(107,94,224,.2)}
+body.light .lp-nav-btn{background:#6B5EE0}
+body.light .lp-problem{background:#F1F3F8;border-color:#E2E6EF}
+body.light .lp-problem-title{color:#111827}
+body.light .lp-problem-sub{color:#6B7280}
+body.light .pain-card{background:#FFFFFF;border-color:#E2E6EF}
+body.light .pain-text{color:#6B7280}
+body.light .pain-text strong{color:#1A1D2E}
+body.light .lp-divider{border-color:#E2E6EF}
+body.light .lp-section-title{color:#111827}
+body.light .lp-section-sub{color:#6B7280}
+body.light .lp-eyebrow{color:#6B5EE0}
+body.light .step-card{background:#FFFFFF;border-color:#E2E6EF}
+body.light .step-num{color:#6B5EE0;background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.15)}
+body.light .step-title{color:#111827}
+body.light .step-desc{color:#6B7280}
+body.light .output-card{background:#FFFFFF;border-color:#E2E6EF}
+body.light .output-card-title{color:#111827}
+body.light .output-card-desc,.output-card-item{color:#6B7280}
+body.light .output-card-dot{color:#6B5EE0}
+body.light .lp-beta-cta{background:#F1F3F8;border-color:#E2E6EF}
+body.light .lp-footer{border-color:#E2E6EF}
+body.light .lp-footer p{color:#9CA3AF}
+body.light #code-gate{background:rgba(248,249,252,.98)}
+body.light .cg-card{background:#FFFFFF;border-color:#E2E6EF}
+body.light .cg-name{color:#1A1D2E}
+body.light .cg-title{color:#111827}
+body.light .cg-desc{color:#6B7280}
+body.light .cg-label{color:#6B7280}
+body.light .cg-input{background:#F8F9FC;border-color:#E2E6EF;color:#1A1D2E}
+body.light .cg-note{color:#9CA3AF}
+body.light .cg-back{color:#6B7280}
+body.light .cg-btn{background:#6B5EE0}
+body.light .cg-closed-title{color:#111827}
+body.light .cg-closed-sub{color:#6B7280}
+body.light #email-gate{background:rgba(248,249,252,.98)}
+body.light .eg-card{background:#FFFFFF;border-color:#E2E6EF}
+body.light .eg-title{color:#111827}
+body.light .eg-desc{color:#6B7280}
+body.light .eg-label{color:#6B7280}
+body.light .eg-input{background:#F8F9FC;border-color:#E2E6EF;color:#1A1D2E}
+body.light .eg-note{color:#9CA3AF}
+body.light .eg-back{color:#6B7280}
+body.light .eg-btn{background:#6B5EE0}
+body.light #app{background:#F8F9FC}
+body.light #header{background:#FFFFFF;border-color:#E2E6EF}
+body.light .logo-text{color:#1A1D2E}
+body.light .logo-sub{color:#9CA3AF}
+body.light .progress-label{color:#6B7280}
+body.light .progress-bar-bg{background:#E2E6EF}
+body.light #messages{background:#F8F9FC}
+body.light .bubble.assistant{background:#FFFFFF;border-color:#E2E6EF;color:#1A1D2E}
+body.light .bubble.user{background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.18);color:#4338CA}
+body.light .typing-bubble{background:#FFFFFF;border-color:#E2E6EF}
+body.light .dot{background:#6B5EE0}
+body.light .avatar{background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.18);color:#6B5EE0}
+body.light .view-btn{background:#6B5EE0}
+body.light #input-area{background:#FFFFFF;border-color:#E2E6EF}
+body.light #user-input{background:#F8F9FC;border-color:#E2E6EF;color:#1A1D2E}
+body.light #input-hint{color:#9CA3AF}
+body.light #send-btn{background:#E2E6EF;color:#9CA3AF}
+body.light #send-btn.active{background:#6B5EE0;color:#fff}
+body.light #view-outputs-btn{background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.18);color:#6B5EE0}
+body.light #output-view{background:#F8F9FC}
+body.light #out-header{background:#FFFFFF;border-color:#E2E6EF}
+body.light #back-btn{background:#FFFFFF;border-color:#E2E6EF;color:#6B7280}
+body.light #success-bar{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.15)}
+body.light #tab-bar{background:#FFFFFF;border-color:#E2E6EF}
+body.light .tab-btn{color:#6B7280}
+body.light .tab-btn.active{color:#1A1D2E;border-color:#6B5EE0}
+body.light .tab-btn.feedback-tab{color:#6B5EE0}
+body.light #out-pre{background:#FFFFFF;border-color:#E2E6EF;color:#1A1D2E}
+body.light .action-btn{background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.18);color:#6B5EE0}
+body.light .action-btn.muted{background:transparent;border-color:#E2E6EF;color:#6B7280}
+body.light .fb-q{background:#FFFFFF;border-color:#E2E6EF}
+body.light .fb-title{color:#111827}
+body.light .fb-sub{color:#6B7280}
+body.light .fb-q-title{color:#111827}
+body.light .fb-q-sub{color:#6B7280}
+body.light .fb-radio{color:#6B7280}
+body.light .fb-radio:hover{color:#111827}
+body.light .fb-scale-btn{border-color:#E2E6EF;color:#6B7280}
+body.light .fb-scale-btn.selected{background:#6B5EE0;border-color:#6B5EE0}
+body.light .fb-textarea,.body.light .fb-input,.body.light .fb-write-in-input{background:#F8F9FC;border-color:#E2E6EF;color:#1A1D2E}
+body.light .fb-field-label{color:#6B7280}
+body.light .fb-rating-label{color:#6B7280}
+body.light .fb-rating-header{color:#6B7280}
+body.light .fb-submit{background:#6B5EE0}
+body.light .theme-toggle{border-color:#E2E6EF;color:#6B7280}
+body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
+</style>
+</head>
+<body style="background:#090C17">
+
+<!-- ══ LANDING PAGE ══ -->
+<div id="landing">
+  <nav class="lp-nav">
+    <div class="lp-brand">
+      <span class="lp-mark">✦</span>
+      <div>
+        <div class="lp-name">Kaizan Clarity <span class="beta-badge">BETA</span></div>
+        <div class="lp-sub">Kaizan AI Studios</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="theme-toggle" id="theme-toggle-lp" onclick="toggleTheme()" title="Switch to light mode">🌙</button>
+      <button class="lp-nav-btn" onclick="openWizard()">Start My Brief →</button>
+    </div>
+  </nav>
+
+  <section class="lp-hero">
+    <div class="beta-hero-pill">✦ Beta — Invite Only</div>
+    <div class="invite-bar">
+      <strong>You've been invited to test Kaizan Clarity</strong>
+      This is a private beta. Your session is completely free — no payment required. After you're done, please take 3 minutes to share your feedback. It directly shapes the final product.
+    </div>
+    <div class="lp-pill"><span class="lp-pill-dot"></span>For Lovable Builders</div>
+    <h1 class="lp-h1">Stop staring at<em>a blank prompt.</em></h1>
+    <p class="lp-hero-sub">Answer 10 focused questions about your app idea. Kaizan Clarity generates a Prompt Build Sequence with viability score, Tech/API Integration Guide, and a complete PRD — in about 10 minutes.</p>
+    <button class="lp-cta-btn" onclick="openWizard()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Start My Brief — It's Free
+    </button>
+    <div class="lp-meta">
+      <span>10 min session</span><span>3 documents</span><span>Free for beta testers</span><span>Feedback appreciated</span>
+    </div>
+  </section>
+
+  <div class="lp-problem">
+    <div class="lp-problem-inner">
+      <h2 class="lp-problem-title">You opened Lovable. Now what?</h2>
+      <p class="lp-problem-sub">Every Lovable builder hits the same three walls. Kaizan Clarity knocks all three down before you type a single character.</p>
+      <div class="pain-grid">
+        <div class="pain-card"><span class="pain-emoji">😤</span><p class="pain-text"><strong>The vague prompt problem</strong>You type something rough. Lovable builds something half-right. You spend hours rebuilding what a better prompt would have gotten right the first time.</p></div>
+        <div class="pain-card"><span class="pain-emoji">🤔</span><p class="pain-text"><strong>The wrong order problem</strong>You don't know which features to build first or in what sequence. You add integrations too early. Everything breaks. You start over.</p></div>
+        <div class="pain-card"><span class="pain-emoji">😫</span><p class="pain-text"><strong>The integration problem</strong>You get to Stripe, Supabase, or Resend and have no idea what to do. No one told you what to connect, when, or how.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="lp-section">
+    <p class="lp-eyebrow">How it works</p>
+    <h2 class="lp-section-title">From blank page to build-ready in three steps</h2>
+    <p class="lp-section-sub">No technical knowledge required. Answer honestly — the more specific you are, the better your outputs.</p>
+    <div class="steps-grid">
+      <div class="step-card"><span class="step-num">01</span><div class="step-title">Answer 10 questions</div><div class="step-desc">Kaizan Clarity asks one focused question at a time about your idea, your users, your features, and your goals.</div></div>
+      <div class="step-card"><span class="step-num">02</span><div class="step-title">Get 3 documents</div><div class="step-desc">A complete PRD, a Prompt Build Sequence with viability score, and a personalized Tech/API Integration Guide — generated in about 45 seconds.</div></div>
+      <div class="step-card"><span class="step-num">03</span><div class="step-title">Build with confidence</div><div class="step-desc">Paste Prompt 1 into Lovable. Follow the sequence. Use the Tech/API Integration Guide when you hit Stripe or Supabase. Ship faster.</div></div>
+    </div>
+  </section>
+
+  <hr class="lp-divider"/>
+
+  <section class="lp-section">
+    <p class="lp-eyebrow">What you get</p>
+    <h2 class="lp-section-title">Three documents. Everything you need to start building.</h2>
+    <p class="lp-section-sub">Generated from your session. Specific to your app. Ready to use immediately.</p>
+    <div class="outputs-grid">
+      <div class="output-card"><div class="output-card-icon">📄</div><div class="output-card-title">Product Requirements Document</div><div class="output-card-desc">A complete PRD covering everything from user personas to technical requirements — more detailed than a project brief.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Problem statement and target user</div><div class="output-card-item"><span class="output-card-dot">→</span>User stories and functional requirements</div><div class="output-card-item"><span class="output-card-dot">→</span>Technical requirements and user flows</div><div class="output-card-item"><span class="output-card-dot">→</span>Launch timeline and open questions</div></div></div>
+      <div class="output-card"><div class="output-card-icon">📋</div><div class="output-card-title">Build Sequence</div><div class="output-card-desc">Numbered prompts in the exact order to paste into Lovable — one at a time, each building on the last.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Prompt 1: Foundation and design shell</div><div class="output-card-item"><span class="output-card-dot">→</span>One prompt per feature</div><div class="output-card-item"><span class="output-card-dot">→</span>Auth, payments, email prompts</div><div class="output-card-item"><span class="output-card-dot">→</span>Final polish prompt</div></div></div>
+      <div class="output-card"><div class="output-card-icon">🔌</div><div class="output-card-title">Integration Guide</div><div class="output-card-desc">Personalized step-by-step setup for only the APIs your app needs — in the right order, with no jargon.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Only your confirmed APIs</div><div class="output-card-item"><span class="output-card-dot">→</span>Exact steps, plain English</div><div class="output-card-item"><span class="output-card-dot">→</span>Environment variables listed</div><div class="output-card-item"><span class="output-card-dot">→</span>Common mistakes flagged</div></div></div>
+    </div>
+  </section>
+
+  <div class="lp-beta-cta">
+    <div class="lp-beta-cta-inner">
+      <p class="lp-eyebrow" style="margin-bottom:12px">Ready to test it?</p>
+      <h2 class="lp-section-title" style="margin-bottom:10px">Your session is free.<br>Your feedback is priceless.</h2>
+      <p class="lp-section-sub" style="margin-bottom:28px">When the public version launches, Kaizan Clarity will be $27 — a one-time payment, no subscription. As a beta tester, your session today is completely free. All we ask is 3 minutes of honest feedback when you're done.</p>
+      <button class="lp-cta-btn" onclick="openWizard()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Start My Brief
+      </button>
+    </div>
+  </div>
+
+  <footer class="lp-footer"><p>Kaizan Clarity Beta · Kaizan AI Studios · kaizanai.com</p></footer>
+</div>
+
+<!-- ══ CODE GATE ══ -->
+<div id="code-gate">
+  <div class="cg-card" id="cg-card-inner">
+    <button class="cg-back" onclick="backFromCode()">← Back</button>
+    <div class="cg-logo">
+      <span class="cg-mark">✦</span>
+      <span class="cg-name">Kaizan Clarity</span>
+      <span class="beta-badge">BETA</span>
+    </div>
+    <div id="cg-open">
+      <div class="cg-title">Enter your invite code</div>
+      <div class="cg-desc">This is a private beta. Enter the code you were given to get started. Each code allows up to 2 sessions per device.</div>
+      <label class="cg-label" for="code-input">Invite Code</label>
+      <input class="cg-input" id="code-input" type="text" placeholder="Enter code here" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"/>
+      <div class="cg-note">Don't have a code? This is invite-only. Reach out to Kaizan AI Studios to request access.</div>
+      <button class="cg-btn" id="cg-btn" onclick="validateCode()">Continue →</button>
+      <div class="cg-error" id="code-error"></div>
+    </div>
+    <div id="cg-closed" style="display:none" class="cg-closed">
+      <div class="cg-closed-icon">🔒</div>
+      <div class="cg-closed-title">Beta is closed</div>
+      <div class="cg-closed-sub">Thank you for your interest in Kaizan Clarity. The beta period has ended. The full product launches soon at $27 — one-time payment, no subscription.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EMAIL GATE ══ -->
+<div id="email-gate">
+  <div class="eg-card">
+    <button class="eg-back" onclick="backToLanding()">← Back</button>
+    <div class="eg-logo"><span class="eg-mark">✦</span><span class="eg-name">Kaizan Clarity</span></div>
+    <div class="eg-title">Where should we send your outputs?</div>
+    <div class="eg-desc">Enter your email before we start. We'll use this to send your 4 documents and to follow up after the beta. Your session is completely free.</div>
+    <label class="eg-label" for="email-input">Your email</label>
+    <input class="eg-input" id="email-input" type="email" placeholder="you@example.com" autocomplete="email"/>
+    <div class="eg-note">Beta testers only. No spam — just your outputs and a feedback request.</div>
+    <button class="eg-btn" onclick="startWithEmail()">Start My Brief →</button>
+    <div class="eg-error" id="email-error">Please enter a valid email address.</div>
+  </div>
+</div>
+
+<!-- ══ CHAT VIEW ══ -->
+<div id="app">
+  <div id="header">
+    <div class="logo">
+      <span class="logo-mark">✦</span>
+      <div>
+        <div class="logo-text">Kaizan Clarity <span class="beta-badge">BETA</span></div>
+        <div class="logo-sub">AI Intake Wizard · Kaizan AI Studios</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="theme-toggle" id="theme-toggle-app" onclick="toggleTheme()" title="Switch to light mode">🌙</button>
+      <div class="progress-wrap">
+        <div class="progress-label">Q <span id="q-count">0</span> / 10</div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      </div>
+      <button id="view-outputs-btn" onclick="showOutput()">View Outputs ✦</button>
+    </div>
+  </div>
+  <div id="messages"></div>
+  <div id="input-area">
+    <div id="input-row">
+      <textarea id="user-input" placeholder="Type your answer…" rows="1"></textarea>
+      <button id="send-btn" onclick="sendMessage()">→</button>
+    </div>
+    <div id="input-hint">Enter to send · Shift+Enter for new line</div>
+  </div>
+</div>
+
+<!-- ══ OUTPUT VIEW ══ -->
+<div id="output-view">
+  <div id="out-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="color:#7C6EF5;font-size:18px">✦</span>
+      <span style="font-family:'Space Grotesk',system-ui;font-weight:700;font-size:14px;letter-spacing:-.3px">Kaizan Clarity <span class="beta-badge">BETA</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="theme-toggle" id="theme-toggle-out" onclick="toggleTheme()" title="Switch to light mode">🌙</button>
+      <button id="back-btn" onclick="showChat()">← Back to Chat</button>
+    </div>
+  </div>
+  <div id="success-bar">
+    <span style="color:#3AC97A;font-size:15px">✓</span>
+    <span style="font-size:13px;color:#3AC97A;font-weight:500">3 outputs ready — PRD, Build Sequence, and Integration Guide. Download them, then leave feedback.</span>
+  </div>
+  <div id="tab-bar">
+    <button class="tab-btn active" id="tab-prd" onclick="switchTab('prd')">📄 PRD</button>
+    <button class="tab-btn" id="tab-sequence" onclick="switchTab('sequence')">📋 Build Sequence</button>
+    <button class="tab-btn" id="tab-integration" onclick="switchTab('integration')">🔌 Integration Guide</button>
+    <button class="tab-btn feedback-tab" id="tab-feedback" onclick="switchTab('feedback')">📝 Feedback</button>
+  </div>
+  <div id="out-content">
+    <div id="out-actions">
+      <button class="action-btn muted" onclick="selectAll()">Select All</button>
+      <button class="action-btn" id="copy-btn" onclick="copyOutput()">⎘ Copy</button>
+      <button class="action-btn" id="download-btn" onclick="downloadOutput()">↓ Download .txt</button>
+    </div>
+    <pre id="out-pre"></pre>
+    <!-- Feedback Panel -->
+    <div id="feedback-panel">
+      <div class="fb-header">
+        <div class="fb-title">📝 Beta Feedback</div>
+        <div class="fb-sub">Thank you for testing Kaizan Clarity. Your feedback directly shapes the final product. This takes about 3 minutes — please be as honest as possible.</div>
+      </div>
+
+      <div id="fb-form-wrap">
+        <!-- Name + Email -->
+        <div class="fb-name-row">
+          <div class="fb-field-wrap">
+            <label class="fb-field-label">Your Name</label>
+            <input class="fb-input" id="fb-name" type="text" placeholder="First name is fine"/>
+          </div>
+          <div class="fb-field-wrap">
+            <label class="fb-field-label">Your Email</label>
+            <input class="fb-input" id="fb-email" type="email" placeholder="your@email.com"/>
+          </div>
+        </div>
+
+        <!-- Q1 -->
+        <div class="fb-q">
+          <div class="fb-q-title">1. Did the 10 questions feel like too many, too few, or about right?</div>
+          <div class="fb-q-sub">Think about the total time and whether anything felt unnecessary or missing.</div>
+          <div class="fb-radio-group">
+            <label class="fb-radio"><input type="radio" name="q1" value="Too many"/> Too many — I felt the session was too long</label>
+            <label class="fb-radio"><input type="radio" name="q1" value="About right"/> About right — the length felt appropriate</label>
+            <label class="fb-radio"><input type="radio" name="q1" value="Too few"/> Too few — I wanted to give more detail</label>
+          </div>
+          <textarea class="fb-textarea" id="q1-comment" placeholder="Any additional comments? (optional)"></textarea>
+        </div>
+
+        <!-- Q2 -->
+        <div class="fb-q">
+          <div class="fb-q-title">2. How clear and easy to understand were the questions?</div>
+          <div class="fb-q-sub">1 = Very confusing · 5 = Perfectly clear</div>
+          <div class="fb-scale" id="q2-scale">
+            <button class="fb-scale-btn" onclick="setScale('q2',1)">1</button>
+            <button class="fb-scale-btn" onclick="setScale('q2',2)">2</button>
+            <button class="fb-scale-btn" onclick="setScale('q2',3)">3</button>
+            <button class="fb-scale-btn" onclick="setScale('q2',4)">4</button>
+            <button class="fb-scale-btn" onclick="setScale('q2',5)">5</button>
+          </div>
+          <div class="fb-scale-labels"><span>Very confusing</span><span>Perfectly clear</span></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="fb-q">
+          <div class="fb-q-title">3. How useful are the 3 outputs for your actual build?</div>
+          <div class="fb-q-sub">Rate each document independently.</div>
+          <div class="fb-rating-grid">
+            <div></div>
+            <div class="fb-rating-header">Not useful</div>
+            <div class="fb-rating-header">Somewhat</div>
+            <div class="fb-rating-header">Very useful</div>
+            <div class="fb-rating-label">📄 PRD</div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-prompt" value="Not useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-prompt" value="Somewhat useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-prompt" value="Very useful"/></div>
+            <div class="fb-rating-label">📋 Build Sequence</div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-brief" value="Not useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-brief" value="Somewhat useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-brief" value="Very useful"/></div>
+            <div class="fb-rating-label">🔌 Integration Guide</div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-integration" value="Not useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-sequence" value="Somewhat useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-sequence" value="Very useful"/></div>
+            <div class="fb-rating-label">🔌 Integration Guide</div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-guide" value="Not useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-guide" value="Somewhat useful"/></div>
+            <div class="fb-rating-opt"><input type="radio" name="q3-guide" value="Very useful"/></div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="fb-q">
+          <div class="fb-q-title">4. Did the AI push back or ask follow-up questions when your answers were vague?</div>
+          <div class="fb-radio-group">
+            <label class="fb-radio"><input type="radio" name="q4" value="Yes and it helped"/> Yes — and it helped me give better answers</label>
+            <label class="fb-radio"><input type="radio" name="q4" value="Yes but annoying"/> Yes — but it felt annoying or unnecessary</label>
+            <label class="fb-radio"><input type="radio" name="q4" value="No just moved on"/> No — it just moved on without pushing back</label>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="fb-q">
+          <div class="fb-q-title">5. What was the single most frustrating moment in the session?</div>
+          <div class="fb-q-sub">Be specific — this is your most valuable answer. There are no wrong answers.</div>
+          <textarea class="fb-textarea" id="q5-frustration" placeholder="Describe the moment, what happened, and why it was frustrating…" style="min-height:100px"></textarea>
+        </div>
+
+        <!-- Q6 -->
+        <div class="fb-q">
+          <div class="fb-q-title">6. Would you pay $27 — one-time payment, no subscription — for this tool?</div>
+          <div class="fb-q-sub">$27 is the planned launch price. One payment covers unlimited use of the session. No monthly fees, ever.</div>
+          <div class="fb-radio-group">
+            <label class="fb-radio"><input type="radio" name="q6" value="Yes $27" onclick="toggleWriteIn(false)"/> Yes — $27 feels fair for what I got</label>
+            <label class="fb-radio"><input type="radio" name="q6" value="Yes but less" onclick="toggleWriteIn(true)"/> Yes — but I'd pay less. I'd pay:</label>
+            <label class="fb-radio"><input type="radio" name="q6" value="No" onclick="toggleWriteIn(false)"/> No — I wouldn't pay for this</label>
+          </div>
+          <div class="fb-write-in" id="write-in-wrap" style="display:none">
+            <span class="fb-write-in-label">$</span>
+            <input class="fb-write-in-input" id="q6-price" type="number" placeholder="e.g. 15" min="1" max="99"/>
+          </div>
+          <textarea class="fb-textarea" id="q6-reason" placeholder="If no — why not? What would make you pay? (optional)"></textarea>
+        </div>
+
+        <!-- Q7 -->
+        <div class="fb-q">
+          <div class="fb-q-title">7. Did you feel the Integration Guide was specific enough to your app? Do you think it will be helpful?</div>
+          <div class="fb-q-sub">Specificity: 1 = Too generic · 5 = Perfectly tailored to my app</div>
+          <div class="fb-scale" id="q7-scale">
+            <button class="fb-scale-btn" onclick="setScale('q7',1)">1</button>
+            <button class="fb-scale-btn" onclick="setScale('q7',2)">2</button>
+            <button class="fb-scale-btn" onclick="setScale('q7',3)">3</button>
+            <button class="fb-scale-btn" onclick="setScale('q7',4)">4</button>
+            <button class="fb-scale-btn" onclick="setScale('q7',5)">5</button>
+          </div>
+          <div class="fb-scale-labels" style="margin-bottom:14px"><span>Too generic</span><span>Perfectly tailored</span></div>
+          <div style="font-size:13px;color:#6E7CA0;margin-bottom:10px;font-weight:500">Will the Integration Guide actually be helpful when you build?</div>
+          <div class="fb-radio-group">
+            <label class="fb-radio"><input type="radio" name="q7-helpful" value="Yes"/> Yes — I'll use it when I build</label>
+            <label class="fb-radio"><input type="radio" name="q7-helpful" value="Maybe"/> Maybe — depends on how accurate the steps are</label>
+            <label class="fb-radio"><input type="radio" name="q7-helpful" value="Not sure"/> Not sure yet</label>
+          </div>
+          <textarea class="fb-textarea" id="q7-comment" placeholder="Any other thoughts on the Integration Guide? (optional)"></textarea>
+        </div>
+
+        <button class="fb-submit" id="fb-submit-btn" onclick="submitFeedback()">Submit Feedback →</button>
+      </div>
+
+      <!-- Success state -->
+      <div class="fb-success" id="fb-success">
+        <div class="fb-success-icon">🙏</div>
+        <div class="fb-success-title">Thank you!</div>
+        <div class="fb-success-sub">Your feedback has been submitted. It will directly shape the final version of Kaizan Clarity.<br><br>The full product launches at $27 one-time — we'll reach out when it's live.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TODAY = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+const SYSTEM_PROMPT = `Today's date is ${TODAY}. Use this exact date wherever outputs say "Generated: [Today's date]".
+
+You are Kaizan Clarity, an expert AI intake wizard built by Kaizan AI Studios. Guide first-time app builders — most are non-technical founders — through 10 focused questions and generate three build documents at the end.
+
+PERSONALITY
+- Warm, encouraging, and direct. Speak like a knowledgeable co-founder.
+- Friendly but efficient. One sentence acknowledgment before next question.
+- Plain English always. Zero technical jargon unless immediately explained.
+- Gently firm. One clarifying follow-up on vague answers, then move on.
+
+QUESTION NUMBERING RULE
+Always begin each question with "Question [N] of 10:" so the user knows exactly where they are.
+
+CORE RULES
+1. ONE question at a time. Never stack multiple questions.
+2. ONE sentence acknowledgment before next question.
+3. If vague: ONE clarifying follow-up, then move on regardless.
+4. If "I don't know": offer 2-3 concrete examples.
+5. If 5+ features listed: redirect to 3-4 non-negotiable.
+6. Never skip a question.
+7. NEVER generate documents — the app handles all document generation separately.
+8. "No problem —" if user wants to change a previous answer.
+9. Flag scope vs timeline mismatches and suggest trimming scope.
+
+THE 10 QUESTIONS
+
+Q1 — IDEA + CONTEXT
+Ask: "Question 1 of 10: What's your app idea? Tell me what it does in 2-3 sentences, and where the idea came from — a personal problem, something you noticed, or feedback you heard?"
+If vague: "Can you be more specific about what the app actually does for the user day to day?"
+
+Q2 — TARGET USER + PROBLEMS
+Ask: "Question 2 of 10: Who needs this app most? Describe the specific person — their role or situation, and the top 2-3 frustrations your app solves for them."
+Reject "anyone" or "small businesses." Push for role + situation + specific pain.
+Good example: "Freelance designers who lose hours chasing late client payments."
+
+Q3 — CORE FEATURES + PAGES
+Ask: "Question 3 of 10: What 3-4 features does your app absolutely need at launch? And roughly how many pages or screens do you picture?"
+If 5+ features: redirect to 3-4 non-negotiable — the rest go to version 2.
+If unsure about pages: suggest a typical structure based on their app type.
+
+Q4 — BRAND + DESIGN
+Ask: "Question 4 of 10: Does your app have a name yet? And how should it look and feel — think colors, mood, and any apps whose design you love. Professional or playful? Minimal or bold? Light or dark?"
+If no name: "What would you call it today, even as a rough working title?"
+
+Q5 — MONETIZATION
+Ask: "Question 5 of 10: How will this app make money? Think about who pays, how much, and how often — subscription, one-time purchase, free with premium features, or something else?"
+If unsure: offer examples.
+
+Q6 — COMPETITORS + TIMELINE
+Ask: "Question 6 of 10: Are there 1-2 apps similar to yours, or that you admire the design of? And when are you hoping to launch — ASAP, within 30 days, 90 days, or no timeline yet?"
+If no competitors: "Even a rough comparison helps — 'like Notion but simpler' tells me a lot."
+Flag scope vs timeline mismatches clearly.
+
+Q7 — FUNCTIONAL NEEDS (you infer the tech — do NOT mention tool names yet)
+Ask: "Question 7 of 10: Let me understand what your app needs to do. Answer yes, no, or not sure for each:
+
+- Do users need to create accounts and log in?
+- Will it collect payments from users?
+- Does it need to send emails or notifications?
+- Will users upload photos, videos, or files?
+- Does it need maps or location features?
+- Will it use AI to generate content, answer questions, or make recommendations?
+- Do you need an admin area to manage users or content?"
+
+From the answers, determine the technical requirements internally. Do NOT mention specific tech tools yet.
+
+Q8 — CONSTRAINTS
+Ask: "Question 8 of 10: Is there anything the app should NOT do? Features you've seen in similar apps that frustrated you, or anything important to avoid?"
+If "nothing": "Think about apps in this space that annoyed you. Even 'keep it simple' or 'no aggressive popups' is useful."
+
+Q9 — MAGIC MOMENT
+Ask: "Question 9 of 10: What's the moment when a user thinks 'this is exactly what I needed'? Picture the first time someone successfully does the core thing your app was built for — what did they just see, do, or feel?"
+
+Q10 — TECH STACK RECOMMENDATION + CONFIRMATION
+Based on everything shared in Q1-Q9, recommend a specific tech stack in plain English. Explain each tool in one sentence specific to their app. The founder may not know what any of these tools are — explain them clearly.
+
+Ask: "Question 10 of 10: Based on everything you've described, here's the tech stack I'd recommend for [App Name]:
+
+[For each recommended tool:]
+- [Tool name] — [One sentence explaining what it does in THIS specific app. E.g. 'Supabase — stores your user accounts and family recipe collections' or 'Stripe — handles the $9/month subscription payments']
+
+Label each as Required for MVP or Phase 2.
+
+Does this feel right for your app? Any questions about what any of these do, or anything you'd add or change?"
+
+After the founder confirms: finalize which are Required MVP and which are Phase 2.
+
+AFTER THE FOUNDER CONFIRMS Q10 — respond with ONLY this exact text:
+
+"Perfect — I have everything I need. Your 3 documents are generating now. This takes about 30 seconds... [DOCUMENTS_READY]"
+
+The [DOCUMENTS_READY] marker MUST appear at the end. Do not generate any documents. Do not add any other text.`;
+
+
+const OPENER = `Welcome to Kaizan Clarity 👋
+
+I'm going to ask you 10 focused questions about your app idea. Your answers will be used to generate three documents:
+
+  • A numbered Build Sequence — step-by-step prompts to paste into Lovable in order
+  • A personalized Integration Guide — setup instructions for only your confirmed APIs
+  • A complete Product Requirements Document (PRD) — everything you need to plan and build
+
+This takes about 10 minutes. The more specific you are, the better your outputs.
+
+Let's start with Question 1 of 10:
+
+What's your app idea? Tell me what it does in 2-3 sentences, and where the idea came from — a personal problem, something you noticed, or feedback you heard?`;
+
+// ── Output generation — 3 separate calls, one per document ──
+const TODAY_STR = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+const OUTPUT_PRD_PROMPT = `You are Kaizan Clarity by Kaizan AI Studios. Based on the 10-question founder session, generate a complete cleanly formatted Product Requirements Document. Start immediately with the marker — no preamble or introduction.
+
+FORMAT: Use clear section headers, bullet points, and divider lines. Be specific to this founder's app — no generic filler.
+
+KAIZAN CLARITY PRD — [App Name]
+Generated: [Today's date]
+Built with Kaizan Clarity · Kaizan AI Studios · kaizanai.com
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. PRODUCT OVERVIEW
+[3-4 sentences: what the app is, what it does, who it's for, what makes it unique]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2. PROBLEM STATEMENT
+[The specific frustrations this app solves — written in the user's voice, not abstract]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3. TARGET USER
+Persona: [Give them a name and role]
+Situation: [Their daily life and context]
+Top Frustrations: [What they deal with today]
+Success: [What changes when the app works]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4. PRODUCT GOALS & SUCCESS METRICS
+• [Specific measurable goal 1]
+• [Goal 2]
+• [Goal 3]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5. USER STORIES
+• As a [user], I want to [action] so that [outcome]
+• [Story 2]
+• [Story 3]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6. MVP FEATURES
+Feature 1: [Name] — [What it does and why it matters]
+Feature 2: [Name] — [Description]
+Feature 3: [Name] — [Description]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+7. PAGES & SCREENS
+• [Page name] — [One-line purpose]
+[List every page]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8. DESIGN DIRECTION
+Name: [App name]
+Visual Style: [Mood and aesthetic from session]
+Colors: [Specific colors from session]
+Typography: Space Grotesk headings · Inter body
+Device Priority: [Mobile-first / Desktop / Both]
+Inspiration: [Apps mentioned in session]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+9. WHAT THIS APP MUST NOT DO
+• [Constraint 1 — specific to this founder]
+• [Constraint 2]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+10. FUNCTIONAL REQUIREMENTS
+• The app must support [requirement 1]
+• The app must support [requirement 2]
+[One line per requirement]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+11. TECH STACK
+Required for MVP:
+• [Tool] — [Plain-English role in this specific app]
+
+Phase 2 (post-launch):
+• [Tool] — [Role]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+12. BUSINESS MODEL
+Payment Model: [From session]
+Pricing: [Specific tiers and amounts]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+13. LAUNCH TIMELINE
+Target: [From session]
+Phase 1 — Foundation & Core Features: [Estimate]
+Phase 2 — Integrations & Auth: [Estimate]
+Phase 3 — Polish & Launch: [Estimate]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+14. THE MAGIC MOMENT
+"When a user [action from session], they should feel [outcome]. Design every core screen to build toward this moment."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+15. NEXT STEPS
+1. [Specific actionable step for THIS founder]
+2. [Step 2]
+3. [Step 3]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated by Kaizan Clarity · Kaizan AI Studios · kaizanai.com`;
+
+
+
+const OUTPUT_INTEGRATION_PROMPT = `You are Kaizan Clarity by Kaizan AI Studios. Based on the session — specifically the tech stack confirmed in Q10 — generate a personalized Tech/API Integration Guide. Include ONLY tools confirmed as Required for MVP. Write for a non-technical founder — plain English throughout. Start immediately with the marker.
+
+KAIZAN CLARITY TECH/API INTEGRATION GUIDE — [App Name]
+Generated: [Today's date]
+Built with Kaizan Clarity · Kaizan AI Studios · kaizanai.com
+
+YOUR TECH STACK
+These are the integrations your app needs. Set each one up before pasting the corresponding Prompt Build Sequence prompt.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[For each Required MVP integration, in Build Sequence order:]
+
+INTEGRATION [N] — [TOOL NAME]
+What it does in your app: [One specific sentence about THIS app]
+Set up before: Prompt Build Sequence — Prompt [N]
+
+STEP 1 — [Plain English instruction. Where to go, what to click, what to copy.]
+STEP 2 — [Next action]
+[Continue until complete]
+
+ENVIRONMENT VARIABLES
+Add in Lovable → Settings → Environment Variables:
+  [VARIABLE_NAME] = [Exactly where to find this value]
+
+⚠️ COMMON MISTAKE: [One specific mistake and how to avoid it]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Repeat for each Required MVP integration]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PHASE 2 INTEGRATIONS (add after launch)
+• [Tool] — [When to add it and why]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+INTEGRATION ORDER REFERENCE
+• [Tool] → Prompt [N]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated by Kaizan Clarity · Kaizan AI Studios · kaizanai.com`;
+
+
+const OUTPUT_SEQUENCE_PROMPT = `You are Kaizan Clarity by Kaizan AI Studios. Based on the session, generate the Prompt Build Sequence. Open with a Viability Assessment, then the numbered Lovable prompts. Start immediately with the marker.
+
+LOVABLE PROMPT BUILD SEQUENCE — [App Name]
+Generated: [Today's date]
+Built with Kaizan Clarity · Kaizan AI Studios · kaizanai.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VIABILITY ASSESSMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pain Point Clarity:     [X/10] — [One sentence on how clearly defined and urgent the problem is]
+Market Opportunity:     [X/10] — [One sentence on the size and accessibility of the target market]
+Competitive Landscape:  [X/10] — [One sentence on how crowded the space is and what the differentiation is]
+MVP Feasibility:        [X/10] — [One sentence on how realistic the scope is]
+─────────────────────────────────────────────
+OVERALL VIABILITY SCORE: [X/10]
+
+[Paragraph 1 — Strengths: 2-3 sentences on what is genuinely compelling about this specific idea.]
+
+[Paragraph 2 — Honest Assessment: 2-3 sentences naming the real risks. Be direct and constructive — name the specific risk and how to address it.]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HOW TO USE THIS BUILD SEQUENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Paste each prompt into Lovable one at a time, in order.
+Wait for Lovable to finish before moving to the next prompt.
+When you see ⚠️ complete that step in your Tech/API Integration Guide first.
+Do not skip steps.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROMPT 1 — FOUNDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Paste this first. Builds the visual shell and navigation only — no features yet.
+
+Build a [App Name] web app with the following structure:
+
+Design: [Specific colors, fonts, mood from session]
+Mobile-first: [Yes/No]
+
+Pages to build:
+- [Page 1]
+- [Page 2]
+[List every page]
+
+Navigation: [Describe the navigation structure]
+
+Important: Build the visual shell and navigation only. No features, no backend, no API connections yet.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROMPT 2 — [Feature 1 Name]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Paste after Prompt 1 looks correct.
+
+Add this feature to the existing app:
+[Full specific description of Feature 1 — what it does, what the UI looks like, what the user can do. Specific enough that Lovable can build it without guessing.]
+
+[Continue PROMPT 3, 4 etc. — one per MVP feature]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROMPT [N] — AUTHENTICATION & DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Include only if login was confirmed in Q7]
+
+⚠️ BEFORE PASTING: Complete the Supabase setup in your Tech/API Integration Guide first.
+
+Connect Supabase to this app:
+Authentication: [Email / Google / both]
+Database tables:
+- [Table]: [Key fields specific to this app]
+Connect [specific features] so data saves and loads correctly.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROMPT [N] — PAYMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Include only if payments confirmed in Q7]
+
+⚠️ BEFORE PASTING: Complete the Stripe setup in your Tech/API Integration Guide first.
+
+Integrate Stripe:
+Model: [Subscription / one-time]
+Pricing: [Specific tiers and amounts]
+Flow: [Where the user pays and what they access]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROMPT [N] — EMAIL NOTIFICATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Include only if email confirmed in Q7]
+
+⚠️ BEFORE PASTING: Complete the Resend setup in your Tech/API Integration Guide first.
+
+Integrate Resend. Emails to send:
+- [Email type specific to this app]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROMPT [FINAL] — POLISH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Paste when all features and integrations are working.
+
+Polish the complete [App Name] app:
+• Review every page for visual consistency
+• Add loading states to every async operation
+• Add empty states to every list or data display
+• Add friendly error messages throughout
+• Confirm full mobile responsiveness
+• [Specific polish tied to the magic moment]
+
+The app is complete when: [Magic moment from session]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated by Kaizan Clarity · Kaizan AI Studios · kaizanai.com`;
+
+
+let messages = [];
+let userEmail = localStorage.getItem('kc_email') || '';
+let outputs = null;
+let activeTab = 'prd';
+let isBusy = false;
+const scaleValues = { q2: 0, q7: 0 };
+
+// ── Beta Configuration ──────────────────────────────
+// To close the beta: change BETA_OPEN to false and redeploy
+// To change the code: update BETA_CODE and redeploy
+const BETA_OPEN               = true;
+const BETA_CODE               = 'KAIZAN-BETA';
+const OWNER_CODE              = 'KAIZAN-OWNER'; // unlimited sessions, no tracking
+const MAX_SESSIONS_PER_DEVICE = 2;
+// ────────────────────────────────────────────────────
+
+// ── Navigation ──
+function openWizard() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('code-gate').style.display = 'flex';
+  if (!BETA_OPEN) {
+    document.getElementById('cg-open').style.display = 'none';
+    document.getElementById('cg-closed').style.display = 'block';
+  } else {
+    setTimeout(() => document.getElementById('code-input').focus(), 100);
+  }
+}
+
+function backFromCode() {
+  document.getElementById('code-gate').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+}
+
+function backToLanding() {
+  document.getElementById('email-gate').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+}
+
+// ── Code Validation ──
+function validateCode() {
+  const entered  = document.getElementById('code-input').value.trim().toUpperCase();
+  const errEl    = document.getElementById('code-error');
+  const btn      = document.getElementById('cg-btn');
+  errEl.style.display = 'none';
+
+  if (!BETA_OPEN) {
+    errEl.textContent = 'The beta is now closed. Thank you for your interest.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Owner code — unlimited sessions, no tracking, no logging
+  if (entered === OWNER_CODE) {
+    document.getElementById('code-gate').style.display = 'none';
+    document.getElementById('email-gate').style.display = 'flex';
+    setTimeout(() => document.getElementById('email-input').focus(), 100);
+    return;
+  }
+
+  if (entered !== BETA_CODE) {
+    errEl.textContent = 'Invalid code. Please check and try again — codes are case-insensitive.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const sessions = parseInt(localStorage.getItem('kc_sessions') || '0');
+  if (sessions >= MAX_SESSIONS_PER_DEVICE) {
+    errEl.textContent = `You've used your ${MAX_SESSIONS_PER_DEVICE} sessions on this device. Thank you for testing Kaizan Clarity — your feedback has been noted!`;
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Valid beta code — track this session start in Netlify Forms
+  btn.textContent = 'Verifying…';
+  btn.disabled = true;
+
+  // Increment per-device session count
+  localStorage.setItem('kc_sessions', String(sessions + 1));
+
+  // Proceed to email gate
+  btn.textContent = 'Continue →';
+  btn.disabled = false;
+  document.getElementById('code-gate').style.display = 'none';
+  document.getElementById('email-gate').style.display = 'flex';
+  setTimeout(() => document.getElementById('email-input').focus(), 100);
+}
+
+document.getElementById('code-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') validateCode();
+});
+
+
+// ── Email Gate ──
+function startWithEmail() {
+  const email = document.getElementById('email-input').value.trim();
+  const errEl = document.getElementById('email-error');
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    errEl.style.display = 'block'; return;
+  }
+  errEl.style.display = 'none';
+  userEmail = email;
+  localStorage.setItem('kc_email', email);
+  document.getElementById('fb-email').value = email;
+  document.getElementById('email-gate').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  initChat();
+}
+document.getElementById('email-input').addEventListener('keydown', e => { if (e.key === 'Enter') startWithEmail(); });
+
+// ── Chat ──
+const messagesEl = document.getElementById('messages');
+const inputEl    = document.getElementById('user-input');
+const sendBtn    = document.getElementById('send-btn');
+const qCountEl   = document.getElementById('q-count');
+const progressFill = document.getElementById('progress-fill');
+const viewOutBtn = document.getElementById('view-outputs-btn');
+const inputHint  = document.getElementById('input-hint');
+
+function parseOutputs(text) {
+  const up      = text.toUpperCase();
+  const prdIdx  = up.indexOf('KAIZAN CLARITY PRD');
+  const intIdx  = up.indexOf('KAIZAN CLARITY TECH/API INTEGRATION GUIDE');
+  const seqIdx  = up.indexOf('LOVABLE PROMPT BUILD SEQUENCE');
+  const found   = [prdIdx, intIdx, seqIdx].filter(i => i >= 0).length;
+  if (found < 2) return null;
+  const prd         = prdIdx >= 0 ? text.slice(prdIdx, intIdx > prdIdx ? intIdx : (seqIdx > prdIdx ? seqIdx : text.length)).trim() : '';
+  const integration = intIdx >= 0 ? text.slice(intIdx, seqIdx > intIdx ? seqIdx : text.length).trim() : '';
+  const sequence    = seqIdx >= 0 ? text.slice(seqIdx).trim() : '';
+  return { prd, integration, sequence };
+}
+
+function scrollBottom() { setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50); }
+
+function renderMessage(msg, isNew = false) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + msg.role + (isNew ? ' msg-enter' : '');
+  if (msg.role === 'assistant') { const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '✦'; row.appendChild(av); }
+  const bubble = document.createElement('div');
+  if (msg.isOutput) {
+    bubble.className = 'bubble assistant';
+    bubble.innerHTML = `<div class="output-ready-title">✓ 3 outputs generated</div><div class="output-ready-sub">Your PRD, Build Sequence, and Integration Guide are ready. Please leave feedback when you're done!</div><button class="view-btn" onclick="showOutput()">View Outputs →</button>`;
+  } else { bubble.className = 'bubble ' + msg.role; bubble.textContent = msg.content; }
+  row.appendChild(bubble);
+  messagesEl.appendChild(row);
+  scrollBottom();
+}
+
+function showTyping() {
+  const row = document.createElement('div'); row.className = 'typing-row msg-enter'; row.id = 'typing-indicator';
+  row.innerHTML = `<div class="avatar">✦</div><div class="typing-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  messagesEl.appendChild(row); scrollBottom();
+}
+function hideTyping() { const el = document.getElementById('typing-indicator'); if (el) el.remove(); }
+
+function updateProgress() {
+  const n = messages.filter(m => m.role === 'user').length;
+  qCountEl.textContent = n;
+  progressFill.style.width = (Math.min(n/10,1)*100)+'%';
+}
+function setInputEnabled(on) { inputEl.disabled = !on; sendBtn.className = (on && inputEl.value.trim()) ? 'active' : ''; }
+
+function showTypingMessage(msg) {
+  hideTyping();
+  const row = document.createElement('div');
+  row.className = 'typing-row msg-enter'; row.id = 'typing-indicator';
+  row.innerHTML = `<div class="avatar">✦</div><div class="typing-bubble" style="flex-direction:column;gap:8px;min-width:220px"><div style="font-size:12px;color:#6E7CA0;font-style:italic">${msg}</div><div style="display:flex;gap:5px"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>`;
+  messagesEl.appendChild(row);
+  scrollBottom();
+}
+
+function buildAnswerSummary() {
+  const userMsgs = messages.filter(m => m.role === 'user');
+  const labels = [
+    'Q1 - IDEA + CONTEXT (what the app does and where the idea came from)',
+    'Q2 - TARGET USER + PROBLEMS (who needs it and their top frustrations)',
+    'Q3 - CORE FEATURES + PAGES (3-4 MVP features and page structure)',
+    'Q4 - BRAND + DESIGN (name, colors, mood, design inspiration)',
+    'Q5 - MONETIZATION (payment model, pricing, who pays)',
+    'Q6 - COMPETITORS + TIMELINE (similar apps and launch target)',
+    'Q7 - FUNCTIONAL NEEDS (login, payments, email, uploads, maps, AI, admin)',
+    'Q8 - CONSTRAINTS (what the app must NOT do)',
+    'Q9 - MAGIC MOMENT (when the user thinks this is exactly what I needed)',
+    'Q10 - TECH STACK CONFIRMED (tools recommended by Kaizan Clarity and confirmed)'
+  ];
+  let summary = '=== KAIZAN CLARITY SESSION — ALL FOUNDER ANSWERS ===\n\n';
+  userMsgs.forEach((msg, i) => {
+    summary += `${labels[i] || 'Q' + (i + 1)}:\n${msg.content}\n\n`;
+  });
+  summary += '=== END OF SESSION ===\n\nUsing these answers, generate the requested document now.';
+  return summary;
+}
+
+async function apiCall(systemPrompt, maxTokens) {
+  // Send a compact answer summary instead of the full 17-message conversation
+  // This keeps input tokens low and avoids Netlify's 10-second timeout
+  const summary = buildAnswerSummary();
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: maxTokens,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: summary }]
+    })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || 'Error ' + res.status);
+  return data.content?.[0]?.text ?? '';
+}
+
+async function generateOutputs() {
+  isBusy = true;
+
+  // Store results independently — a failure on one doesn't kill the others
+  const results = { prd: '', integration: '', sequence: '' };
+
+  try {
+    showTypingMessage('Generating your PRD... (1 of 3)');
+    results.prd = await apiCall(OUTPUT_PRD_PROMPT, 2500);
+  } catch(e) {
+    results.prd = `PRD generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
+  }
+
+  try {
+    showTypingMessage('Generating your Integration Guide... (2 of 3)');
+    results.integration = await apiCall(OUTPUT_INTEGRATION_PROMPT, 2500);
+  } catch(e) {
+    results.integration = `Integration Guide generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
+  }
+
+  try {
+    showTypingMessage('Generating your Build Sequence... (3 of 3)');
+    results.sequence = await apiCall(OUTPUT_SEQUENCE_PROMPT, 2500);
+  } catch(e) {
+    results.sequence = `Build Sequence generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
+  }
+
+  hideTyping();
+
+  // Display whatever was generated — even partial results are useful
+  outputs = results;
+  localStorage.setItem('kc_outputs', JSON.stringify(outputs));
+  const aMsg = { role:'assistant', content:'', isOutput:true };
+  messages.push(aMsg); renderMessage(aMsg, true);
+  viewOutBtn.style.display = 'block';
+  inputEl.placeholder = 'Session complete — view your outputs above.';
+  inputHint.textContent = 'Session complete ✓ — please leave feedback!';
+  inputHint.style.color = '#3AC97A';
+  setTimeout(showOutput, 900);
+
+  isBusy = false;
+}
+
+async function sendMessage() {
+  const text = inputEl.value.trim();
+  if (!text || isBusy) return;
+  isBusy = true;
+  const userMsg = { role:'user', content:text };
+  messages.push(userMsg); renderMessage(userMsg, true);
+  inputEl.value = ''; inputEl.style.height = '44px';
+  setInputEnabled(false); updateProgress(); showTyping();
+  try {
+    const userN = messages.filter(m => m.role === 'user').length;
+
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 500,
+        system: SYSTEM_PROMPT,
+        messages: messages.map(m => ({role: m.role, content: m.content}))
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message||'Error '+res.status);
+    const reply = data.content?.[0]?.text ?? 'Something went wrong — please try again.';
+    const displayReply = reply.replace('[DOCUMENTS_READY]', '').trim();
+    hideTyping();
+    const aMsg = { role:'assistant', content:displayReply };
+    messages.push(aMsg); renderMessage(aMsg, true);
+
+    if (reply.includes('[DOCUMENTS_READY]')) {
+      // Claude confirmed all questions answered — trigger output generation
+      isBusy = false;
+      setTimeout(() => generateOutputs(), 600);
+    } else {
+      setInputEnabled(true);
+      inputEl.focus();
+      isBusy = false;
+    }
+  } catch(e) {
+    hideTyping();
+    const errDetail = e.message || 'Unknown error';
+    messages.push({ role:'assistant', content:`Connection error — ${errDetail}. Please try again.` });
+    renderMessage(messages[messages.length-1], true);
+    setInputEnabled(true);
+    isBusy = false;
+  }
+}
+
+function initChat() {
+  messages = [{ role:'assistant', content:OPENER }];
+  messagesEl.innerHTML = '';
+  progressFill.style.width = '0%';
+  qCountEl.textContent = '0';
+  viewOutBtn.style.display = 'none';
+  inputHint.textContent = 'Enter to send · Shift+Enter for new line';
+  inputHint.style.color = '';
+  inputEl.placeholder = 'Type your answer…';
+  const stored = localStorage.getItem('kc_outputs');
+  if (stored) { try { outputs = JSON.parse(stored); } catch(e) {} }
+  renderMessage(messages[0]);
+  inputEl.focus();
+}
+
+inputEl.addEventListener('input', () => {
+  inputEl.style.height = '44px';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 120)+'px';
+  sendBtn.className = inputEl.value.trim() && !isBusy ? 'active' : '';
+});
+inputEl.addEventListener('keydown', e => { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+// ── Output View ──
+function showOutput() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('output-view').style.display = 'flex';
+  switchTab(activeTab);
+}
+function showChat() {
+  document.getElementById('output-view').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+}
+
+function switchTab(tabId) {
+  activeTab = tabId;
+  ['prd','sequence','integration','feedback'].forEach(id => {
+    document.getElementById('tab-'+id).className = 'tab-btn'+(id==='feedback'?' feedback-tab':'')+(tabId===id?' active':'');
+  });
+  const pre = document.getElementById('out-pre');
+  const actions = document.getElementById('out-actions');
+  const panel = document.getElementById('feedback-panel');
+  if (tabId === 'feedback') {
+    pre.style.display = 'none'; actions.style.display = 'none'; panel.style.display = 'block';
+  } else {
+    pre.style.display = 'block'; actions.style.display = 'flex'; panel.style.display = 'none';
+    pre.textContent = outputs ? (outputs[tabId] || 'This output was not generated in your session.') : '';
+    document.getElementById('copy-btn').textContent = '⎘ Copy';
+    document.getElementById('copy-btn').className = 'action-btn';
+  }
+}
+
+function copyOutput() {
+  if (!outputs || !activeTab) return;
+  const text = outputs[activeTab];
+  if (!text || typeof text !== 'string') return;
+  const flash = () => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!'; btn.className = 'action-btn success';
+    setTimeout(() => { btn.textContent = '⎘ Copy'; btn.className = 'action-btn'; }, 2500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(flash).catch(() => textAreaCopy(text, flash));
+  } else {
+    textAreaCopy(text, flash);
+  }
+}
+function textAreaCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;width:2em;height:2em;opacity:0;pointer-events:none;';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); if (cb) cb(); }
+  catch(e) { alert('Copy failed — use Select All then Ctrl+C / Cmd+C.'); }
+  document.body.removeChild(ta);
+}
+function downloadOutput() {
+  if (!outputs) return;
+  const text = outputs[activeTab];
+  if (!text) return;
+  // Extract app name from PRD or sequence marker
+  const prdMatch  = (outputs.prd||'').match(/KAIZAN CLARITY PRD[^—\n]*—\s*([^\n]+)/i);
+  const seqMatch  = (outputs.sequence||'').match(/LOVABLE BUILD SEQUENCE[^—\n]*—\s*([^\n]+)/i);
+  const rawName   = (prdMatch||seqMatch)?.[1]?.trim() || 'my-app';
+  const name      = rawName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const labels    = { prd:'prd', sequence:'build-sequence', integration:'integration-guide' };
+  const blob = new Blob([text],{type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name + '-' + (labels[activeTab]||activeTab) + '.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function selectAll() {
+  const pre = document.getElementById('out-pre');
+  const r = document.createRange(); r.selectNodeContents(pre);
+  const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+}
+
+// ── Feedback Form ──
+function setScale(qId, val) {
+  scaleValues[qId] = val;
+  document.querySelectorAll(`#${qId}-scale .fb-scale-btn`).forEach((btn,i) => {
+    btn.className = 'fb-scale-btn' + (i+1 === val ? ' selected' : '');
+  });
+}
+function toggleWriteIn(show) {
+  document.getElementById('write-in-wrap').style.display = show ? 'flex' : 'none';
+}
+
+async function submitFeedback() {
+  const btn = document.getElementById('fb-submit-btn');
+  btn.disabled = true; btn.textContent = 'Submitting…';
+
+  const q1Radio      = document.querySelector('input[name="q1"]:checked');
+  const q4Radio      = document.querySelector('input[name="q4"]:checked');
+  const q6Radio      = document.querySelector('input[name="q6"]:checked');
+  const q7HelpRadio  = document.querySelector('input[name="q7-helpful"]:checked');
+  const q3Prd        = document.querySelector('input[name="q3-prd"]:checked');
+  const q3Seq        = document.querySelector('input[name="q3-sequence"]:checked');
+  const q3Guide      = document.querySelector('input[name="q3-guide"]:checked');
+
+  const testerName  = document.getElementById('fb-name').value || 'Anonymous';
+  const testerEmail = document.getElementById('fb-email').value || userEmail;
+
+  // Build a readable email body
+  const body = `
+KAIZAN CLARITY BETA FEEDBACK
+==============================
+Tester: ${testerName}
+Email:  ${testerEmail}
+
+Q1 — Session length: ${q1Radio ? q1Radio.value : 'Not answered'}
+Comments: ${document.getElementById('q1-comment').value || 'None'}
+
+Q2 — Clarity score (1-5): ${scaleValues.q2 || 'Not answered'}
+
+Q3 — Output usefulness:
+  PRD: ${q3Prd ? q3Prd.value : 'Not answered'}
+  Build Sequence: ${q3Seq ? q3Seq.value : 'Not answered'}
+  Integration Guide: ${q3Guide ? q3Guide.value : 'Not answered'}
+
+Q4 — AI pushback: ${q4Radio ? q4Radio.value : 'Not answered'}
+
+Q5 — Most frustrating moment:
+${document.getElementById('q5-frustration').value || 'Not answered'}
+
+Q6 — Would pay $27 (one-time): ${q6Radio ? q6Radio.value : 'Not answered'}
+Alternative price: ${document.getElementById('q6-price')?.value || 'N/A'}
+Reason if no: ${document.getElementById('q6-reason').value || 'N/A'}
+
+Q7 — Integration Guide specificity (1-5): ${scaleValues.q7 || 'Not answered'}
+Will be helpful: ${q7HelpRadio ? q7HelpRadio.value : 'Not answered'}
+Comments: ${document.getElementById('q7-comment').value || 'None'}
+  `.trim();
+
+  try {
+    // Feedback always shows success — submissions logged to console for beta
+    console.log('Beta Feedback:', { subject: `Kaizan Clarity Beta Feedback — ${testerName}`, email: testerEmail, message: body });
+    document.getElementById('fb-form-wrap').style.display = 'none';
+    document.getElementById('fb-success').style.display = 'block';
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Submit Feedback →';
+    alert('Submission failed — please try again.');
+  }
+}
+
+// ── Theme Toggle ──
+const TOGGLES = ['theme-toggle-lp','theme-toggle-app','theme-toggle-out'];
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('kc-theme', isLight ? 'light' : 'dark');
+  updateToggleIcons(isLight);
+}
+function updateToggleIcons(isLight) {
+  TOGGLES.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) { btn.textContent = isLight ? '🌙' : '☀️'; btn.title = isLight ? 'Switch to dark mode' : 'Switch to light mode'; }
+  });
+}
+(function initTheme() {
+  const isLight = localStorage.getItem('kc-theme') === 'light';
+  if (isLight) document.body.classList.add('light');
+  updateToggleIcons(isLight);
+})();
+</script>
+</body>
+</html>
