@@ -466,7 +466,7 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
     <div style="display:flex;align-items:center;gap:10px">
       <button class="theme-toggle" id="theme-toggle-app" onclick="toggleTheme()" title="Switch to light mode">🌙</button>
       <div class="progress-wrap">
-        <div class="progress-label">Q <span id="q-count">0</span> / 16</div>
+        <div class="progress-label">Q <span id="q-count">0</span> / 10</div>
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
       </div>
       <button id="view-outputs-btn" onclick="showOutput()">View Outputs ✦</button>
@@ -1195,7 +1195,7 @@ function hideTyping() { const el = document.getElementById('typing-indicator'); 
 function updateProgress() {
   const n = messages.filter(m => m.role === 'user').length;
   qCountEl.textContent = n;
-  progressFill.style.width = (Math.min(n/16,1)*100)+'%';
+  progressFill.style.width = (Math.min(n/10,1)*100)+'%';
 }
 function setInputEnabled(on) { inputEl.disabled = !on; sendBtn.className = (on && inputEl.value.trim()) ? 'active' : ''; }
 
@@ -1316,13 +1316,13 @@ async function sendMessage() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error?.message||'Error '+res.status);
     const reply = data.content?.[0]?.text ?? 'Something went wrong — please try again.';
+    const displayReply = reply.replace('[DOCUMENTS_READY]', '').trim();
     hideTyping();
-    const aMsg = { role:'assistant', content:reply };
+    const aMsg = { role:'assistant', content:displayReply };
     messages.push(aMsg); renderMessage(aMsg, true);
 
-    if (userN >= 17) {
-      // All 16 questions answered — OPENER asked Q0, Claude asked Q1-Q16
-      // so 17 user messages = all questions answered
+    if (reply.includes('[DOCUMENTS_READY]')) {
+      // Claude confirmed all questions answered — trigger output generation
       isBusy = false;
       setTimeout(() => generateOutputs(), 600);
     } else {
