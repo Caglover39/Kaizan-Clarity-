@@ -245,6 +245,25 @@ body.light .lp-divider{border-color:#E2E6EF}
 body.light .lp-section-title{color:#111827}
 body.light .lp-section-sub{color:#6B7280}
 body.light .lp-eyebrow{color:#6B5EE0}
+/* ── Questions Preview ── */
+.qp-wrap{border:1px solid #1E2D4A;border-radius:14px;overflow:hidden;max-width:720px;margin:0 auto}
+.qp-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:rgba(124,110,245,.06);border:none;cursor:pointer;color:#A88CFF;font-size:15px;font-weight:600;font-family:'Inter',system-ui;text-align:left;transition:background .2s}
+.qp-toggle:hover{background:rgba(124,110,245,.12)}
+.qp-arrow{font-size:12px;transition:transform .25s;display:inline-block;color:#7C6EF5}
+.qp-body{display:none;padding:0 24px 24px;border-top:1px solid #1E2D4A}
+.qp-body.open{display:block}
+.qp-intro{font-size:13px;color:#6E7CA0;line-height:1.65;margin:16px 0 20px;font-style:italic}
+.qp-list{padding-left:20px;margin:0;display:flex;flex-direction:column;gap:14px}
+.qp-list>li{color:#C8D1E8;font-size:14px;line-height:1.65;padding-left:4px}
+.qp-list>li ul{margin-top:10px;padding-left:18px;display:flex;flex-direction:column;gap:8px;list-style:disc}
+.qp-list>li ul li{color:#8892B0;font-size:13px;line-height:1.55}
+body.light .qp-wrap{border-color:#E2E6EF}
+body.light .qp-toggle{background:rgba(107,94,224,.05);color:#6B5CE7}
+body.light .qp-toggle:hover{background:rgba(107,94,224,.1)}
+body.light .qp-body{border-top-color:#E2E6EF}
+body.light .qp-intro{color:#6B7280}
+body.light .qp-list>li{color:#374151}
+body.light .qp-list>li ul li{color:#6B7280}
 body.light .step-card{background:#FFFFFF;border-color:#E2E6EF}
 body.light .step-num{color:#6B5EE0;background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.15)}
 body.light .step-title{color:#111827}
@@ -395,6 +414,41 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
       <div class="output-card"><div class="output-card-icon">📄</div><div class="output-card-title">Product Requirements Document</div><div class="output-card-desc">A complete PRD covering everything from user personas to technical requirements — more detailed than a project brief.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Problem statement and target user</div><div class="output-card-item"><span class="output-card-dot">→</span>User stories and functional requirements</div><div class="output-card-item"><span class="output-card-dot">→</span>Technical requirements and user flows</div><div class="output-card-item"><span class="output-card-dot">→</span>Launch timeline and open questions</div></div></div>
       <div class="output-card"><div class="output-card-icon">📋</div><div class="output-card-title">Prompt Build Sequence</div><div class="output-card-desc">Opens with a Viability Assessment scoring your idea, then numbered prompts to paste into Lovable in order.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Prompt 1: Foundation and design shell</div><div class="output-card-item"><span class="output-card-dot">→</span>One prompt per feature</div><div class="output-card-item"><span class="output-card-dot">→</span>Auth, payments, email prompts</div><div class="output-card-item"><span class="output-card-dot">→</span>Final polish prompt</div></div></div>
       <div class="output-card"><div class="output-card-icon">🔌</div><div class="output-card-title">Tech/API Integration Guide</div><div class="output-card-desc">Personalized step-by-step setup for only the APIs your app needs — in the right order, with no jargon.</div><div class="output-card-list"><div class="output-card-item"><span class="output-card-dot">→</span>Only your confirmed APIs</div><div class="output-card-item"><span class="output-card-dot">→</span>Exact steps, plain English</div><div class="output-card-item"><span class="output-card-dot">→</span>Environment variables listed</div><div class="output-card-item"><span class="output-card-dot">→</span>Common mistakes flagged</div></div></div>
+    </div>
+  </section>
+
+  <!-- ── Collapsible Questions Preview ── -->
+  <section class="lp-section" style="padding-top:0">
+    <div class="qp-wrap" id="qp-wrap">
+      <button class="qp-toggle" onclick="toggleQuestions()" aria-expanded="false" id="qp-toggle-btn">
+        <span>📋 Preview the 10 questions before you start</span>
+        <span class="qp-arrow" id="qp-arrow">▼</span>
+      </button>
+      <div class="qp-body" id="qp-body">
+        <p class="qp-intro">Prepare your answers in advance for a faster, more detailed session. The more specific you are, the better your outputs.</p>
+        <ol class="qp-list">
+          <li>What's your app idea? Tell me what it does in 2-3 sentences, and where the idea came from — a personal problem, something you noticed, or feedback you heard?</li>
+          <li>Who needs this app most? Describe the specific person — their role or situation, and the top 2-3 frustrations your app solves for them.</li>
+          <li>What 3-4 features does your app absolutely need at launch? And roughly how many pages or screens do you picture?</li>
+          <li>Does your app have a name yet? And how should it look and feel — think colors, mood, and any apps whose design you love. Professional or playful? Minimal or bold? Light or dark?</li>
+          <li>How will this app make money? Think about who pays, how much, and how often — subscription, one-time purchase, free with premium features, or something else?</li>
+          <li>Are there 1-2 apps similar to yours, or that you admire the design of? And when are you hoping to launch — ASAP, within 30 days, 90 days, or no timeline yet?</li>
+          <li>Answer yes, no, or not sure for each:
+            <ul>
+              <li>Do users need to create accounts and log in?</li>
+              <li>Will it collect payments from users?</li>
+              <li>Does it need to send emails or notifications?</li>
+              <li>Will users upload photos, videos, or files?</li>
+              <li>Does it need maps or location features?</li>
+              <li>Will it use AI to generate content, answer questions, or make recommendations?</li>
+              <li>Do you need an admin area to manage users or content?</li>
+            </ul>
+          </li>
+          <li>Is there anything the app should NOT do? Features you've seen in similar apps that frustrated you, or anything important to avoid?</li>
+          <li>What's the moment when a user thinks "this is exactly what I needed"? Picture the first time someone successfully does the core thing your app was built for — what did they just see, do, or feel?</li>
+          <li>Claude will recommend your tech stack based on your answers — you review and confirm. No technical knowledge required.</li>
+        </ol>
+      </div>
     </div>
   </section>
 
@@ -1059,6 +1113,16 @@ const MAX_SESSIONS_PER_DEVICE = 2;
 // ────────────────────────────────────────────────────
 
 // ── Navigation ──
+function toggleQuestions() {
+  const body   = document.getElementById('qp-body');
+  const arrow  = document.getElementById('qp-arrow');
+  const btn    = document.getElementById('qp-toggle-btn');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  btn.setAttribute('aria-expanded', String(!isOpen));
+}
+
 function openWizard() {
   document.getElementById('landing').style.display = 'none';
   document.getElementById('code-gate').style.display = 'flex';
