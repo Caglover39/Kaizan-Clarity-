@@ -399,7 +399,7 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
     <p class="lp-section-sub">No technical knowledge required. Answer honestly — the more specific you are, the better your outputs.</p>
     <div class="steps-grid">
       <div class="step-card"><span class="step-num">01</span><div class="step-title">Answer 10 questions</div><div class="step-desc">Kaizan Clarity asks one focused question at a time about your idea, your users, your features, and your goals.</div></div>
-      <div class="step-card"><span class="step-num">02</span><div class="step-title">Get 3 documents</div><div class="step-desc">A complete PRD, a Prompt Build Sequence with viability score, and a personalized Tech/API Integration Guide — generated in about 45 seconds.</div></div>
+      <div class="step-card"><span class="step-num">02</span><div class="step-title">Get 3 documents</div><div class="step-desc">A complete PRD, a Prompt Build Sequence with viability score, and a personalized Tech/API Integration Guide — generated in about 2-3 minutes.</div></div>
       <div class="step-card"><span class="step-num">03</span><div class="step-title">Build with confidence</div><div class="step-desc">Paste Prompt 1 into Lovable. Follow the sequence. Use the Tech/API Integration Guide when you hit Stripe or Supabase. Ship faster.</div></div>
     </div>
   </section>
@@ -800,7 +800,7 @@ After the founder confirms: finalize which are Required MVP and which are Phase 
 
 AFTER THE FOUNDER CONFIRMS Q10 — respond with ONLY this exact text:
 
-"Perfect — I have everything I need. Your 3 documents are generating now. This takes about 60 seconds... [DOCUMENTS_READY]"
+"Perfect — I have everything I need. Your 3 documents are generating now. This takes about 2-3 minutes... [DOCUMENTS_READY]"
 
 The [DOCUMENTS_READY] marker MUST appear at the end. Do not generate any documents. Do not add any other text.`;
 
@@ -1351,7 +1351,7 @@ async function generateOutputs() {
   const results = { prd: '', integration: '', sequence: '' };
 
   try {
-    showTypingMessage('Generating your PRD... this takes about 60 seconds (1 of 3)');
+    showTypingMessage('Generating your PRD... this takes 2-3 minutes total (1 of 3)');
     results.prd = await apiCall(OUTPUT_PRD_PROMPT, 2500);
   } catch(e) {
     results.prd = `PRD generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
