@@ -155,7 +155,7 @@
 /* ── OUTPUT VIEW ── */
 #output-view{display:none;position:fixed;inset:0;flex-direction:column;height:100vh;height:100dvh;background:#090C17;overflow:hidden;font-family:'Inter',system-ui}
 #out-header{border-bottom:1px solid #1E2D4A;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#090C17}
-#back-btn{background:transparent;border:1px solid #1E2D4A;color:#6E7CA0;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Inter',system-ui}#new-session-btn{background:transparent;border:1px solid #7C6EF5;color:#7C6EF5;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Inter',system-ui;transition:all .2s}#new-session-btn:hover{background:#7C6EF5;color:#fff}
+#back-btn{background:transparent;border:1px solid #1E2D4A;color:#6E7CA0;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Inter',system-ui}#new-session-btn{background:transparent;border:1px solid #7C6EF5;color:#7C6EF5;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Inter',system-ui;transition:all .2s}#new-session-btn:hover{background:#7C6EF5;color:#fff}#send-email-btn{background:transparent;border:1px solid #3AC97A;color:#3AC97A;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Inter',system-ui;transition:all .2s}#send-email-btn:hover{background:#3AC97A;color:#fff}#send-email-btn:disabled{opacity:.6;cursor:not-allowed}
 #success-bar{background:rgba(58,201,122,.10);border-bottom:1px solid rgba(58,201,122,.15);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 #tab-bar{border-bottom:1px solid #1E2D4A;padding:0 20px;display:flex;flex-shrink:0;overflow-x:auto}
 .tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:#6E7CA0;padding:12px 14px;cursor:pointer;font-size:13px;font-weight:400;font-family:'Space Grotesk',system-ui;transition:all .15s;white-space:nowrap;flex-shrink:0}
@@ -317,7 +317,7 @@ body.light #send-btn.active{background:#6B5EE0;color:#fff}
 body.light #view-outputs-btn{background:rgba(107,94,224,.08);border-color:rgba(107,94,224,.18);color:#6B5EE0}
 body.light #output-view{background:#F8F9FC}
 body.light #out-header{background:#FFFFFF;border-color:#E2E6EF}
-body.light #back-btn{background:#FFFFFF;border-color:#E2E6EF;color:#6B7280}body.light #new-session-btn{border-color:#6B5CE7;color:#6B5CE7}body.light #new-session-btn:hover{background:#6B5CE7;color:#fff}
+body.light #back-btn{background:#FFFFFF;border-color:#E2E6EF;color:#6B7280}body.light #new-session-btn{border-color:#6B5CE7;color:#6B5CE7}body.light #new-session-btn:hover{background:#6B5CE7;color:#fff}body.light #send-email-btn{border-color:#16A34A;color:#16A34A}body.light #send-email-btn:hover{background:#16A34A;color:#fff}
 body.light #success-bar{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.15)}
 body.light #tab-bar{background:#FFFFFF;border-color:#E2E6EF}
 body.light .tab-btn{color:#6B7280}
@@ -548,6 +548,7 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
       <button class="theme-toggle" id="theme-toggle-out" onclick="toggleTheme()" title="Switch to light mode">🌙</button>
       <button id="back-btn" onclick="showChat()">← Back to Chat</button>
       <button id="new-session-btn" onclick="resetSession()">🔄 New Session</button>
+      <button id="send-email-btn" onclick="sendDocuments()">✉ Send to Email</button>
     </div>
   </div>
   <div id="success-bar">
@@ -1318,6 +1319,31 @@ async function apiCall(systemPrompt, maxTokens) {
   return data.content?.[0]?.text ?? '';
 }
 
+async function sendDocuments(auto = false) {
+  if (!outputs || (!outputs.prd && !outputs.sequence && !outputs.integration)) return;
+  const btn = document.getElementById('send-email-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '✉ Sending...'; }
+  try {
+    const response = await fetch('/api/send-documents', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email:       userEmail,
+        prd:         outputs.prd         || '',
+        sequence:    outputs.sequence     || '',
+        integration: outputs.integration  || '',
+        timestamp:   new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+      })
+    });
+    if (!response.ok) throw new Error('Server error ' + response.status);
+    if (btn) { btn.disabled = false; btn.textContent = '✉ Sent ✓'; btn.style.color = '#3AC97A'; }
+  } catch(e) {
+    console.error('sendDocuments error:', e);
+    if (btn) { btn.disabled = false; btn.textContent = '✉ Send to Email'; }
+    if (!auto) alert('Email failed — please use the Download or Copy buttons instead.');
+  }
+}
+
 async function generateOutputs() {
   isBusy = true;
 
@@ -1332,14 +1358,14 @@ async function generateOutputs() {
   }
 
   try {
-    showTypingMessage('Generating your Integration Guide... (2 of 3)');
+    showTypingMessage('Generating your Tech/API Integration Guide... (2 of 3)');
     results.integration = await apiCall(OUTPUT_INTEGRATION_PROMPT, 2500);
   } catch(e) {
     results.integration = `Integration Guide generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
   }
 
   try {
-    showTypingMessage('Generating your Build Sequence... (3 of 3)');
+    showTypingMessage('Generating your Prompt Build Sequence... (3 of 3)');
     results.sequence = await apiCall(OUTPUT_SEQUENCE_PROMPT, 2500);
   } catch(e) {
     results.sequence = `Build Sequence generation error: ${e.message}\n\nPlease copy your other documents and contact Kaizan AI Studios.`;
@@ -1357,6 +1383,7 @@ async function generateOutputs() {
   inputHint.textContent = 'Session complete ✓ — please leave feedback!';
   inputHint.style.color = '#3AC97A';
   setTimeout(showOutput, 900);
+  setTimeout(() => sendDocuments(true), 1500); // auto-send documents to tester
 
   isBusy = false;
 }
@@ -1619,8 +1646,17 @@ Comments: ${document.getElementById('q7-comment').value || 'None'}
   `.trim();
 
   try {
-    // Feedback always shows success — submissions logged to console for beta
-    console.log('Beta Feedback:', { subject: `Kaizan Clarity Beta Feedback — ${testerName}`, email: testerEmail, message: body });
+    const response = await fetch('/api/submit-feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: `Kaizan Clarity Beta Feedback — ${testerName}`,
+        message: body,
+        testerName,
+        testerEmail,
+      })
+    });
+    if (!response.ok) throw new Error('Server error ' + response.status);
     document.getElementById('fb-form-wrap').style.display = 'none';
     document.getElementById('fb-success').style.display = 'block';
   } catch(e) {
