@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
 
     const result = await resendRequest(apiKey, {
       from: 'carol@kaizanaistudios.com',
-      to:   'carol@kaizanaistudios.com',
+      to:   'caglover39@gmail.com',
       subject: subject || `Kaizan Clarity Beta Feedback — ${testerName || 'Anonymous'}`,
       text: message,
       reply_to: testerEmail || 'carol@kaizanaistudios.com',

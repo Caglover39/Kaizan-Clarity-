@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
     const sessionTime = timestamp || new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
     await resendRequest(apiKey, {
       from: 'carol@kaizanaistudios.com',
-      to:   'carol@kaizanaistudios.com',
+      to:   'caglover39@gmail.com',
       subject: `Kaizan Clarity — Session Completed by ${email}`,
       text: `A beta tester just completed a Kaizan Clarity session.\n\nEmail: ${email}\nCompleted: ${sessionTime}\n\nDocuments were automatically sent to their email.`,
     });
