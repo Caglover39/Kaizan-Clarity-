@@ -912,6 +912,100 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
   #landing .lp-beta-cta { padding: 60px 24px; }
 }
 
+/* ══ LAYOUT FIXES — override original CSS ══ */
+
+/* Force full-screen hero with left-aligned content */
+#landing .lp-hero {
+  min-height: 100vh !important;
+  text-align: left !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  padding: 40px 48px 60px !important;
+  box-sizing: border-box;
+}
+
+/* Constrain text content to left half */
+#landing .lp-hero > *:not(.hero-orb-wrap) {
+  position: relative;
+  z-index: 2;
+  max-width: 580px;
+}
+
+/* Orb — right side only, never over text */
+#landing .hero-orb-wrap {
+  position: absolute !important;
+  right: -60px !important;
+  top: 50% !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  width: 520px !important;
+  height: 520px !important;
+  z-index: 0 !important;
+  pointer-events: none;
+}
+
+/* Bold headline with shadow for legibility over orb */
+#landing .lp-h1 {
+  font-size: clamp(48px, 7.5vw, 96px) !important;
+  font-weight: 800 !important;
+  line-height: 0.9 !important;
+  letter-spacing: -2.5px !important;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.6), 0 0 60px rgba(0,0,0,0.4);
+  margin-bottom: 20px !important;
+}
+#landing .hero-shimmer {
+  text-shadow: none;
+  -webkit-text-stroke: 0;
+}
+
+/* Tighter sub text */
+#landing .lp-hero-sub {
+  font-size: 16px !important;
+  margin-bottom: 24px !important;
+  max-width: 460px;
+}
+
+/* CTA button — inline pill, not full width */
+#landing .lp-cta-btn {
+  width: auto !important;
+  display: inline-flex !important;
+  align-self: flex-start !important;
+  padding: 14px 28px !important;
+  font-size: 15px !important;
+}
+
+/* Meta row tighter */
+#landing .lp-meta {
+  margin-top: 16px !important;
+  gap: 16px !important;
+}
+#landing .lp-meta span {
+  font-size: 12px !important;
+}
+
+/* Eyebrow row tighter */
+#landing .hero-eyebrow-row {
+  margin-bottom: 28px !important;
+}
+#landing .hero-eyebrow-col {
+  font-size: 13px !important;
+}
+
+/* Mobile orb */
+@media (max-width: 900px) {
+  #landing .hero-orb-wrap {
+    width: 320px !important;
+    height: 320px !important;
+    right: -80px !important;
+    opacity: 0.45 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+  #landing .lp-hero {
+    padding: 36px 24px 48px !important;
+  }
+}
+
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -961,8 +1055,8 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
 
     <!-- Main headline with shimmer -->
     <h1 class="lp-h1">
-      Stop staring at
-      <span class="hero-shimmer">a blank prompt.</span>
+      Turn your idea
+      <span class="hero-shimmer">into a build plan.</span>
     </h1>
 
     <p class="lp-hero-sub">Answer 10 focused questions about your app idea. Kaizan Clarity generates a Prompt Build Sequence with viability score, Tech/API Integration Guide, and a complete PRD — in about 15-20 minutes.</p>
