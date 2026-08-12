@@ -1022,6 +1022,150 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
   }
 }
 
+/* ══ LIGHT MODE — Landing Page ══ */
+body.light #landing {
+  background: #F4F4F8;
+}
+
+/* Nav */
+body.light #landing .lp-nav {
+  background: rgba(255,255,255,0.92) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+body.light #landing .lp-name { color: #0F0F0F !important; }
+body.light #landing .lp-sub  { color: #6B7280 !important; }
+body.light #landing .lp-mark { border-color: #0F0F0F !important; }
+body.light #landing .lp-mark::after { background: #0F0F0F !important; }
+body.light #landing .beta-badge {
+  background: rgba(124,110,245,0.1) !important;
+  color: #5B4CE0 !important;
+  border-color: rgba(124,110,245,0.25) !important;
+}
+body.light #landing .lp-nav-link {
+  color: #4B5563 !important;
+  border-color: rgba(0,0,0,0.15) !important;
+}
+body.light #landing .lp-nav-link:hover {
+  color: #0F0F0F !important;
+  border-color: rgba(0,0,0,0.3) !important;
+  background: rgba(0,0,0,0.04) !important;
+}
+body.light #landing .lp-nav-btn {
+  background: #0F0F0F !important;
+  color: #fff !important;
+}
+body.light #landing .theme-toggle {
+  border-color: rgba(0,0,0,0.15) !important;
+  color: #4B5563 !important;
+}
+
+/* Hero — light gradient */
+body.light #landing .lp-hero {
+  background: linear-gradient(135deg, #EEEEF8 0%, #E8E8F4 50%, #DDDDF0 100%) !important;
+}
+body.light #landing .lp-h1 {
+  color: #0F0F0F !important;
+  text-shadow: none !important;
+}
+body.light #landing .hero-shimmer {
+  background: linear-gradient(100deg,
+    #5B4CE0 0%, #7C6EF5 25%, #A88CFF 45%,
+    #7C6EF5 55%, #5B4CE0 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+body.light #landing .hero-eyebrow-col {
+  color: #374151 !important;
+}
+body.light #landing .hero-eyebrow-col strong {
+  color: #0F0F0F !important;
+}
+body.light #landing .lp-hero-sub {
+  color: #4B5563 !important;
+}
+body.light #landing .lp-cta-btn {
+  background: #0F0F0F !important;
+  color: #fff !important;
+}
+body.light #landing .lp-meta span {
+  color: #9CA3AF !important;
+}
+
+/* Orb — lighter in light mode */
+body.light #landing .hero-orb {
+  background: radial-gradient(circle at 35% 32%,
+    #C4B5FD 0%, #A78BFA 25%,
+    #7C6EF5 55%, #5B4CE0 80%, #3730A3 100%) !important;
+  box-shadow:
+    0 0 80px rgba(124,110,245,0.25),
+    0 0 160px rgba(124,110,245,0.1) !important;
+}
+body.light #landing .hero-orb-glow {
+  background: radial-gradient(circle at 40% 40%,
+    rgba(124,110,245,0.25) 0%, transparent 72%) !important;
+}
+body.light #landing .hero-orb-accent {
+  opacity: 0.4 !important;
+}
+
+/* Sections */
+body.light #landing .lp-section {
+  background: #FFFFFF !important;
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+body.light #landing .lp-eyebrow { color: #5B4CE0 !important; }
+body.light #landing .lp-section-title { color: #0F0F0F !important; }
+body.light #landing .lp-section-sub { color: #4B5563 !important; }
+
+/* Cards */
+body.light #landing .step-card,
+body.light #landing .output-card {
+  background: #FAFAFA !important;
+  border-color: rgba(0,0,0,0.08) !important;
+}
+body.light #landing .step-card:hover,
+body.light #landing .output-card:hover {
+  border-color: rgba(124,110,245,0.35) !important;
+}
+body.light #landing .step-num { color: #7C6EF5 !important; }
+body.light #landing .step-title,
+body.light #landing .output-card-title { color: #0F0F0F !important; }
+body.light #landing .step-desc,
+body.light #landing .output-card-desc { color: #4B5563 !important; }
+
+/* Questions preview */
+body.light #landing .qp-wrap {
+  background: #FAFAFA !important;
+  border-color: rgba(0,0,0,0.08) !important;
+}
+body.light #landing .qp-toggle {
+  background: rgba(124,110,245,0.05) !important;
+  color: #5B4CE0 !important;
+}
+body.light #landing .qp-toggle:hover {
+  background: rgba(124,110,245,0.1) !important;
+}
+body.light #landing .qp-arrow { color: #5B4CE0 !important; }
+body.light #landing .qp-body { border-top-color: rgba(0,0,0,0.08) !important; }
+body.light #landing .qp-intro { color: #9CA3AF !important; }
+body.light #landing .qp-list > li { color: #1F2937 !important; }
+body.light #landing .qp-list > li ul li { color: #4B5563 !important; }
+
+/* CTA section */
+body.light #landing .lp-beta-cta {
+  background: linear-gradient(135deg, #EEEEF8 0%, #E8E8F4 100%) !important;
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+body.light #landing .lp-beta-cta .lp-section-title { color: #0F0F0F !important; }
+body.light #landing .lp-beta-cta .lp-section-sub { color: #4B5563 !important; }
+body.light #landing .lp-beta-cta .lp-cta-btn {
+  background: #0F0F0F !important;
+  color: #fff !important;
+}
+
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
