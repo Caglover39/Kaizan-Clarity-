@@ -914,6 +914,18 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
 
 /* ══ LAYOUT FIXES — override original CSS ══ */
 
+/* Force full-width and full-screen — override original max-width constraints */
+#landing .lp-nav,
+#landing .lp-hero,
+#landing .lp-section,
+#landing .lp-beta-cta {
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 /* Force full-screen hero with left-aligned content */
 #landing .lp-hero {
   min-height: 100vh !important;
@@ -921,7 +933,9 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
   align-items: flex-start !important;
   justify-content: center !important;
   padding: 40px 48px 60px !important;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 /* Constrain text content to left half */
@@ -963,6 +977,8 @@ body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
   font-size: 16px !important;
   margin-bottom: 24px !important;
   max-width: 460px;
+  text-align: left !important;
+  margin-left: 0 !important;
 }
 
 /* CTA button — inline pill, not full width */
