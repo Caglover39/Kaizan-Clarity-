@@ -219,6 +219,35 @@
 .theme-toggle{background:none;border:1px solid #1E2D4A;color:#6E7CA0;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
 .theme-toggle:hover{border-color:#7C6EF5;color:#7C6EF5}
 
+/* ── Q7 CHECKBOX WIDGET ── */
+.q7-widget{background:#0F1628;border:1px solid #1E2D4A;border-radius:12px;padding:18px 18px 16px;max-width:86%;animation:kc-fade .22s ease forwards}
+.q7-header{display:grid;grid-template-columns:1fr 54px 54px 76px;gap:4px;padding:0 8px 8px;border-bottom:1px solid #1E2D4A;margin-bottom:8px}
+.q7-col-header{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6E7CA0;text-align:center}
+.q7-features{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}
+.q7-row{display:grid;grid-template-columns:1fr 54px 54px 76px;align-items:center;gap:4px;padding:9px 8px;border-radius:8px;background:#090C17;border:1px solid transparent;transition:border-color .15s}
+.q7-row:hover{border-color:rgba(124,110,245,.2)}
+.q7-feat-label{font-size:13px;color:#DDE5FF;line-height:1.4}
+.q7-radio-label{display:flex;justify-content:center;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:background .15s}
+.q7-radio-label:hover{background:rgba(124,110,245,.1)}
+.q7-radio-label input[type=radio]{accent-color:#7C6EF5;width:16px;height:16px;cursor:pointer}
+.q7-other-label{font-size:12px;color:#6E7CA0;margin-bottom:6px;font-weight:500}
+.q7-other{width:100%;background:#090C17;border:1px solid #1E2D4A;border-radius:8px;color:#DDE5FF;padding:10px 12px;font-size:13px;font-family:'Inter',system-ui;resize:none;outline:none;min-height:52px;margin-bottom:12px;transition:border-color .15s;line-height:1.5}
+.q7-other:focus{border-color:rgba(124,110,245,.4)}
+.q7-other::placeholder{color:#2E3A55}
+.q7-submit-btn{width:100%;background:#7C6EF5;color:#fff;border:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',system-ui;transition:background .15s}
+.q7-submit-btn:hover{background:#6B5EE0}
+
+/* ── GENERATE BUTTON AREA ── */
+#generate-area{display:none;flex-direction:column;gap:10px;padding:16px 20px;padding-bottom:max(16px,env(safe-area-inset-bottom));border-top:1px solid #1E2D4A;background:#090C17;flex-shrink:0}
+.gen-optional-label{font-size:12px;color:#6E7CA0;font-weight:500}
+.gen-optional{width:100%;background:#0F1628;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:11px 14px;font-size:15px;font-family:'Inter',system-ui;resize:none;outline:none;min-height:56px;transition:border-color .15s;line-height:1.5;-webkit-appearance:none}
+.gen-optional:focus{border-color:rgba(124,110,245,.4)}
+.gen-optional::placeholder{color:#2E3A55;font-size:13px}
+@keyframes gen-pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,110,245,.55),0 6px 28px rgba(124,110,245,.35)}60%{box-shadow:0 0 0 14px rgba(124,110,245,0),0 6px 28px rgba(124,110,245,.5)}}
+#generate-btn{width:100%;background:linear-gradient(135deg,#7C6EF5 0%,#9B8BFF 100%);color:#fff;border:none;border-radius:12px;padding:17px 24px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',system-ui;letter-spacing:-.2px;animation:gen-pulse 2s ease-in-out infinite;transition:opacity .15s}
+#generate-btn:hover{opacity:.9}
+#generate-btn:active{opacity:.8;animation:none}
+
 /* ── LIGHT MODE ── */
 body.light{background:#F8F9FC}
 body.light #landing{background:#F8F9FC;color:#1A1D2E}
@@ -345,6 +374,17 @@ body.light .fb-rating-header{color:#6B7280}
 body.light .fb-submit{background:#6B5EE0}
 body.light .theme-toggle{border-color:#E2E6EF;color:#6B7280}
 body.light .theme-toggle:hover{border-color:#6B5EE0;color:#6B5EE0}
+body.light .q7-widget{background:#FFFFFF;border-color:#E2E6EF}
+body.light .q7-header{border-color:#E2E6EF}
+body.light .q7-col-header{color:#6B7280}
+body.light .q7-row{background:#F8F9FC;border-color:transparent}
+body.light .q7-row:hover{border-color:rgba(107,94,224,.2)}
+body.light .q7-feat-label{color:#1A1D2E}
+body.light .q7-other-label{color:#6B7280}
+body.light .q7-other{background:#F8F9FC;border-color:#E2E6EF;color:#1A1D2E}
+body.light #generate-area{background:#FFFFFF;border-color:#E2E6EF}
+body.light .gen-optional-label{color:#6B7280}
+body.light .gen-optional{background:#F8F9FC;border-color:#E2E6EF;color:#1A1D2E}
 
 
 /* ══════════════════════════════════════════════
@@ -1380,7 +1420,7 @@ body.light #landing .lp-beta-cta .lp-cta-btn {
     <div style="display:flex;align-items:center;gap:10px">
       <button class="theme-toggle" id="theme-toggle-app" onclick="toggleTheme()" title="Switch to light mode">🌙</button>
       <div class="progress-wrap">
-        <div class="progress-label">Q <span id="q-count">0</span> / 10</div>
+        <div class="progress-label"><span id="progress-normal">Q <span id="q-count">0</span> / 10</span><span id="progress-almost" style="display:none;color:#A88CFF;font-weight:600;letter-spacing:.2px">Almost Ready ✨</span></div>
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
       </div>
       <button id="view-outputs-btn" onclick="showOutput()">View Outputs ✦</button>
@@ -1393,6 +1433,11 @@ body.light #landing .lp-beta-cta .lp-cta-btn {
       <button id="send-btn" onclick="sendMessage()">→</button>
     </div>
     <div id="input-hint">Enter to send · Shift+Enter for new line</div>
+  </div>
+  <div id="generate-area">
+    <div class="gen-optional-label">Anything else relevant to your app? <span style="color:#2E3A55">(completely optional — skip if ready)</span></div>
+    <textarea class="gen-optional" id="gen-optional" placeholder='e.g. "I want the app in English and Spanish" — or click Generate now'></textarea>
+    <button id="generate-btn" onclick="clickGenerate()">✦ Generate My Plan</button>
   </div>
 </div>
 
@@ -1624,17 +1669,10 @@ If no competitors: "Even a rough comparison helps — 'like Notion but simpler' 
 Flag scope vs timeline mismatches clearly.
 
 Q7 — FUNCTIONAL NEEDS (you infer the tech — do NOT mention tool names yet)
-Ask: "Question 7 of 10: Let me understand what your app needs to do. Answer yes, no, or not sure for each:
+Ask: "Question 7 of 10: Let me understand what your app needs to do. I'll show you a quick checklist below — choose Yes, No, or Not Sure for each item. Don't worry if you're unsure about any of them — Kaizan Clarity will figure out what's needed based on your features. [SHOW_Q7_CHECKBOXES]"
 
-- Do users need to create accounts and log in?
-- Will it collect payments from users?
-- Does it need to send emails or notifications?
-- Will users upload photos, videos, or files?
-- Does it need maps or location features?
-- Will it use AI to generate content, answer questions, or make recommendations?
-- Do you need an admin area to manage users or content?"
-
-From the answers, determine the technical requirements internally. Do NOT mention specific tech tools yet.
+Wait for the user to submit their checkbox selections — they will arrive as a formatted list of feature answers. Give a brief one-sentence acknowledgment, then move to Q8.
+From the user's answers, determine the technical requirements internally. Do NOT mention specific tech tools yet.
 
 Q8 — CONSTRAINTS
 Ask: "Question 8 of 10: Is there anything the app should NOT do? Features you've seen in similar apps that frustrated you, or anything important to avoid?"
@@ -1643,25 +1681,41 @@ If "nothing": "Think about apps in this space that annoyed you. Even 'keep it si
 Q9 — MAGIC MOMENT
 Ask: "Question 9 of 10: What's the moment when a user thinks 'this is exactly what I needed'? Picture the first time someone successfully does the core thing your app was built for — what did they just see, do, or feel?"
 
-Q10 — TECH STACK RECOMMENDATION + CONFIRMATION
-Based on everything shared in Q1-Q9, recommend a specific tech stack in plain English. Explain each tool in one sentence specific to their app. The founder may not know what any of these tools are — explain them clearly.
+Q10 — TECH STACK ANNOUNCEMENT + DOCS PREVIEW + OPTIONAL INFO
+This is the final step before document generation. Do NOT ask the founder to confirm the tech stack — announce it as a statement. Then describe all 3 output documents so the founder knows exactly what they're getting and why each matters. Then ask one optional question. End with [SHOW_GENERATE_BUTTON].
 
-Ask: "Question 10 of 10: Based on everything you've described, here's the tech stack I'd recommend for [App Name]:
+Say: "Question 10 of 10: Almost there — here's everything I've put together for [App Name].
 
-[For each recommended tool:]
-- [Tool name] — [One sentence explaining what it does in THIS specific app. E.g. 'Supabase — stores your user accounts and family recipe collections' or 'Stripe — handles the $9/month subscription payments']
+🔧 YOUR RECOMMENDED TECH STACK
 
-Label each as Required for MVP or Phase 2.
+Required for MVP:
+• [Tool name] — [One sentence: exactly what it does in THIS specific app]
+[List each Required for MVP tool]
 
-Does this feel right for your app? Any questions about what any of these do, or anything you'd add or change?"
+Phase 2 (after launch):
+• [Tool] — [What it enables]
 
-After the founder confirms: finalize which are Required MVP and which are Phase 2.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-AFTER THE FOUNDER CONFIRMS Q10 — respond with ONLY this exact text:
+📄 YOUR 3 BUILD DOCUMENTS
 
-"Perfect — I have everything I need. Your 3 documents are generating now. This takes about 2-3 minutes... [DOCUMENTS_READY]"
+Here's exactly what you're about to receive:
 
-The [DOCUMENTS_READY] marker MUST appear at the end. Do not generate any documents. Do not add any other text.`;
+📋 Product Requirements Document (PRD)
+Your complete app blueprint — 15 sections covering your target user, features, design direction, tech stack, business model, and launch timeline. Use it to stay organized and focused throughout your build, and share it with any developer or collaborator.
+
+🚀 Prompt Build Sequence
+Step-by-step prompts to paste into Lovable one at a time, in order. Opens with a Viability Assessment scoring your idea on 4 dimensions. Each prompt builds on the last — no guessing what to do next, no getting stuck mid-build.
+
+⚙️ Tech/API Integration Guide
+Personalized setup instructions for every tool in your tech stack, in the exact order you'll need them. Tells you when and how to set each one up so integrations don't break your build mid-stream.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💬 One last thing — completely optional:
+Is there anything else about your app we haven't covered? For example: 'I want the app available in English and Spanish.' Feel free to skip this and click Generate. [SHOW_GENERATE_BUTTON]"
+
+After [SHOW_GENERATE_BUTTON] is shown, the founder will click a Generate My Plan button. You will NOT receive another message. Do not wait for a reply.`;
 
 
 const OPENER = `Welcome to Kaizan Clarity 👋
@@ -2149,7 +2203,7 @@ function buildAnswerSummary() {
     'Q7 - FUNCTIONAL NEEDS (login, payments, email, uploads, maps, AI, admin)',
     'Q8 - CONSTRAINTS (what the app must NOT do)',
     'Q9 - MAGIC MOMENT (when the user thinks this is exactly what I needed)',
-    'Q10 - TECH STACK CONFIRMED (tools recommended by Kaizan Clarity and confirmed)'
+    'Q10 - ADDITIONAL INFO (optional extra context provided before generation, or generation confirmed)'
   ];
   let summary = '=== KAIZAN CLARITY SESSION — ALL FOUNDER ANSWERS ===\n\n';
   userMsgs.forEach((msg, i) => {
@@ -2271,13 +2325,22 @@ async function sendMessage() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error?.message||'Error '+res.status);
     const reply = data.content?.[0]?.text ?? 'Something went wrong — please try again.';
-    const displayReply = reply.replace('[DOCUMENTS_READY]', '').trim();
+    const displayReply = reply
+      .replace('[DOCUMENTS_READY]', '')
+      .replace('[SHOW_Q7_CHECKBOXES]', '')
+      .replace('[SHOW_GENERATE_BUTTON]', '')
+      .trim();
     hideTyping();
     const aMsg = { role:'assistant', content:displayReply };
     messages.push(aMsg); renderMessage(aMsg, true);
 
-    if (reply.includes('[DOCUMENTS_READY]')) {
-      // Claude confirmed all questions answered — trigger output generation
+    if (reply.includes('[SHOW_Q7_CHECKBOXES]')) {
+      setTimeout(() => renderQ7Widget(), 300);
+      isBusy = false;
+    } else if (reply.includes('[SHOW_GENERATE_BUTTON]')) {
+      setTimeout(() => showGenerateArea(), 300);
+      isBusy = false;
+    } else if (reply.includes('[DOCUMENTS_READY]')) {
       isBusy = false;
       setTimeout(() => generateOutputs(), 600);
     } else {
@@ -2295,11 +2358,161 @@ async function sendMessage() {
   }
 }
 
+// ── Q7 Checkbox Widget ──
+const Q7_FEATURES = [
+  { id:'login',    label:'User accounts & login' },
+  { id:'payments', label:'Payment processing' },
+  { id:'email',    label:'Email or push notifications' },
+  { id:'sms',      label:'SMS / text messaging' },
+  { id:'uploads',  label:'File or image uploads' },
+  { id:'maps',     label:'Maps or location features' },
+  { id:'ai',       label:'AI-generated content or recommendations' },
+  { id:'admin',    label:'Admin dashboard to manage users or content' }
+];
+
+function renderQ7Widget() {
+  const container = document.createElement('div');
+  container.className = 'msg-row assistant msg-enter';
+  container.id = 'q7-widget-row';
+  const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '✦';
+  container.appendChild(av);
+  const widget = document.createElement('div');
+  widget.className = 'q7-widget'; widget.id = 'q7-widget';
+  // Column headers
+  const hdr = document.createElement('div'); hdr.className = 'q7-header';
+  hdr.innerHTML = '<div></div><div class="q7-col-header">Yes</div><div class="q7-col-header">No</div><div class="q7-col-header">Not Sure</div>';
+  widget.appendChild(hdr);
+  // Feature rows
+  const featsDiv = document.createElement('div'); featsDiv.className = 'q7-features';
+  Q7_FEATURES.forEach(feat => {
+    const row = document.createElement('div'); row.className = 'q7-row';
+    row.innerHTML = `<div class="q7-feat-label">${feat.label}</div>` +
+      `<label class="q7-radio-label"><input type="radio" name="q7-${feat.id}" value="Yes"/></label>` +
+      `<label class="q7-radio-label"><input type="radio" name="q7-${feat.id}" value="No"/></label>` +
+      `<label class="q7-radio-label"><input type="radio" name="q7-${feat.id}" value="Not Sure" checked/></label>`;
+    featsDiv.appendChild(row);
+  });
+  widget.appendChild(featsDiv);
+  // Other text field
+  const otherLabel = document.createElement('div'); otherLabel.className = 'q7-other-label';
+  otherLabel.textContent = 'Anything else your app needs? (optional)';
+  widget.appendChild(otherLabel);
+  const otherArea = document.createElement('textarea');
+  otherArea.className = 'q7-other'; otherArea.id = 'q7-other';
+  otherArea.placeholder = 'e.g. Calendar/scheduling, Social login (Google), Push notifications…';
+  widget.appendChild(otherArea);
+  // Submit button
+  const btn = document.createElement('button'); btn.className = 'q7-submit-btn';
+  btn.textContent = 'Submit My Selections →'; btn.onclick = submitQ7;
+  widget.appendChild(btn);
+  container.appendChild(widget);
+  messagesEl.appendChild(container);
+  scrollBottom();
+}
+
+function submitQ7() {
+  const lines = Q7_FEATURES.map(feat => {
+    const checked = document.querySelector(`input[name="q7-${feat.id}"]:checked`);
+    return `• ${feat.label}: ${checked ? checked.value : 'Not Sure'}`;
+  });
+  const other = (document.getElementById('q7-other') || {}).value?.trim();
+  if (other) lines.push(`• Other needs: ${other}`);
+  const answer = lines.join('\n');
+  // Remove widget
+  const widgetRow = document.getElementById('q7-widget-row');
+  if (widgetRow) widgetRow.remove();
+  // Add user message
+  const userMsg = { role:'user', content: answer };
+  messages.push(userMsg); renderMessage(userMsg, true);
+  updateProgress(); showTyping(); isBusy = true;
+  sendViaAPI();
+}
+
+// ── Shared API call (used after Q7 widget + normal sendMessage flow) ──
+async function sendViaAPI() {
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 600,
+        system: SYSTEM_PROMPT,
+        messages: messages.map(m => ({ role: m.role, content: m.content }))
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Error ' + res.status);
+    const reply = data.content?.[0]?.text ?? 'Something went wrong — please try again.';
+    const displayReply = reply
+      .replace('[DOCUMENTS_READY]', '')
+      .replace('[SHOW_Q7_CHECKBOXES]', '')
+      .replace('[SHOW_GENERATE_BUTTON]', '')
+      .trim();
+    hideTyping();
+    const aMsg = { role:'assistant', content: displayReply };
+    messages.push(aMsg); renderMessage(aMsg, true);
+    if (reply.includes('[SHOW_Q7_CHECKBOXES]')) {
+      setTimeout(() => renderQ7Widget(), 300); isBusy = false;
+    } else if (reply.includes('[SHOW_GENERATE_BUTTON]')) {
+      setTimeout(() => showGenerateArea(), 300); isBusy = false;
+    } else if (reply.includes('[DOCUMENTS_READY]')) {
+      isBusy = false; setTimeout(() => generateOutputs(), 600);
+    } else {
+      setInputEnabled(true); inputEl.focus(); isBusy = false;
+    }
+  } catch(e) {
+    hideTyping();
+    const errMsg = { role:'assistant', content: `Connection error — ${e.message}. Please try again.` };
+    messages.push(errMsg); renderMessage(errMsg, true);
+    setInputEnabled(true); isBusy = false;
+  }
+}
+
+// ── Generate Button Area ──
+function showGenerateArea() {
+  // Switch progress to "Almost Ready"
+  const pNorm = document.getElementById('progress-normal');
+  const pAlmost = document.getElementById('progress-almost');
+  if (pNorm) pNorm.style.display = 'none';
+  if (pAlmost) pAlmost.style.display = 'inline';
+  progressFill.style.width = '100%';
+  // Hide normal input
+  document.getElementById('input-row').style.display = 'none';
+  document.getElementById('input-hint').style.display = 'none';
+  // Show generate area
+  const genArea = document.getElementById('generate-area');
+  genArea.style.display = 'flex';
+  const genOpt = document.getElementById('gen-optional');
+  if (genOpt) setTimeout(() => genOpt.focus(), 100);
+  isBusy = false;
+}
+
+function clickGenerate() {
+  const optText = (document.getElementById('gen-optional') || {}).value?.trim();
+  const userContent = optText ? `Additional info: ${optText}` : 'Ready — please generate my documents.';
+  const userMsg = { role:'user', content: userContent };
+  messages.push(userMsg); renderMessage(userMsg, true);
+  document.getElementById('generate-area').style.display = 'none';
+  generateOutputs();
+}
+
 function initChat() {
   messages = [{ role:'assistant', content:OPENER }];
   messagesEl.innerHTML = '';
   progressFill.style.width = '0%';
   qCountEl.textContent = '0';
+  // Reset progress label
+  const pNorm = document.getElementById('progress-normal');
+  const pAlmost = document.getElementById('progress-almost');
+  if (pNorm) pNorm.style.display = 'inline';
+  if (pAlmost) pAlmost.style.display = 'none';
+  // Reset input area
+  document.getElementById('input-row').style.display = '';
+  document.getElementById('input-hint').style.display = '';
+  document.getElementById('generate-area').style.display = 'none';
+  const genOpt = document.getElementById('gen-optional');
+  if (genOpt) genOpt.value = '';
   viewOutBtn.style.display = 'none';
   inputHint.textContent = 'Enter to send · Shift+Enter for new line';
   inputHint.style.color = '';
