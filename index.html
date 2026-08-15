@@ -243,8 +243,8 @@
 .gen-optional{width:100%;background:#0F1628;border:1px solid #1E2D4A;border-radius:10px;color:#DDE5FF;padding:11px 14px;font-size:15px;font-family:'Inter',system-ui;resize:none;outline:none;min-height:56px;transition:border-color .15s;line-height:1.5;-webkit-appearance:none}
 .gen-optional:focus{border-color:rgba(124,110,245,.4)}
 .gen-optional::placeholder{color:#2E3A55;font-size:13px}
-@keyframes gen-pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,110,245,.55),0 6px 28px rgba(124,110,245,.35)}60%{box-shadow:0 0 0 14px rgba(124,110,245,0),0 6px 28px rgba(124,110,245,.5)}}
-#generate-btn{width:100%;background:linear-gradient(135deg,#7C6EF5 0%,#9B8BFF 100%);color:#fff;border:none;border-radius:12px;padding:17px 24px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',system-ui;letter-spacing:-.2px;animation:gen-pulse 2s ease-in-out infinite;transition:opacity .15s}
+@keyframes gen-pulse{0%,100%{box-shadow:0 0 0 0 rgba(58,201,122,.6),0 6px 28px rgba(58,201,122,.35)}60%{box-shadow:0 0 0 14px rgba(58,201,122,0),0 6px 28px rgba(58,201,122,.5)}}
+#generate-btn{width:100%;background:linear-gradient(135deg,#22C55E 0%,#3AC97A 100%);color:#fff;border:none;border-radius:12px;padding:17px 24px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',system-ui;letter-spacing:-.2px;animation:gen-pulse 2s ease-in-out infinite;transition:opacity .15s}
 #generate-btn:hover{opacity:.9}
 #generate-btn:active{opacity:.8;animation:none}
 
@@ -1435,8 +1435,8 @@ body.light #landing .lp-beta-cta .lp-cta-btn {
     <div id="input-hint">Enter to send · Shift+Enter for new line</div>
   </div>
   <div id="generate-area">
-    <div class="gen-optional-label">Anything else relevant to your app? <span style="color:#2E3A55">(completely optional — skip if ready)</span></div>
-    <textarea class="gen-optional" id="gen-optional" placeholder='e.g. "I want the app in English and Spanish" — or click Generate now'></textarea>
+    <div class="gen-optional-label">Would you like to share any additional information relevant to your app? <span style="color:#4A5568;font-style:italic">(completely optional)</span></div>
+    <textarea class="gen-optional" id="gen-optional" placeholder='e.g. "I would like both an English and Spanish version of the app." — or click Generate now'></textarea>
     <button id="generate-btn" onclick="clickGenerate()">✦ Generate My Plan</button>
   </div>
 </div>
@@ -1712,8 +1712,8 @@ Personalized setup instructions for every tool in your tech stack, in the exact 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-💬 One last thing — completely optional:
-Is there anything else about your app we haven't covered? For example: 'I want the app available in English and Spanish.' Feel free to skip this and click Generate. [SHOW_GENERATE_BUTTON]"
+💬 One last thing — and this is completely optional:
+Would you like to share any additional information that may be relevant to your app? For example: 'I would like both an English and Spanish version of the app.' If nothing comes to mind, you're all set — just click Generate below. [SHOW_GENERATE_BUTTON]"
 
 After [SHOW_GENERATE_BUTTON] is shown, the founder will click a Generate My Plan button. You will NOT receive another message. Do not wait for a reply.`;
 
