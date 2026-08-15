@@ -2240,6 +2240,11 @@ async function sendDocuments(auto = false) {
   if (!outputs || (!outputs.prd && !outputs.sequence && !outputs.integration)) return;
   const btn = document.getElementById('send-email-btn');
   if (btn) { btn.disabled = true; btn.textContent = '✉ Sending...'; }
+  // Extract app name from generated outputs (same logic as downloadOutput)
+  const prdMatch = (outputs.prd||'').match(/KAIZAN CLARITY PRD[^—\n]*—\s*([^\n]+)/i);
+  const seqMatch = (outputs.sequence||'').match(/LOVABLE PROMPT BUILD SEQUENCE[^—\n]*—\s*([^\n]+)/i);
+  const rawName  = (prdMatch||seqMatch)?.[1]?.trim() || '';
+  const appSlug  = rawName ? rawName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'') : '';
   try {
     const response = await fetch('/api/send-documents', {
       method: 'POST',
@@ -2250,6 +2255,8 @@ async function sendDocuments(auto = false) {
         sequence:    outputs.sequence     || '',
         integration: outputs.integration  || '',
         timestamp:   new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+        appName:     rawName,
+        appSlug:     appSlug,
       })
     });
     if (!response.ok) throw new Error('Server error ' + response.status);
