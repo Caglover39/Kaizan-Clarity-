@@ -1682,7 +1682,9 @@ Q9 — MAGIC MOMENT
 Ask: "Question 9 of 10: What's the moment when a user thinks 'this is exactly what I needed'? Picture the first time someone successfully does the core thing your app was built for — what did they just see, do, or feel?"
 
 Q10 — TECH STACK ANNOUNCEMENT + DOCS PREVIEW + OPTIONAL INFO
-This is the final step before document generation. Do NOT ask the founder to confirm the tech stack — announce it as a statement. Then describe all 3 output documents so the founder knows exactly what they're getting and why each matters. Then ask one optional question. End with [SHOW_GENERATE_BUTTON].
+⚠️ CRITICAL: Your Q10 response MUST end with [SHOW_GENERATE_BUTTON] on its own line at the very end. This marker triggers the Generate button. If you omit it, the user cannot proceed. Do not end your response without it.
+
+Announce the tech stack as a statement (not a question). Describe the 3 output documents. Ask the optional question. Then close with [SHOW_GENERATE_BUTTON] on its own line.
 
 Say: "Question 10 of 10: Almost there — here's everything I've put together for [App Name].
 
@@ -1713,7 +1715,9 @@ Personalized setup instructions for every tool in your tech stack, in the exact 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 💬 One last thing — and this is completely optional:
-Would you like to share any additional information that may be relevant to your app? For example: 'I would like both an English and Spanish version of the app.' If nothing comes to mind, you're all set — just click Generate below. [SHOW_GENERATE_BUTTON]"
+Would you like to share any additional information that may be relevant to your app? For example: 'I would like both an English and Spanish version of the app.' If nothing comes to mind, you're all set — just click Generate below."
+
+[SHOW_GENERATE_BUTTON]
 
 After [SHOW_GENERATE_BUTTON] is shown, the founder will click a Generate My Plan button. You will NOT receive another message. Do not wait for a reply.`;
 
@@ -2317,7 +2321,7 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 500,
+        max_tokens: 900,
         system: SYSTEM_PROMPT,
         messages: messages.map(m => ({role: m.role, content: m.content}))
       })
@@ -2337,7 +2341,7 @@ async function sendMessage() {
     if (reply.includes('[SHOW_Q7_CHECKBOXES]')) {
       setTimeout(() => renderQ7Widget(), 300);
       isBusy = false;
-    } else if (reply.includes('[SHOW_GENERATE_BUTTON]')) {
+    } else if (reply.includes('[SHOW_GENERATE_BUTTON]') || messages.filter(m=>m.role==='user').length >= 9) {
       setTimeout(() => showGenerateArea(), 300);
       isBusy = false;
     } else if (reply.includes('[DOCUMENTS_READY]')) {
@@ -2436,7 +2440,7 @@ async function sendViaAPI() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 600,
+        max_tokens: 900,
         system: SYSTEM_PROMPT,
         messages: messages.map(m => ({ role: m.role, content: m.content }))
       })
@@ -2454,7 +2458,7 @@ async function sendViaAPI() {
     messages.push(aMsg); renderMessage(aMsg, true);
     if (reply.includes('[SHOW_Q7_CHECKBOXES]')) {
       setTimeout(() => renderQ7Widget(), 300); isBusy = false;
-    } else if (reply.includes('[SHOW_GENERATE_BUTTON]')) {
+    } else if (reply.includes('[SHOW_GENERATE_BUTTON]') || messages.filter(m=>m.role==='user').length >= 9) {
       setTimeout(() => showGenerateArea(), 300); isBusy = false;
     } else if (reply.includes('[DOCUMENTS_READY]')) {
       isBusy = false; setTimeout(() => generateOutputs(), 600);
@@ -2471,6 +2475,8 @@ async function sendViaAPI() {
 
 // ── Generate Button Area ──
 function showGenerateArea() {
+  // Guard: don't show if already visible or generation running
+  if (document.getElementById('generate-area').style.display === 'flex') return;
   // Switch progress to "Almost Ready"
   const pNorm = document.getElementById('progress-normal');
   const pAlmost = document.getElementById('progress-almost');
