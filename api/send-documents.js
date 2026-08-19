@@ -43,21 +43,25 @@ module.exports = async (req, res) => {
       body = JSON.parse(Buffer.concat(chunks).toString());
     }
 
-    const { email, prd, sequence, integration, timestamp } = body;
+    const { email, prd, sequence, integration, timestamp, appName, appSlug } = body;
 
     if (!email) return res.status(400).json({ error: 'Email address required' });
 
+    // Use app name for filenames — fall back to 'my-app' if not provided
+    const slug    = appSlug  || 'my-app';
+    const display = appName  || 'Your App';
+
     const attachments = [];
-    if (prd)         attachments.push({ filename: 'kaizan-clarity-prd.txt',                    content: Buffer.from(prd).toString('base64') });
-    if (sequence)    attachments.push({ filename: 'kaizan-clarity-prompt-build-sequence.txt',   content: Buffer.from(sequence).toString('base64') });
-    if (integration) attachments.push({ filename: 'kaizan-clarity-tech-api-integration-guide.txt', content: Buffer.from(integration).toString('base64') });
+    if (prd)         attachments.push({ filename: `${slug}-prd.txt`,                        content: Buffer.from(prd).toString('base64') });
+    if (sequence)    attachments.push({ filename: `${slug}-prompt-build-sequence.txt`,       content: Buffer.from(sequence).toString('base64') });
+    if (integration) attachments.push({ filename: `${slug}-tech-api-integration-guide.txt`, content: Buffer.from(integration).toString('base64') });
 
     // 1 — Send documents to tester
     const testerResult = await resendRequest(apiKey, {
       from: 'carol@kaizanaistudios.com',
       to:   email,
-      subject: 'Your Kaizan Clarity Documents Are Ready',
-      text: `Hi there,\n\nThank you for using Kaizan Clarity! Your three documents are attached to this email:\n\n• Product Requirements Document (PRD)\n• Prompt Build Sequence (includes your Viability Assessment)\n• Tech/API Integration Guide\n\nPaste the prompts from your Prompt Build Sequence into Lovable one at a time, in order. Use your Tech/API Integration Guide when you reach integrations like Stripe or Supabase.\n\nIf you have any questions, reply to this email.\n\nBest,\nCarol\nFounder, Kaizan AI Studios\nkaizanaistudios.com`,
+      subject: `Your ${display} Documents Are Ready — Kaizan Clarity`,
+      text: `Hi there,\n\nYour Kaizan Clarity documents for ${display} are attached to this email:\n\n• Product Requirements Document (PRD)\n• Prompt Build Sequence (includes your Viability Assessment)\n• Tech/API Integration Guide\n\nPaste the prompts from your Prompt Build Sequence into Lovable one at a time, in order. Use your Tech/API Integration Guide when you reach integrations like Stripe or Supabase.\n\nIf you have any questions, reply to this email.\n\nBest,\nCarol\nFounder, Kaizan AI Studios\nkaizanaistudios.com`,
       attachments,
     });
 
@@ -67,7 +71,7 @@ module.exports = async (req, res) => {
       from: 'carol@kaizanaistudios.com',
       to:   'caglover39@gmail.com',
       subject: `Kaizan Clarity — Session Completed by ${email}`,
-      text: `A beta tester just completed a Kaizan Clarity session.\n\nEmail: ${email}\nCompleted: ${sessionTime}\n\nDocuments were automatically sent to their email.`,
+      text: `A beta tester just completed a Kaizan Clarity session.\n\nEmail: ${email}\nApp: ${display}\nCompleted: ${sessionTime}\n\nDocuments were automatically sent to their email.`,
     });
 
     if (testerResult.statusCode >= 200 && testerResult.statusCode < 300) {
