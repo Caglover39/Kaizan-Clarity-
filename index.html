@@ -2240,9 +2240,10 @@ async function apiCall(systemPrompt, maxTokens) {
 
 async function sendDocuments(auto = false) {
   if (!outputs || (!outputs.prd && !outputs.sequence && !outputs.integration)) return;
+  if (!userEmail) { console.warn('sendDocuments: no userEmail set'); return; }
   const btn = document.getElementById('send-email-btn');
   if (btn) { btn.disabled = true; btn.textContent = '✉ Sending...'; }
-  // Extract app name from generated outputs (same logic as downloadOutput)
+  // Extract app name from generated outputs
   const prdMatch = (outputs.prd||'').match(/KAIZAN CLARITY PRD[^—\n]*—\s*([^\n]+)/i);
   const seqMatch = (outputs.sequence||'').match(/LOVABLE PROMPT BUILD SEQUENCE[^—\n]*—\s*([^\n]+)/i);
   const rawName  = (prdMatch||seqMatch)?.[1]?.trim() || '';
@@ -2261,12 +2262,18 @@ async function sendDocuments(auto = false) {
         appSlug:     appSlug,
       })
     });
-    if (!response.ok) throw new Error('Server error ' + response.status);
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(`Server ${response.status}: ${errText}`);
+    }
     if (btn) { btn.disabled = false; btn.textContent = '✉ Sent ✓'; btn.style.color = '#3AC97A'; }
   } catch(e) {
     console.error('sendDocuments error:', e);
-    if (btn) { btn.disabled = false; btn.textContent = '✉ Send to Email'; }
-    if (!auto) alert('Email failed — please use the Download or Copy buttons instead.');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '✉ Email Failed — Click to Retry';
+      btn.style.color = '#F87171';
+    }
   }
 }
 
@@ -2424,6 +2431,13 @@ function renderQ7Widget() {
 }
 
 function submitQ7() {
+  // Guard: prevent double-click or repeat submission
+  const widgetRow = document.getElementById('q7-widget-row');
+  if (!widgetRow || isBusy) return;
+  isBusy = true;
+  // Disable submit button immediately so it can't fire twice
+  const submitBtn = widgetRow.querySelector('.q7-submit-btn');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
   const lines = Q7_FEATURES.map(feat => {
     const checked = document.querySelector(`input[name="q7-${feat.id}"]:checked`);
     return `• ${feat.label}: ${checked ? checked.value : 'Not Sure'}`;
@@ -2432,12 +2446,11 @@ function submitQ7() {
   if (other) lines.push(`• Other needs: ${other}`);
   const answer = lines.join('\n');
   // Remove widget
-  const widgetRow = document.getElementById('q7-widget-row');
-  if (widgetRow) widgetRow.remove();
+  widgetRow.remove();
   // Add user message
   const userMsg = { role:'user', content: answer };
   messages.push(userMsg); renderMessage(userMsg, true);
-  updateProgress(); showTyping(); isBusy = true;
+  updateProgress(); showTyping();
   sendViaAPI();
 }
 
