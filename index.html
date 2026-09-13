@@ -1395,10 +1395,12 @@ body.light #landing .lp-beta-cta .lp-cta-btn {
     <div class="eg-note">Beta testers only. No spam — just a follow-up after the beta.</div>
     <button class="eg-btn" onclick="startWithEmail()">Start My Brief →</button>
     <div class="eg-error" id="email-error">Please enter a valid email address.</div>
+    <div id="test-mode-wrap" style="display:none;margin-top:16px;text-align:center">
+      <div style="font-size:11px;color:#2E3A55;margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase">Owner Only</div>
+      <button onclick="startTestMode()" style="background:#1A2A1A;border:1px solid #2E5A2E;color:#4A9A4A;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:'Inter',system-ui">🧪 Skip to Test Mode — Generate Instantly</button>
+    </div>
   </div>
 </div>
-
-<!-- ══ CHAT VIEW ══ -->
 <div id="app">
   <div id="header">
     <div class="logo">
@@ -2078,6 +2080,7 @@ function validateCode() {
     currentCodeType = 'owner';
     document.getElementById('code-gate').style.display = 'none';
     document.getElementById('email-gate').style.display = 'flex';
+    document.getElementById('test-mode-wrap').style.display = 'block';
     setTimeout(() => document.getElementById('email-input').focus(), 100);
     return;
   }
@@ -2520,6 +2523,52 @@ function clickGenerate() {
   messages.push(userMsg); renderMessage(userMsg, true);
   document.getElementById('generate-area').style.display = 'none';
   generateOutputs();
+}
+
+// ── Test Mode — pre-fills TaskFlow sample app and fires generation ──
+function startTestMode() {
+  userEmail = 'owner@kaizan-test.com';
+  document.getElementById('email-gate').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  // Pre-fill all 10 Q&A pairs with a realistic sample app
+  messages = [
+    { role: 'assistant', content: OPENER },
+    { role: 'user',      content: 'TaskFlow — a task and invoice management app for freelancers. I am a freelance designer and I need a simple way to track client projects, log hours, and send invoices all in one place. Currently using spreadsheets and it is a mess.' },
+    { role: 'assistant', content: 'Question 2 of 10: Tell me about your target user and the problems they face.' },
+    { role: 'user',      content: 'Freelance designers and developers, ages 25-45, who manage 3-10 clients at a time. Main problems: forgetting deadlines, losing track of billable hours, and chasing late payments. They want something simpler than tools like Harvest or FreshBooks.' },
+    { role: 'assistant', content: 'Question 3 of 10: What pages and features does your app need?' },
+    { role: 'user',      content: 'Dashboard showing all active projects at a glance. Project detail page with tasks and deadline tracker. Time logging per project. Invoice generator that pulls from logged hours. Client contact list. Settings for rates and profile.' },
+    { role: 'assistant', content: 'Question 4 of 10: Describe your brand and design direction.' },
+    { role: 'user',      content: 'Clean, minimal, and professional. Dark mode with white and teal accents. Should feel calm and organized — not busy or overwhelming. Similar vibe to Linear or Notion but simpler.' },
+    { role: 'assistant', content: 'Question 5 of 10: How will you make money from this app?' },
+    { role: 'user',      content: 'Monthly subscription at $12/month. Annual plan at $99/year. Free tier allows up to 2 active projects. Paid plan is unlimited projects and clients plus invoice export.' },
+    { role: 'assistant', content: 'Question 6 of 10: Who are your competitors and what is your timeline?' },
+    { role: 'user',      content: 'Main competitors are Harvest, Toggl Track, and FreshBooks. My advantage is simplicity — those apps are bloated. Goal is to launch a working MVP in 8 weeks. I want to get my first 10 paying users within 30 days of launch.' },
+    { role: 'assistant', content: 'Question 7 of 10: [SHOW_Q7_CHECKBOXES displayed — user submitted selections]' },
+    { role: 'user',      content: '• User accounts & login: Yes\n• Payment processing: Yes\n• Email or push notifications: Yes\n• SMS / text messaging: No\n• File or image uploads: No\n• Maps or location features: No\n• AI-generated content or recommendations: No\n• Admin dashboard to manage users or content: Yes' },
+    { role: 'assistant', content: 'Question 8 of 10: Any constraints I should know about?' },
+    { role: 'user',      content: 'Budget is $300/month max for tools and hosting. I have no coding background — using Lovable to build everything. Needs to work well on mobile since I often log time from my phone. Must be fast to set up — I cannot spend weeks on configuration.' },
+    { role: 'assistant', content: 'Question 9 of 10: What is the magic moment for your user?' },
+    { role: 'user',      content: 'When a freelancer logs their final hour on a project, clicks Generate Invoice, and it creates a professional PDF invoice in 3 seconds that they can send directly to the client. That moment where the work becomes money — instantly.' },
+    { role: 'assistant', content: 'Question 10 of 10: [Tech stack + document preview displayed]' },
+    { role: 'user',      content: 'Ready — please generate my documents.' },
+  ];
+
+  // Render messages and reset UI
+  messagesEl.innerHTML = '';
+  messages.forEach(msg => renderMessage(msg, false));
+  progressFill.style.width = '100%';
+  const pNorm = document.getElementById('progress-normal');
+  const pAlmost = document.getElementById('progress-almost');
+  if (pNorm) pNorm.style.display = 'none';
+  if (pAlmost) pAlmost.style.display = 'inline';
+  document.getElementById('input-row').style.display = 'none';
+  document.getElementById('input-hint').style.display = 'none';
+  scrollBottom();
+
+  // Fire generation immediately
+  setTimeout(() => generateOutputs(), 500);
 }
 
 function initChat() {
