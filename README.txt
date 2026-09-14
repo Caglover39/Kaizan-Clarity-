@@ -77,5 +77,5 @@ Anthropic API: ~$0.50 per completed session
 10 testers:    ~$10 total maximum
 
 ───────────────────────────────────────────────────────
-Kaizan AI Studios · kaizanai.com
+Kaizan AI Studios · kaizanaistudios.com
 ═══════════════════════════════════════════════════════
