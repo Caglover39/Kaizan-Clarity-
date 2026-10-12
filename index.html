@@ -2623,6 +2623,7 @@ function initChat() {
   inputEl.placeholder = 'Type your answer…';
   const stored = localStorage.getItem('kc_outputs');
   if (stored) { try { outputs = JSON.parse(stored); } catch(e) {} }
+  setInputEnabled(true);
   renderMessage(messages[0]);
   inputEl.focus();
 }
