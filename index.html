@@ -2179,6 +2179,10 @@ function parseOutputs(text) {
 function scrollBottom() { setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50); }
 
 function renderMessage(msg, isNew = false) {
+  // Single-question mode: hide all previous rows when a new assistant question arrives
+  if (isNew && msg.role === 'assistant' && !msg.isOutput) {
+    messagesEl.querySelectorAll('.msg-row').forEach(r => { r.style.display = 'none'; });
+  }
   const row = document.createElement('div');
   row.className = 'msg-row ' + msg.role + (isNew ? ' msg-enter' : '');
   if (msg.role === 'assistant') { const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '✦'; row.appendChild(av); }
@@ -2517,6 +2521,14 @@ async function sendViaAPI() {
 function showGenerateArea() {
   // Guard: don't show if already visible or generation running
   if (document.getElementById('generate-area').style.display === 'flex') return;
+  // Hide all previous messages and show completion summary
+  messagesEl.querySelectorAll('.msg-row').forEach(r => { r.style.display = 'none'; });
+  const summaryRow = document.createElement('div');
+  summaryRow.className = 'msg-row assistant msg-enter';
+  summaryRow.id = 'completion-summary';
+  summaryRow.innerHTML = `<div class="avatar">✦</div><div class="bubble assistant"><div style="color:#3AC97A;font-weight:700;font-size:16px;margin-bottom:8px">✓ 10 questions answered</div><div style="color:#F5F5F5;font-size:15px;line-height:1.7">You're all set — your plan is ready to generate. Add any final notes below, or just click the button.</div></div>`;
+  messagesEl.appendChild(summaryRow);
+  scrollBottom();
   // Switch progress to "Almost Ready"
   const pNorm = document.getElementById('progress-normal');
   const pAlmost = document.getElementById('progress-almost');
