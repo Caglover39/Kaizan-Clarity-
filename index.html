@@ -2285,7 +2285,7 @@ function clickGenerate() {
 
 // ── Test Mode — pre-fills TaskFlow sample app and fires generation ──
 function startTestMode() {
-  userEmail = 'owner@kaizan-test.com';
+  userEmail = prompt('Test mode — enter your email to receive documents:', 'caglover39@gmail.com') || 'caglover39@gmail.com';
   document.getElementById('email-gate').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
 
@@ -2386,9 +2386,14 @@ function resetSession() {
   document.getElementById('output-view').style.display = 'none';
 
   if (currentCodeType === 'owner') {
-    // Owner — skip code gate, go straight back to a fresh chat
-    initChat();
-    document.getElementById('app').style.display = 'flex';
+    // Owner — skip code gate but always re-confirm email for each new session
+    userEmail = '';
+    document.getElementById('email-input').value = '';
+    document.getElementById('email-error').style.display = 'none';
+    document.getElementById('test-mode-wrap').style.display = 'block';
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('email-gate').style.display = 'flex';
+    setTimeout(() => document.getElementById('email-input').focus(), 100);
   } else {
     // Beta — back to code gate so session tracking applies
     document.getElementById('app').style.display = 'none';
