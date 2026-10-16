@@ -36,6 +36,40 @@ function scoreBadgeLabel(score) {
   return 'Needs Work';
 }
 
+function buildTextReport(data) {
+  const { appName, overall, dimensions, keyInsight, strengths, risks } = data;
+  const label = scoreBadgeLabel(overall);
+  const divider = '─'.repeat(60);
+
+  let txt = `KAIZAN CLARITY — VIABILITY ASSESSMENT\n${divider}\n\n`;
+  txt += `App Idea:  ${appName || 'Your App Idea'}\n`;
+  txt += `Score:     ${overall}/100  (${label})\n\n`;
+  txt += `${divider}\nDIMENSION SCORES\n${divider}\n\n`;
+
+  (dimensions || []).forEach(dim => {
+    const bar = '█'.repeat(Math.round(dim.score / 5)) + '░'.repeat(20 - Math.round(dim.score / 5));
+    txt += `${dim.name.padEnd(26)} ${String(dim.score).padStart(3)}/100\n`;
+    txt += `[${bar}]\n`;
+    txt += `${dim.insight}\n\n`;
+  });
+
+  txt += `${divider}\nKEY INSIGHT\n${divider}\n\n${keyInsight || ''}\n\n`;
+
+  txt += `${divider}\nSTRENGTHS\n${divider}\n\n`;
+  (strengths || []).forEach(s => { txt += `✓  ${s}\n`; });
+
+  txt += `\n${divider}\nRISKS TO ADDRESS\n${divider}\n\n`;
+  (risks || []).forEach(r => { txt += `△  ${r}\n`; });
+
+  txt += `\n${divider}\nREADY TO BUILD?\n${divider}\n\n`;
+  txt += `Get your complete 5-document build plan — PRD, Prompt Build Sequence,\n`;
+  txt += `Tech Integration Guide, Niche Analysis, and Marketing Messaging.\n\n`;
+  txt += `Unlock My Full Plan — $37\nhttps://www.kaizanclarity.com/#pricing\n\n`;
+  txt += `${divider}\nKaizan Clarity · Kaizan AI Studios · kaizanclarity.com\n`;
+
+  return txt;
+}
+
 function buildHtmlEmail(data) {
   const { appName, overall, dimensions, keyInsight, strengths, risks } = data;
   const badgeColor = scoreBadgeColor(overall);
@@ -211,6 +245,7 @@ module.exports = async (req, res) => {
     if (!scoreData) return res.status(400).json({ error: 'scoreData required' });
 
     const appName = scoreData.appName || 'Your App Idea';
+    const appSlug = appName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
     // 1 — Send score report to user
     const userResult = await resendRequest(apiKey, {
@@ -218,6 +253,12 @@ module.exports = async (req, res) => {
       to:   email,
       subject: `Your Viability Score for ${appName} — Kaizan Clarity`,
       html:    buildHtmlEmail(scoreData),
+      attachments: [
+        {
+          filename: `${appSlug}-viability-score.txt`,
+          content:  Buffer.from(buildTextReport(scoreData)).toString('base64'),
+        }
+      ],
     });
 
     // 2 — Notify Carol
