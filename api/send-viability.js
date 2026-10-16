@@ -247,19 +247,27 @@ module.exports = async (req, res) => {
     const appName = scoreData.appName || 'Your App Idea';
     const appSlug = appName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+    // Build attachment — fall back gracefully if text generation fails
+    let attachments = [];
+    try {
+      attachments = [{
+        filename: `${appSlug}-viability-score.txt`,
+        content:  Buffer.from(buildTextReport(scoreData), 'utf8').toString('base64'),
+      }];
+    } catch (attachErr) {
+      console.error('Attachment build failed, sending without it:', attachErr);
+    }
+
     // 1 — Send score report to user
-    const userResult = await resendRequest(apiKey, {
-      from: 'carol@kaizanaistudios.com',
-      to:   email,
+    const emailPayload = {
+      from:    'carol@kaizanaistudios.com',
+      to:      email,
       subject: `Your Viability Score for ${appName} — Kaizan Clarity`,
       html:    buildHtmlEmail(scoreData),
-      attachments: [
-        {
-          filename: `${appSlug}-viability-score.txt`,
-          content:  Buffer.from(buildTextReport(scoreData)).toString('base64'),
-        }
-      ],
-    });
+    };
+    if (attachments.length > 0) emailPayload.attachments = attachments;
+
+    const userResult = await resendRequest(apiKey, emailPayload);
 
     // 2 — Notify Carol
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
