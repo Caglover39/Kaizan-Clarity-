@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
       body = JSON.parse(Buffer.concat(chunks).toString());
     }
 
-    const { email, prd, sequence, integration, timestamp, appName, appSlug } = body;
+    const { email, prd, sequence, integration, niche, marketing, timestamp, appName, appSlug } = body;
 
     if (!email) return res.status(400).json({ error: 'Email address required' });
 
@@ -53,6 +53,8 @@ module.exports = async (req, res) => {
 
     const attachments = [];
     if (prd)         attachments.push({ filename: `${slug}-prd.txt`,                        content: Buffer.from(prd).toString('base64') });
+    if (niche)       attachments.push({ filename: `${slug}-niche-analysis.txt`,              content: Buffer.from(niche).toString('base64') });
+    if (marketing)   attachments.push({ filename: `${slug}-marketing-messaging.txt`,         content: Buffer.from(marketing).toString('base64') });
     if (sequence)    attachments.push({ filename: `${slug}-prompt-build-sequence.txt`,       content: Buffer.from(sequence).toString('base64') });
     if (integration) attachments.push({ filename: `${slug}-tech-api-integration-guide.txt`, content: Buffer.from(integration).toString('base64') });
 
@@ -61,7 +63,7 @@ module.exports = async (req, res) => {
       from: 'carol@kaizanaistudios.com',
       to:   email,
       subject: `Your ${display} Documents Are Ready — Kaizan Clarity`,
-      text: `Hi there,\n\nYour Kaizan Clarity documents for ${display} are attached to this email:\n\n• Product Requirements Document (PRD)\n• Prompt Build Sequence (includes your Viability Assessment)\n• Tech/API Integration Guide\n\nPaste the prompts from your Prompt Build Sequence into Lovable one at a time, in order. Use your Tech/API Integration Guide when you reach integrations like Stripe or Supabase.\n\nIf you have any questions, reply to this email.\n\nBest,\nCarol\nFounder, Kaizan AI Studios\nkaizanaistudios.com`,
+      text: `Hi there,\n\nYour Kaizan Clarity documents for ${display} are attached to this email:\n\n• Product Requirements Document (PRD)\n• Niche Analysis\n• Marketing Messaging\n• Prompt Build Sequence\n• Tech/API Integration Guide\n\nPaste the prompts from your Prompt Build Sequence into Lovable one at a time, in order. Use your Niche Analysis and Marketing Messaging to guide your launch, and the Tech/API Integration Guide when you reach integrations like Stripe or Supabase.\n\nIf you have any questions, reply to this email.\n\nBest,\nCarol\nFounder, Kaizan AI Studios\nkaizanaistudios.com`,
       attachments,
     });
 
@@ -71,7 +73,7 @@ module.exports = async (req, res) => {
       from: 'carol@kaizanaistudios.com',
       to:   'caglover39@gmail.com',
       subject: `Kaizan Clarity — Session Completed by ${email}`,
-      text: `A beta tester just completed a Kaizan Clarity session.\n\nEmail: ${email}\nApp: ${display}\nCompleted: ${sessionTime}\n\nDocuments were automatically sent to their email.`,
+      text: `A tester just completed a Kaizan Clarity session.\n\nEmail: ${email}\nApp: ${display}\nCompleted: ${sessionTime}\n\n5 documents sent: PRD, Niche Analysis, Marketing Messaging, Prompt Build Sequence, Tech/API Integration Guide.`,
     });
 
     if (testerResult.statusCode >= 200 && testerResult.statusCode < 300) {
