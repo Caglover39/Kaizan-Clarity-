@@ -613,6 +613,227 @@ a:hover { text-decoration: underline; }
   margin-top: 10px; text-align: center;
 }
 
+/* ── VIABILITY SCORE FLOW ─────────────────────────────────────── */
+#vs-gate, #vs-wizard, #vs-generating, #vs-error {
+  position: fixed; inset: 0; z-index: 100;
+  display: none; align-items: center; justify-content: center;
+  background: var(--bg);
+}
+/* vs-gate reuses .eg-card / .eg-* styles — no extra card CSS needed */
+.vs-wizard-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 44px 40px;
+  width: 100%; max-width: 520px; position: relative;
+}
+.vs-wiz-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 32px;
+}
+.vs-close-btn {
+  background: none; border: none; color: var(--text-3);
+  font-size: 18px; cursor: pointer; padding: 4px 8px;
+  line-height: 1; transition: color .15s;
+}
+.vs-close-btn:hover { color: var(--text); }
+.vs-progress-row { margin-bottom: 28px; }
+.vs-progress-bg {
+  height: 3px; background: var(--border); border-radius: 2px; overflow: hidden;
+}
+.vs-progress-fill {
+  height: 100%; background: var(--accent-dim); border-radius: 2px;
+  transition: width .4s ease; width: 0%;
+}
+.vs-q-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--accent-dim);
+  margin-bottom: 10px;
+}
+.vs-q-text {
+  font-family: var(--font-serif); font-size: 24px; font-weight: 400;
+  color: var(--text); margin-bottom: 8px; line-height: 1.3;
+}
+.vs-q-sub {
+  font-size: 14px; color: var(--text-3); margin-bottom: 22px; line-height: 1.55;
+}
+.vs-answer {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); color: var(--text); font-family: var(--font-sans);
+  font-size: 14px; line-height: 1.6; padding: 14px 16px;
+  resize: vertical; min-height: 96px; box-sizing: border-box;
+  margin-bottom: 6px; transition: border-color .15s;
+}
+.vs-answer:focus { outline: none; border-color: var(--accent-dim); }
+.vs-btn-row {
+  display: flex; gap: 12px; align-items: center;
+  justify-content: flex-end; margin-top: 14px;
+}
+.vs-back-q {
+  background: none; border: 1px solid var(--border); border-radius: var(--r-pill);
+  color: var(--text-3); font-family: var(--font-sans); font-size: 14px;
+  font-weight: 500; padding: 11px 20px; cursor: pointer; transition: all .15s;
+}
+.vs-back-q:hover { border-color: var(--accent-dim); color: var(--text); }
+.vs-next-btn {
+  background: var(--accent); border: none; border-radius: var(--r-pill);
+  color: #0c0b10; font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+  padding: 13px 28px; cursor: pointer; transition: opacity .15s;
+}
+.vs-next-btn:hover { opacity: .88; }
+/* Generating / Error card */
+.vs-gen-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 56px 40px;
+  width: 100%; max-width: 440px; text-align: center;
+}
+.vs-spinner {
+  width: 40px; height: 40px; border: 2px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  margin: 0 auto 28px; animation: vs-spin .9s linear infinite;
+}
+@keyframes vs-spin { to { transform: rotate(360deg); } }
+.vs-gen-title {
+  font-family: var(--font-serif); font-size: 22px; color: var(--text);
+  margin-bottom: 10px;
+}
+.vs-gen-sub { font-size: 14px; color: var(--text-3); line-height: 1.6; }
+/* Output screen */
+#vs-out {
+  position: fixed; inset: 0; z-index: 100;
+  display: none; background: var(--bg); overflow-y: auto;
+}
+.vs-out-header {
+  position: sticky; top: 0; z-index: 10; background: rgba(12,11,16,.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px;
+}
+.vs-out-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  color: var(--text);
+}
+.vs-out-brand-mark { color: var(--accent); font-size: 16px; }
+.vs-out-nav { display: flex; align-items: center; gap: 10px; }
+.vs-out-nav button {
+  background: none; border: 1px solid var(--border); border-radius: var(--r-pill);
+  color: var(--text-3); font-family: var(--font-sans); font-size: 13px;
+  font-weight: 500; padding: 7px 14px; cursor: pointer; transition: all .15s;
+}
+.vs-out-nav button:hover { border-color: var(--accent-dim); color: var(--text); }
+.vs-upgrade-nav-btn {
+  background: var(--accent) !important; border-color: transparent !important;
+  color: #0c0b10 !important;
+}
+.vs-upgrade-nav-btn:hover { opacity: .88; }
+.vs-report {
+  max-width: 720px; margin: 0 auto; padding: 48px 24px 80px;
+}
+.vs-report-eyebrow {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--accent-dim);
+  margin-bottom: 8px;
+}
+.vs-report-app {
+  font-family: var(--font-serif); font-size: 28px; font-weight: 400;
+  color: var(--text); margin-bottom: 28px; line-height: 1.3;
+}
+.vs-score-row {
+  display: flex; align-items: center; gap: 20px;
+  padding-bottom: 32px; margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.vs-score-big { display: flex; align-items: baseline; gap: 4px; }
+.vs-score-num {
+  font-family: var(--font-serif); font-size: 72px; font-weight: 400;
+  color: var(--accent); line-height: 1;
+}
+.vs-score-denom {
+  font-family: var(--font-serif); font-size: 32px; color: var(--text-3);
+}
+.vs-score-badge {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 5px 12px; border-radius: 4px;
+}
+.vs-score-badge.high { color: var(--green); background: rgba(58,201,122,.12); }
+.vs-score-badge.mid  { color: var(--accent); background: var(--accent-glow); }
+.vs-score-badge.low  { color: #f9a84d; background: rgba(249,168,77,.12); }
+.vs-dims { display: flex; flex-direction: column; gap: 24px; margin-bottom: 36px; }
+.vs-dim-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.vs-dim-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.vs-dim-score {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  padding: 2px 8px; border-radius: 4px;
+}
+.vs-dim-score.high { color: var(--green); background: rgba(58,201,122,.12); }
+.vs-dim-score.mid  { color: var(--accent); background: var(--accent-glow); }
+.vs-dim-score.low  { color: #f9a84d; background: rgba(249,168,77,.12); }
+.vs-dim-bar {
+  height: 4px; background: var(--border); border-radius: 3px;
+  margin-bottom: 10px; overflow: hidden;
+}
+.vs-dim-fill { height: 100%; background: var(--accent-dim); border-radius: 3px; }
+.vs-dim-insight { font-size: 14px; color: var(--text-2); line-height: 1.6; margin: 0; }
+.vs-insight-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-dim); border-radius: var(--r-sm);
+  padding: 18px 20px; margin-bottom: 32px;
+}
+.vs-insight-label {
+  font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--accent-dim);
+  display: block; margin-bottom: 8px;
+}
+.vs-insight-text { font-size: 15px; color: var(--text); line-height: 1.65; margin: 0; }
+.vs-two-col {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; margin-bottom: 48px;
+}
+.vs-col-head {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 14px;
+}
+.vs-col-head.green { color: var(--green); }
+.vs-col-head.amber { color: #f9a84d; }
+.vs-list-item {
+  font-size: 14px; line-height: 1.6; padding: 10px 0;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; gap: 9px; align-items: flex-start; color: var(--text-2);
+}
+.vs-list-item:last-child { border-bottom: none; }
+.vs-list-icon { flex-shrink: 0; margin-top: 1px; }
+.vs-upgrade-box {
+  background: var(--surface); border: 1px solid rgba(185,168,255,.3);
+  border-radius: var(--r-card); padding: 40px; text-align: center;
+  margin-bottom: 40px;
+}
+.vs-upgrade-eyebrow {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--accent-dim); margin-bottom: 12px;
+}
+.vs-upgrade-title {
+  font-family: var(--font-serif); font-size: 26px; font-weight: 400;
+  color: var(--text); margin-bottom: 12px; line-height: 1.3;
+}
+.vs-upgrade-desc { font-size: 14px; color: var(--text-3); line-height: 1.65; margin-bottom: 28px; }
+.vs-upgrade-btn {
+  background: var(--accent); border: none; border-radius: var(--r-pill);
+  color: #0c0b10; font-family: var(--font-sans); font-size: 16px;
+  font-weight: 600; padding: 15px 36px; cursor: pointer;
+  transition: opacity .15s; display: inline-block; margin-bottom: 12px;
+}
+.vs-upgrade-btn:hover { opacity: .88; }
+.vs-upgrade-note { font-size: 12px; color: var(--text-3); }
+.vs-report-footer {
+  text-align: center; font-family: var(--font-mono); font-size: 11px;
+  color: var(--text-3); padding-top: 28px; border-top: 1px solid var(--border-soft);
+}
+
 /* ── APP ─────────────────────────────────────────────────────── */
 #app {
   display: none; flex-direction: column; min-height: 100vh;
@@ -1075,6 +1296,16 @@ a:hover { text-decoration: underline; }
   .pricing-grid { grid-template-columns: 1fr; }
   .lp-footer { padding: 24px 20px; }
   .cg-card, .eg-card { padding: 32px 24px; }
+  .vs-wizard-card { padding: 32px 24px; }
+  .vs-gen-card { padding: 40px 24px; }
+  .vs-out-header { padding: 12px 16px; }
+  .vs-upgrade-nav-btn { display: none; }
+  .vs-report { padding: 32px 16px 60px; }
+  .vs-score-num { font-size: 56px; }
+  .vs-score-denom { font-size: 24px; }
+  .vs-two-col { grid-template-columns: 1fr; gap: 16px; }
+  .vs-upgrade-box { padding: 28px 20px; }
+  .vs-q-text { font-size: 20px; }
   .header-row-1 { padding: 0 16px; }
   .header-row-2 { padding: 0 16px 10px; }
   #messages { padding: 20px 16px 12px; }
@@ -1108,14 +1339,14 @@ a:hover { text-decoration: underline; }
       <a class="lp-nav-link" href="#samples">Samples</a>
       <a class="lp-nav-link" href="#pricing">Pricing</a>
     </div>
-    <button class="lp-nav-btn" onclick="openWizard()">Get Started Free →</button>
+    <button class="lp-nav-btn" onclick="openViabilityFlow()">Get Started Free →</button>
   </nav>
 
   <section class="lp-hero">
     <p class="lp-eyebrow">AI App Planning Wizard</p>
     <h1 class="lp-h1">Turn your idea<br>into a <em>build plan.</em></h1>
     <p class="lp-hero-sub">Start with a free Viability Score &mdash; no payment required. Or go all in: answer 10 questions and get a complete 5-document build plan delivered to your inbox in about 20 minutes.</p>
-    <button class="lp-cta-btn" onclick="openWizard()">
+    <button class="lp-cta-btn" onclick="openViabilityFlow()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       Get My Free Viability Score &rarr;
     </button>
@@ -1423,7 +1654,7 @@ a:hover { text-decoration: underline; }
           <li>Key insight for your idea</li>
           <li>Instant results</li>
         </ul>
-        <button class="pricing-cta" onclick="openWizard()">Check My Idea Free &rarr;</button>
+        <button class="pricing-cta" onclick="openViabilityFlow()">Check My Idea Free &rarr;</button>
       </div>
       <div class="pricing-card featured">
         <div class="pricing-tier">Full Plan</div>
@@ -1496,6 +1727,120 @@ a:hover { text-decoration: underline; }
       <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px">Owner Only</div>
       <button onclick="startTestMode()" style="background:none;border:1px solid var(--border);border-radius:var(--r-pill);color:var(--text-3);font-family:var(--font-sans);font-size:13px;font-weight:500;padding:9px 20px;cursor:pointer;width:100%;transition:border-color .15s,color .15s" onmouseover="this.style.borderColor='var(--accent-dim)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-3)'">Run Test Mode &rarr;</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ VIABILITY SCORE: EMAIL GATE ══ -->
+<div id="vs-gate">
+  <div class="eg-card">
+    <button class="eg-back" onclick="backFromVsGate()">&#8592; Back</button>
+    <div class="eg-logo"><span class="eg-mark">&#10022;</span><span class="eg-name">Kaizan Clarity</span></div>
+    <div class="eg-title">Check your idea &mdash; free.</div>
+    <div class="eg-desc">4 focused questions. Your Viability Score in under 5 minutes. No payment, no commitment.</div>
+    <label class="eg-label" for="vs-email-input">Your email</label>
+    <input class="eg-input" id="vs-email-input" type="email" placeholder="you@example.com" autocomplete="email"/>
+    <div class="eg-note">We&rsquo;ll email your score so you can reference it later. No spam.</div>
+    <button class="eg-btn" onclick="startVsWizard()">Start Free &rarr;</button>
+    <div class="eg-error" id="vs-email-error">Please enter a valid email address.</div>
+  </div>
+</div>
+
+<!-- ══ VIABILITY SCORE: WIZARD ══ -->
+<div id="vs-wizard">
+  <div class="vs-wizard-card">
+    <div class="vs-wiz-header">
+      <div class="eg-logo"><span class="eg-mark">&#10022;</span><span class="eg-name">Kaizan Clarity</span></div>
+      <button class="vs-close-btn" onclick="vsGoHome()" title="Exit">&#10005;</button>
+    </div>
+    <div class="vs-progress-row">
+      <div class="vs-progress-bg"><div class="vs-progress-fill" id="vs-progress-fill"></div></div>
+    </div>
+    <div class="vs-q-label" id="vs-q-label">Q1 of 4</div>
+    <div class="vs-q-text" id="vs-q-text"></div>
+    <div class="vs-q-sub" id="vs-q-sub"></div>
+    <textarea class="vs-answer" id="vs-answer" rows="4" placeholder="Type your answer&hellip;"></textarea>
+    <div class="eg-error" id="vs-answer-error">Please enter a response before continuing.</div>
+    <div class="vs-btn-row">
+      <button class="vs-back-q" id="vs-back-q" onclick="vsPrevQuestion()" style="display:none">&#8592; Back</button>
+      <button class="vs-next-btn" id="vs-next-btn" onclick="vsNextQuestion()">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VIABILITY SCORE: GENERATING ══ -->
+<div id="vs-generating">
+  <div class="vs-gen-card">
+    <div class="eg-logo" style="margin-bottom:36px"><span class="eg-mark">&#10022;</span><span class="eg-name">Kaizan Clarity</span></div>
+    <div class="vs-spinner"></div>
+    <div class="vs-gen-title">Analyzing your idea&hellip;</div>
+    <div class="vs-gen-sub">Claude is scoring your idea across 4 dimensions. Usually takes 10&ndash;15 seconds.</div>
+  </div>
+</div>
+
+<!-- ══ VIABILITY SCORE: ERROR ══ -->
+<div id="vs-error">
+  <div class="vs-gen-card">
+    <div class="eg-logo" style="margin-bottom:36px"><span class="eg-mark">&#10022;</span><span class="eg-name">Kaizan Clarity</span></div>
+    <div style="font-size:36px;margin-bottom:16px">&#9888;</div>
+    <div class="vs-gen-title">Something went wrong</div>
+    <div class="vs-gen-sub" style="margin-bottom:28px">There was an error generating your score. Please try again.</div>
+    <button class="eg-btn" onclick="vsRetry()">Try Again &rarr;</button>
+    <button class="eg-back" style="position:static;margin-top:14px;display:block;text-align:center;width:100%" onclick="vsGoHome()">&#8592; Go Home</button>
+  </div>
+</div>
+
+<!-- ══ VIABILITY SCORE: REPORT ══ -->
+<div id="vs-out">
+  <div class="vs-out-header">
+    <div class="vs-out-brand">
+      <span class="vs-out-brand-mark">&#10022;</span>
+      <span>Kaizan Clarity</span>
+    </div>
+    <div class="vs-out-nav">
+      <button onclick="vsGoHome()">&#8592; Home</button>
+      <button class="vs-upgrade-nav-btn" onclick="openWizard()">Get Full Plan &mdash; $37 &rarr;</button>
+    </div>
+  </div>
+
+  <div class="vs-report">
+    <div class="vs-report-eyebrow">Viability Assessment</div>
+    <div class="vs-report-app" id="vs-report-app">Your App Idea</div>
+
+    <div class="vs-score-row">
+      <div class="vs-score-big">
+        <span class="vs-score-num" id="vs-report-score">--</span>
+        <span class="vs-score-denom">/100</span>
+      </div>
+      <span class="vs-score-badge" id="vs-score-label">&nbsp;</span>
+    </div>
+
+    <div class="vs-dims" id="vs-dimensions"></div>
+
+    <div class="vs-insight-box">
+      <span class="vs-insight-label">Key Insight</span>
+      <p class="vs-insight-text" id="vs-key-insight"></p>
+    </div>
+
+    <div class="vs-two-col">
+      <div class="vs-col">
+        <div class="vs-col-head green">Strengths</div>
+        <div id="vs-strengths"></div>
+      </div>
+      <div class="vs-col">
+        <div class="vs-col-head amber">Risks to Address</div>
+        <div id="vs-risks"></div>
+      </div>
+    </div>
+
+    <div class="vs-upgrade-box">
+      <div class="vs-upgrade-eyebrow">Ready to build?</div>
+      <div class="vs-upgrade-title">Get your complete 5-document build plan</div>
+      <p class="vs-upgrade-desc">PRD &middot; Prompt Build Sequence &middot; Tech Integration Guide &middot; Niche Analysis &middot; Marketing Messaging &mdash; emailed to your inbox instantly.</p>
+      <button class="vs-upgrade-btn" onclick="openWizard()">Unlock My Full Plan &mdash; $37 &rarr;</button>
+      <div class="vs-upgrade-note">One-time payment &middot; No subscription &middot; Yours to keep</div>
+    </div>
+
+    <div class="vs-report-footer">Generated by Kaizan Clarity &middot; Kaizan AI Studios &middot; kaizanclarity.com</div>
   </div>
 </div>
 
@@ -2141,6 +2486,227 @@ function switchSampleTab(tab) {
   document.querySelectorAll('.sample-panel').forEach(el => el.classList.remove('active'));
   const panel = document.getElementById('sample-' + tab);
   if (panel) panel.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  VIABILITY SCORE FLOW
+// ══════════════════════════════════════════════════════════════
+const VS_QUESTIONS = [
+  {
+    label: 'Question 1 of 4',
+    text: "What’s your app idea?",
+    sub: "What does it do and what problem does it solve? 2–3 sentences is perfect.",
+    placeholder: "e.g. A tool that helps freelance designers track their time and generate invoices in one click, because most existing tools are either too complex or too basic for solo freelancers."
+  },
+  {
+    label: 'Question 2 of 4',
+    text: "Who needs this most?",
+    sub: "Describe your target user — their role, situation, and the top frustration your app solves.",
+    placeholder: "e.g. Freelance web developers aged 25–40 who juggle 3–8 active clients. Their biggest frustration is spending an hour creating invoices that should take 5 minutes."
+  },
+  {
+    label: 'Question 3 of 4',
+    text: "How will it make money?",
+    sub: "Who pays, how much, and how often? Free tier? Subscription? One-time?",
+    placeholder: "e.g. $12/month subscription with a free tier limited to 2 active projects. Annual plan at $99/year."
+  },
+  {
+    label: 'Question 4 of 4',
+    text: "Is there anything like this already?",
+    sub: "Name 1–2 similar apps or alternatives. What makes yours different or better?",
+    placeholder: "e.g. Harvest and FreshBooks exist, but they’re overkill for solo freelancers. Mine focuses purely on speed — get an invoice out in under 30 seconds."
+  }
+];
+
+let vsAnswers = [];
+let vsCurrentQ = 0;
+let vsUserEmail = '';
+
+function openViabilityFlow() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('vs-gate').style.display = 'flex';
+  setTimeout(() => document.getElementById('vs-email-input').focus(), 100);
+}
+
+function backFromVsGate() {
+  document.getElementById('vs-gate').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+}
+
+function startVsWizard() {
+  const emailEl = document.getElementById('vs-email-input');
+  const errEl   = document.getElementById('vs-email-error');
+  const email   = emailEl.value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errEl.style.display = 'block';
+    emailEl.focus();
+    return;
+  }
+  errEl.style.display = 'none';
+  vsUserEmail = email;
+  vsAnswers   = [];
+  vsCurrentQ  = 0;
+  document.getElementById('vs-gate').style.display = 'none';
+  document.getElementById('vs-wizard').style.display = 'flex';
+  vsLoadQuestion();
+}
+
+function vsLoadQuestion() {
+  const q = VS_QUESTIONS[vsCurrentQ];
+  document.getElementById('vs-q-label').textContent    = q.label;
+  document.getElementById('vs-q-text').textContent     = q.text;
+  document.getElementById('vs-q-sub').textContent      = q.sub;
+  const ta = document.getElementById('vs-answer');
+  ta.placeholder = q.placeholder;
+  ta.value = vsAnswers[vsCurrentQ] || '';
+  document.getElementById('vs-answer-error').style.display = 'none';
+  // progress bar: 0% on Q1, 25% on Q2, 50% on Q3, 75% on Q4
+  document.getElementById('vs-progress-fill').style.width = (vsCurrentQ * 25) + '%';
+  // back button visibility
+  document.getElementById('vs-back-q').style.display = vsCurrentQ === 0 ? 'none' : 'inline-flex';
+  // next button label
+  document.getElementById('vs-next-btn').textContent = vsCurrentQ === 3 ? 'Generate My Score →' : 'Next →';
+  setTimeout(() => ta.focus(), 80);
+}
+
+function vsNextQuestion() {
+  const ta    = document.getElementById('vs-answer');
+  const errEl = document.getElementById('vs-answer-error');
+  const val   = ta.value.trim();
+  if (!val || val.length < 8) {
+    errEl.style.display = 'block';
+    ta.focus();
+    return;
+  }
+  errEl.style.display = 'none';
+  vsAnswers[vsCurrentQ] = val;
+  if (vsCurrentQ < 3) {
+    vsCurrentQ++;
+    vsLoadQuestion();
+  } else {
+    vsGenerate();
+  }
+}
+
+function vsPrevQuestion() {
+  if (vsCurrentQ > 0) {
+    vsCurrentQ--;
+    vsLoadQuestion();
+  }
+}
+
+async function vsGenerate() {
+  document.getElementById('vs-wizard').style.display    = 'none';
+  document.getElementById('vs-generating').style.display = 'flex';
+
+  const userContent = `Idea: ${vsAnswers[0]}\n\nTarget User: ${vsAnswers[1]}\n\nMonetization: ${vsAnswers[2]}\n\nDifferentiation vs Competitors: ${vsAnswers[3]}`;
+
+  const systemPrompt = `You are a startup viability analyst. Evaluate the app concept below and return ONLY a valid JSON object — no markdown, no code fences, no commentary. Use this exact schema:
+{
+  "appName": "A short 2-5 word name or descriptor for this app concept",
+  "overall": <integer 0-100, weighted average of dimensions>,
+  "dimensions": [
+    { "name": "Market Need", "score": <int>, "insight": "<one specific sentence about demand signal>" },
+    { "name": "Technical Feasibility", "score": <int>, "insight": "<one specific sentence about buildability>" },
+    { "name": "Monetization Clarity", "score": <int>, "insight": "<one specific sentence about the pricing model>" },
+    { "name": "Competitive Moat", "score": <int>, "insight": "<one specific sentence about differentiation>" }
+  ],
+  "keyInsight": "<1-2 sentences: the single most important thing to address before building>",
+  "strengths": ["<specific strength 1>", "<specific strength 2>"],
+  "risks": ["<specific risk 1>", "<specific risk 2>"]
+}
+Be direct and specific — base everything on the actual answers, not generic startup advice. Score honestly: most real ideas land between 55 and 80.`;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 900,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userContent }]
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'HTTP ' + res.status);
+    const raw   = data.content?.[0]?.text ?? '';
+    const clean = raw.replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/```\s*$/,'').trim();
+    const result = JSON.parse(clean);
+    vsRender(result);
+  } catch(e) {
+    console.error('Viability score error:', e);
+    document.getElementById('vs-generating').style.display = 'none';
+    document.getElementById('vs-error').style.display      = 'flex';
+  }
+}
+
+function vsRender(data) {
+  document.getElementById('vs-generating').style.display = 'none';
+
+  // App name + score
+  document.getElementById('vs-report-app').textContent   = data.appName || 'Your App Idea';
+  document.getElementById('vs-report-score').textContent = data.overall ?? '--';
+
+  // Score badge
+  const ov = data.overall ?? 0;
+  let badgeText = 'Needs Work', badgeCls = 'low';
+  if (ov >= 75) { badgeText = 'Strong Idea';     badgeCls = 'high'; }
+  else if (ov >= 60) { badgeText = 'Solid Potential'; badgeCls = 'mid';  }
+  const badgeEl = document.getElementById('vs-score-label');
+  badgeEl.textContent = badgeText;
+  badgeEl.className   = 'vs-score-badge ' + badgeCls;
+
+  // Dimensions
+  const dimsEl = document.getElementById('vs-dimensions');
+  dimsEl.innerHTML = '';
+  (data.dimensions || []).forEach(dim => {
+    const cls = dim.score >= 75 ? 'high' : dim.score >= 60 ? 'mid' : 'low';
+    const bar = document.createElement('div');
+    bar.innerHTML = `<div class="vs-dim-top">
+      <span class="vs-dim-name">${dim.name}</span>
+      <span class="vs-dim-score ${cls}">${dim.score}</span>
+    </div>
+    <div class="vs-dim-bar"><div class="vs-dim-fill" style="width:${Math.min(dim.score,100)}%"></div></div>
+    <p class="vs-dim-insight">${dim.insight}</p>`;
+    dimsEl.appendChild(bar);
+  });
+
+  // Key insight
+  document.getElementById('vs-key-insight').textContent = data.keyInsight || '';
+
+  // Strengths
+  const strengthsEl = document.getElementById('vs-strengths');
+  strengthsEl.innerHTML = '';
+  (data.strengths || []).forEach(s => {
+    strengthsEl.innerHTML += `<div class="vs-list-item"><span class="vs-list-icon" style="color:var(--green)">&#10003;</span><span>${s}</span></div>`;
+  });
+
+  // Risks
+  const risksEl = document.getElementById('vs-risks');
+  risksEl.innerHTML = '';
+  (data.risks || []).forEach(r => {
+    risksEl.innerHTML += `<div class="vs-list-item"><span class="vs-list-icon" style="color:#f9a84d">&#9651;</span><span>${r}</span></div>`;
+  });
+
+  document.getElementById('vs-out').style.display = 'block';
+  document.getElementById('vs-out').scrollTop = 0;
+}
+
+function vsRetry() {
+  document.getElementById('vs-error').style.display = 'none';
+  vsGenerate();
+}
+
+function vsGoHome() {
+  ['vs-gate','vs-wizard','vs-generating','vs-error','vs-out'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('landing').style.display = 'block';
+  vsAnswers  = [];
+  vsCurrentQ = 0;
+  vsUserEmail = '';
 }
 
 function openWizard() {
