@@ -1813,6 +1813,7 @@ a:hover { text-decoration: underline; }
       </div>
       <span class="vs-score-badge" id="vs-score-label">&nbsp;</span>
     </div>
+    <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-3);margin:-16px 0 28px;letter-spacing:.04em;">&#10022;&nbsp; A copy of this report was emailed to you.</p>
 
     <div class="vs-dims" id="vs-dimensions"></div>
 
@@ -2641,8 +2642,23 @@ Be direct and specific — base everything on the actual answers, not generic st
   }
 }
 
+async function vsSendEmail(scoreData) {
+  try {
+    await fetch('/api/send-viability', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: vsUserEmail, scoreData })
+    });
+  } catch(e) {
+    console.warn('Could not send viability email:', e);
+    // Silent — don't interrupt the user's experience
+  }
+}
+
 function vsRender(data) {
   document.getElementById('vs-generating').style.display = 'none';
+  // Fire email delivery in background — doesn't block UI
+  vsSendEmail(data);
 
   // App name + score
   document.getElementById('vs-report-app').textContent   = data.appName || 'Your App Idea';
