@@ -23,6 +23,37 @@ function stripeGet(secretKey, path) {
   });
 }
 
+function supabaseUpsertUser(supabaseUrl, serviceKey, email, stripeSessionId) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(supabaseUrl);
+    const data = JSON.stringify({
+      email,
+      stripe_session_id: stripeSessionId,
+      paid_at: new Date().toISOString(),
+    });
+    const options = {
+      hostname: url.hostname,
+      path: '/rest/v1/users',
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${serviceKey}`,
+        'apikey': serviceKey,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data),
+        'Prefer': 'resolution=merge-duplicates,return=minimal',
+      },
+    };
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', chunk => { body += chunk; });
+      res.on('end', () => resolve({ statusCode: res.statusCode }));
+    });
+    req.on('error', reject);
+    req.write(data);
+    req.end();
+  });
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -48,6 +79,19 @@ module.exports = async (req, res) => {
     const session = result.body;
     const paid    = session.payment_status === 'paid';
     const email   = session.customer_email || session.customer_details?.email || '';
+
+    // Write paid user to Supabase (best-effort — don't fail if Supabase is down)
+    if (paid && email) {
+      const supabaseUrl = process.env.SUPABASE_URL;
+      const serviceKey  = process.env.SUPABASE_SERVICE_KEY;
+      if (supabaseUrl && serviceKey) {
+        try {
+          await supabaseUpsertUser(supabaseUrl, serviceKey, email, sessionId);
+        } catch(dbErr) {
+          console.error('Supabase upsert warning (non-fatal):', dbErr.message);
+        }
+      }
+    }
 
     return res.status(200).json({ paid, email, sessionId });
   } catch(e) {
