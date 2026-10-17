@@ -1324,6 +1324,14 @@ a:hover { text-decoration: underline; }
 
 <!-- ══ LANDING PAGE ══ -->
 <div id="landing">
+  <!-- Resume banner — shown when returning paid user has a saved session -->
+  <div id="resume-banner" style="display:none;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;font-size:14px;color:var(--text-2)">
+    <span>👋 Welcome back, <strong id="resume-banner-email"></strong> — you have a session in progress.</span>
+    <div style="display:flex;gap:10px;flex-shrink:0">
+      <button onclick="resumeSavedSession()" style="background:var(--accent);border:none;border-radius:var(--r-pill);color:#0c0b10;font-family:var(--font-sans);font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer">Resume Session →</button>
+      <button onclick="dismissResumeBanner()" style="background:none;border:1px solid var(--border);border-radius:var(--r-pill);color:var(--text-3);font-family:var(--font-sans);font-size:13px;padding:8px 14px;cursor:pointer">Dismiss</button>
+    </div>
+  </div>
   <nav class="lp-nav">
     <div class="lp-brand">
       <span class="lp-mark">✦</span>
@@ -1496,7 +1504,7 @@ a:hover { text-decoration: underline; }
           </li>
           <li>Is there anything the app should NOT do? Features to avoid?</li>
           <li>What&rsquo;s the moment when a user thinks &ldquo;this is exactly what I needed&rdquo;?</li>
-          <li>Kaizan Clarity shows a preview of your 3 documents and asks for any final notes. Click Generate when ready.</li>
+          <li>Kaizan Clarity shows a preview of your 5 documents and asks for any final notes. Click Generate when ready.</li>
         </ol>
       </div>
     </div>
@@ -1679,6 +1687,23 @@ a:hover { text-decoration: underline; }
         <button class="pricing-cta" onclick="openWizard()">Get My Full Plan &rarr;</button>
       </div>
     </div>
+
+    <!-- Already purchased? returning user flow -->
+    <div style="margin-top:40px;text-align:center">
+      <button id="returning-user-btn" onclick="toggleReturningUser()" style="background:none;border:none;color:var(--text-3);font-family:var(--font-sans);font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:8px 0">Already purchased? Access your session &rarr;</button>
+    </div>
+    <div id="returning-user-wrap" style="display:none;max-width:400px;margin:20px auto 0;padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card)">
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px">Enter your email to continue</div>
+      <div style="font-size:13px;color:var(--text-3);margin-bottom:16px">We'll verify your purchase and pick up where you left off.</div>
+      <input id="returning-email-input" type="email" placeholder="you@example.com" autocomplete="email"
+        style="width:100%;box-sizing:border-box;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:var(--font-sans);font-size:14px;padding:11px 14px;outline:none;margin-bottom:10px"
+        onkeydown="if(event.key==='Enter')verifyReturningCustomer()"/>
+      <button onclick="verifyReturningCustomer()" id="returning-verify-btn"
+        style="width:100%;background:var(--accent);border:none;border-radius:var(--r-pill);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;padding:12px;cursor:pointer">
+        Verify Purchase &rarr;
+      </button>
+      <div id="returning-error" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div>
+    </div>
   </section>
 
   <footer class="lp-footer">
@@ -1698,7 +1723,6 @@ a:hover { text-decoration: underline; }
     <div class="cg-logo">
       <span class="cg-mark">&#10022;</span>
       <span class="cg-name">Kaizan Clarity</span>
-      <span class="beta-badge">BETA</span>
     </div>
     <div id="cg-open">
       <div class="cg-title">Enter your invite code</div>
@@ -1859,7 +1883,7 @@ a:hover { text-decoration: underline; }
       <div class="logo">
         <span class="logo-mark">&#10022;</span>
         <div>
-          <div class="logo-text">Kaizan Clarity <span class="beta-badge">BETA</span></div>
+          <div class="logo-text">Kaizan Clarity</div>
           <div class="logo-sub">AI Intake Wizard &middot; Kaizan AI Studios</div>
         </div>
       </div>
@@ -1897,7 +1921,7 @@ a:hover { text-decoration: underline; }
   <div id="out-header">
     <div class="out-brand">
       <span class="out-brand-mark">&#10022;</span>
-      <span class="out-brand-name">Kaizan Clarity <span class="beta-badge">BETA</span></span>
+      <span class="out-brand-name">Kaizan Clarity</span>
     </div>
     <div class="out-nav">
       <button id="home-btn-out" onclick="goHome()">&#8592; Home</button>
@@ -1969,7 +1993,7 @@ a:hover { text-decoration: underline; }
         </div>
 
         <div class="fb-q">
-          <div class="fb-q-title">3. How useful are the 3 outputs for your actual build?</div>
+          <div class="fb-q-title">3. How useful are the 5 outputs for your actual build?</div>
           <div class="fb-q-sub">Rate each document independently.</div>
           <div class="fb-rating-grid">
             <div></div>
@@ -2164,12 +2188,14 @@ After [SHOW_GENERATE_BUTTON] is shown, the founder will click a Generate My Plan
 
 const OPENER = `Welcome to Kaizan Clarity 👋
 
-I'm going to ask you 10 focused questions about your app idea. Your answers will be used to generate three documents:
+I'm going to ask you 10 focused questions about your app idea. Your answers will be used to generate 5 documents:
 
+  • Product Requirements Document (PRD) — your complete app blueprint
   • Prompt Build Sequence — step-by-step prompts to paste into Lovable in order
     (opens with a Viability Assessment scoring your idea on 4 dimensions)
   • Tech/API Integration Guide — personalized setup instructions for your tech stack
-  • A complete Product Requirements Document (PRD) — everything you need to plan and build
+  • Niche Analysis — who your customer is and where to find them
+  • Marketing Messaging — copy, taglines, and channels for your launch
 
 This takes about 15-20 minutes. The more specific you are, the better your outputs.
 
@@ -2965,6 +2991,7 @@ async function startCheckout(prefillEmail) {
     if (data.paid) {
       // Store receipt so owner/test flows still work
       localStorage.setItem('kc_paid_session', sessionId);
+      localStorage.setItem('kc_paid_verified', '1');
       // Hide landing, pre-fill email gate, go to wizard
       document.getElementById('landing').style.display = 'none';
       const emailGate  = document.getElementById('email-gate');
@@ -3292,6 +3319,8 @@ async function generateOutputs() {
   inputHint.style.color = '#3AC97A';
   setTimeout(showOutput, 900);
   setTimeout(() => sendDocuments(true), 1500); // auto-send documents to tester
+  // Mark session completed in Supabase
+  saveSessionToSupabase('completed');
 
   isBusy = false;
 }
@@ -3328,6 +3357,8 @@ async function sendMessage() {
     hideTyping();
     const aMsg = { role:'assistant', content:displayReply };
     messages.push(aMsg); renderMessage(aMsg, true);
+    // Auto-save progress to Supabase after each exchange
+    saveSessionToSupabase();
 
     if (reply.includes('[SHOW_Q7_CHECKBOXES]')) {
       setTimeout(() => renderQ7Widget(), 300);
@@ -3453,6 +3484,8 @@ async function sendViaAPI() {
     hideTyping();
     const aMsg = { role:'assistant', content: displayReply };
     messages.push(aMsg); renderMessage(aMsg, true);
+    // Auto-save progress to Supabase after each exchange
+    saveSessionToSupabase();
     if (reply.includes('[SHOW_Q7_CHECKBOXES]')) {
       setTimeout(() => renderQ7Widget(), 300); isBusy = false;
     } else if (reply.includes('[SHOW_GENERATE_BUTTON]')) {
@@ -3555,6 +3588,7 @@ function startTestMode() {
 }
 
 function initChat() {
+  kcSessionId = null; // fresh session — will be assigned by save-session on first save
   messages = [{ role:'assistant', content:OPENER }];
   messagesEl.innerHTML = '';
   progressFill.style.width = '0%';
@@ -3602,6 +3636,7 @@ function showChat() {
 function resetSession() {
   if (!confirm('Start a new session? Your current documents will be cleared.')) return;
   // Clear all session state
+  kcSessionId = null;
   messages  = [];
   outputs   = null;
   activeTab = 'prd';
@@ -3799,6 +3834,168 @@ Comments: ${document.getElementById('q7-comment').value || 'None'}
     btn.textContent = 'Submit Feedback →';
     alert('Submission failed — please try again.');
   }
+}
+
+// ── Returning User Flow ──
+function toggleReturningUser() {
+  const wrap = document.getElementById('returning-user-wrap');
+  const isVisible = wrap.style.display !== 'none';
+  wrap.style.display = isVisible ? 'none' : 'block';
+  if (!isVisible) {
+    setTimeout(() => document.getElementById('returning-email-input').focus(), 80);
+  }
+}
+
+async function verifyReturningCustomer() {
+  const emailEl  = document.getElementById('returning-email-input');
+  const errEl    = document.getElementById('returning-error');
+  const btn      = document.getElementById('returning-verify-btn');
+  const email    = emailEl.value.trim();
+  errEl.style.display = 'none';
+
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Checking…';
+
+  try {
+    const res  = await fetch('/api/verify-customer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Server error');
+
+    if (!data.paid) {
+      errEl.textContent = 'No purchase found for that email. If you believe this is an error, contact Kaizan AI Studios.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Verify Purchase →';
+      return;
+    }
+
+    // Paid — set email and check for saved session
+    userEmail = email;
+    localStorage.setItem('kc_email', email);
+    localStorage.setItem('kc_paid_verified', '1');
+
+    // Try to load saved session
+    try {
+      const sesRes  = await fetch('/api/load-session?email=' + encodeURIComponent(email));
+      const sesData = await sesRes.json();
+      if (sesData.session && sesData.session.chat_history && sesData.session.chat_history.length > 0) {
+        const resume = confirm('You have a saved session in progress. Resume where you left off?');
+        if (resume) {
+          kcSessionId = sesData.session.id;
+          messages    = sesData.session.chat_history;
+          document.getElementById('landing').style.display = 'none';
+          document.getElementById('app').style.display = 'flex';
+          messagesEl.innerHTML = '';
+          messages.forEach(msg => renderMessage(msg, false));
+          updateProgress();
+          setInputEnabled(true);
+          inputEl.focus();
+          scrollBottom();
+          return;
+        }
+      }
+    } catch(e) {
+      console.warn('load-session error (non-fatal):', e);
+    }
+
+    // No saved session or user declined — start fresh
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    initChat();
+
+  } catch(e) {
+    console.error('verifyReturningCustomer error:', e);
+    errEl.textContent = 'Something went wrong — please try again.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Verify Purchase →';
+  }
+}
+
+// ── Session Persistence ──
+let kcSessionId = null; // UUID from Supabase sessions table
+
+async function saveSessionToSupabase(statusOverride) {
+  if (!userEmail || !messages || messages.length === 0) return;
+  try {
+    const body = {
+      email:       userEmail,
+      chatHistory: messages.map(m => ({ role: m.role, content: m.content, isOutput: m.isOutput || false })),
+      status:      statusOverride || 'in_progress',
+    };
+    if (kcSessionId)        body.sessionId = kcSessionId;
+    if (statusOverride === 'completed') { /* completed_at set server-side */ }
+
+    const res  = await fetch('/api/save-session', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (data.success && data.sessionId) {
+      kcSessionId = data.sessionId;
+    }
+  } catch(e) {
+    console.warn('save-session error (non-fatal):', e);
+  }
+}
+
+// ── Check on page load for returning paid user with saved session ──
+(async function checkReturningUser() {
+  const savedEmail = localStorage.getItem('kc_email');
+  if (!savedEmail) return;
+  // Only auto-check if we have a paid flag (set by stripe return or returning-user flow)
+  const paidFlag = localStorage.getItem('kc_paid_verified') || localStorage.getItem('kc_paid_session');
+  if (!paidFlag) return;
+
+  try {
+    const sesRes  = await fetch('/api/load-session?email=' + encodeURIComponent(savedEmail));
+    const sesData = await sesRes.json();
+    if (!sesData.session || !sesData.session.chat_history || sesData.session.chat_history.length === 0) return;
+
+    // Show a resume banner at top of landing
+    const banner = document.getElementById('resume-banner');
+    if (banner) {
+      banner.style.display = 'flex';
+      document.getElementById('resume-banner-email').textContent = savedEmail;
+    }
+    // Store for use when user clicks resume
+    window._kcSavedSession = sesData.session;
+  } catch(e) {
+    console.warn('checkReturningUser error (non-fatal):', e);
+  }
+})();
+
+function resumeSavedSession() {
+  const session = window._kcSavedSession;
+  if (!session) return;
+  userEmail   = localStorage.getItem('kc_email') || '';
+  kcSessionId = session.id;
+  messages    = session.chat_history;
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  messagesEl.innerHTML = '';
+  messages.forEach(msg => renderMessage(msg, false));
+  updateProgress();
+  setInputEnabled(true);
+  inputEl.focus();
+  scrollBottom();
+}
+
+function dismissResumeBanner() {
+  const banner = document.getElementById('resume-banner');
+  if (banner) banner.style.display = 'none';
 }
 
 // ── Theme Toggle ──
