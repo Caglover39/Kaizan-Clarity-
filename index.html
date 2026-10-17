@@ -1339,17 +1339,23 @@ a:hover { text-decoration: underline; }
       <a class="lp-nav-link" href="#samples">Samples</a>
       <a class="lp-nav-link" href="#pricing">Pricing</a>
     </div>
-    <button class="lp-nav-btn" onclick="openViabilityFlow()">Get Started Free →</button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="lp-nav-btn" style="background:transparent;border:1px solid var(--border);color:var(--text-2);" onclick="openViabilityFlow()">Free Score →</button>
+      <button class="lp-nav-btn vs-upgrade-nav-btn" onclick="startCheckout('')">Get My Plan — $37</button>
+    </div>
   </nav>
 
   <section class="lp-hero">
     <p class="lp-eyebrow">AI App Planning Wizard</p>
     <h1 class="lp-h1">Turn your idea<br>into a <em>build plan.</em></h1>
     <p class="lp-hero-sub">Start with a free Viability Score &mdash; no payment required. Or go all in: answer 10 questions and get a complete 5-document build plan delivered to your inbox in about 20 minutes.</p>
-    <button class="lp-cta-btn" onclick="openViabilityFlow()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      Get My Free Viability Score &rarr;
-    </button>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+      <button class="lp-cta-btn" onclick="startCheckout('')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Get My Full Plan &mdash; $37 &rarr;
+      </button>
+      <button onclick="openViabilityFlow()" style="background:none;border:none;color:var(--text-3);font-family:var(--font-sans);font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">or try the free Viability Score first</button>
+    </div>
   </section>
 
   <div class="lp-problem">
