@@ -2910,15 +2910,76 @@ function vsGoHome() {
 }
 
 function openWizard() {
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('code-gate').style.display = 'flex';
-  if (!BETA_OPEN) {
-    document.getElementById('cg-open').style.display = 'none';
-    document.getElementById('cg-closed').style.display = 'block';
-  } else {
-    setTimeout(() => document.getElementById('code-input').focus(), 100);
+  // Get the user's email from the viability score flow if available
+  const vsEmail = (document.getElementById('vs-email-input') || {}).value?.trim() || '';
+  startCheckout(vsEmail);
+}
+
+async function startCheckout(prefillEmail) {
+  // Disable all "Get Full Plan" buttons to prevent double-clicks
+  document.querySelectorAll('.vs-upgrade-btn, .vs-upgrade-nav-btn, .pricing-card.featured .pricing-cta').forEach(btn => {
+    btn.disabled = true;
+    btn.textContent = 'Redirecting to checkout…';
+  });
+  try {
+    const res  = await fetch('/api/create-checkout', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: prefillEmail || '' }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'No checkout URL returned');
+    }
+  } catch(e) {
+    console.error('Checkout error:', e);
+    document.querySelectorAll('.vs-upgrade-btn, .vs-upgrade-nav-btn, .pricing-card.featured .pricing-cta').forEach(btn => {
+      btn.disabled = false;
+      btn.textContent = btn.textContent.includes('nav') ? 'Get Full Plan — $37 →' : 'Unlock My Full Plan — $37 →';
+    });
+    alert('Could not start checkout — please try again.');
   }
 }
+
+// ── Stripe redirect handler — runs on every page load ──
+(async function handleStripeReturn() {
+  const params    = new URLSearchParams(window.location.search);
+  const sessionId = params.get('clarity_session');
+  if (!sessionId || !sessionId.startsWith('cs_')) return;
+
+  // Clear the URL immediately so a refresh doesn't re-trigger
+  window.history.replaceState({}, '', '/');
+
+  try {
+    const res  = await fetch('/api/verify-payment?session_id=' + encodeURIComponent(sessionId));
+    const data = await res.json();
+
+    if (data.paid) {
+      // Store receipt so owner/test flows still work
+      localStorage.setItem('kc_paid_session', sessionId);
+      // Hide landing, pre-fill email gate, go to wizard
+      document.getElementById('landing').style.display = 'none';
+      const emailGate  = document.getElementById('email-gate');
+      const emailInput = document.getElementById('email-input');
+      if (data.email && emailInput) emailInput.value = data.email;
+      if (emailGate) emailGate.style.display = 'flex';
+      // If we already have the email, jump straight in
+      if (data.email) {
+        userEmail = data.email;
+        localStorage.setItem('kc_email', data.email);
+        if (emailGate) emailGate.style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        initChat();
+      }
+    } else {
+      console.warn('Payment not confirmed for session:', sessionId);
+    }
+  } catch(e) {
+    console.error('Payment verify error:', e);
+  }
+})();
 
 function backFromCode() {
   document.getElementById('code-gate').style.display = 'none';
